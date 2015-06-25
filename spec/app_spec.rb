@@ -10,6 +10,7 @@ describe 'App' do
 
   before do
     OmniAuth.config.test_mode = true
+    OmniAuth.config.logger = Logger.new('/dev/null')
     OmniAuth.config.mock_auth[:twitter] = nil
   end
 
@@ -29,15 +30,44 @@ describe 'App' do
       )
     end
 
-    it 'allows a user to sign in with twitter' do
-      assert_difference 'User.count' do
-        get '/auth/twitter'
-        follow_redirect!
+    describe 'sign in with twitter' do
+      it "creates a new user if one doesn't exist" do
+        assert_difference 'User.count' do
+          get '/auth/twitter'
+          follow_redirect!
+        end
+        user = User.last
+        assert_equal 'twitter', user.provider
+        assert_equal '42', user.uid
+        assert_equal 'Bob Test', user.name
       end
-      user = User.last
-      assert_equal 'twitter', user.provider
-      assert_equal '42', user.uid
-      assert_equal 'Bob Test', user.name
+
+      it "doesn't create a user if one already exists" do
+        User.create(
+          provider: 'twitter',
+          uid: '42',
+          name: 'Existing User'
+        )
+        assert_difference 'User.count', 0 do
+          get '/auth/twitter'
+          follow_redirect!
+        end
+      end
+
+      it 'shows the user a message if login fails' do
+        OmniAuth.config.mock_auth[:twitter] = :invalid_credentials
+        get '/auth/twitter'
+        3.times { follow_redirect! }
+        assert last_response.body.include?('invalid_credentials')
+      end
+    end
+
+    describe 'logout' do
+      it 'redirects home with flash notice' do
+        get '/logout'
+        follow_redirect!
+        assert last_response.body.include?('You have been logged out')
+      end
     end
   end
 end
