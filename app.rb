@@ -54,6 +54,6 @@ end
 end
 
 get '/auth/failure' do
-  flash[:notice] = params[:message] # if using sinatra-flash or rack-flash
+  flash[:notice] = params[:message]
   redirect '/'
 end
