@@ -1,0 +1,6 @@
+<% if current_user %>
+  <p>Logged in as <%= current_user.name %></p>
+  <p><a href="<%= url '/logout' %>">Log out</a></p>
+<% else %>
+  <a href="<%= url '/auth/twitter' %>">Log in with Twitter</a>
+<% end %>
