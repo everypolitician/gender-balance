@@ -14,6 +14,7 @@ GEM
     database_cleaner (1.4.1)
     docile (1.1.5)
     dotenv (2.0.2)
+    erubis (2.7.0)
     hashie (3.4.2)
     hitimes (1.2.2)
     json (1.8.3)
@@ -88,6 +89,7 @@ PLATFORMS
 DEPENDENCIES
   database_cleaner
   dotenv
+  erubis
   minitest
   omniauth-twitter
   pg
