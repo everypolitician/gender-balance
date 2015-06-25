@@ -45,7 +45,7 @@ end
 %w(get post).each do |method|
   send(method, '/auth/:provider/callback') do
     auth = request.env['omniauth.auth']
-    user = User.first(provider: auth['provider'], uid: auth['uid']) ||
+    user = User.first(provider: auth[:provider], uid: auth[:uid]) ||
            User.create_with_omniauth(auth)
     session[:user_id] = user.id
     flash[:notice] = 'Signed in!'
