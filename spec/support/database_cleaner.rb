@@ -1,7 +1,6 @@
 require 'database_cleaner'
 
-DatabaseCleaner.clean_with :truncation
-DatabaseCleaner.strategy = :truncation
+DatabaseCleaner.strategy = :transaction
 
 class Minitest::Spec
   before :each do
