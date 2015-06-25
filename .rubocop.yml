@@ -1,0 +1,8 @@
+---
+Style/Documentation:
+  Exclude:
+  - spec/**/*.rb
+
+Style/ClassAndModuleChildren:
+  Exclude:
+  - spec/**/*.rb

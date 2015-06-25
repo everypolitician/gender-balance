@@ -46,7 +46,7 @@ end
   send(method, '/auth/:provider/callback') do
     auth = request.env['omniauth.auth']
     user = User.first(provider: auth['provider'], uid: auth['uid']) ||
-      User.create_with_omniauth(auth)
+           User.create_with_omniauth(auth)
     session[:user_id] = user.id
     flash[:notice] = 'Signed in!'
     redirect to('/')
