@@ -6,3 +6,12 @@ Style/Documentation:
 Style/ClassAndModuleChildren:
   Exclude:
   - spec/**/*.rb
+
+Metrics/MethodLength:
+  Max: 11
+  Include:
+  - spec/support/assertions.rb
+
+Lint/Eval:
+  Exclude:
+  - spec/support/assertions.rb
