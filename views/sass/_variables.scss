@@ -3,18 +3,23 @@ $one_pixel_in_root_ems: 1em * (1px / $root_font_size);
 
 $roboto: 'Roboto', "Helvetica Neue", Arial, Helvetica, serif;
 
-$color_blue: #00CBD9;
-$color_green: #01BFA9;
-$color_red: #F37D7D;
-$color_purple: #DC73E6;
+$color_blue: #308ACF;
+$color_navy: #243661;
+$color_pink: #DE45AD;
+$color_green: #0BBD83;
+$color_dark_red: #BD3038;
+$color_light_red: #FF858C;
+$color_mustard_yellow: #F2DE33;
+$color_light_yellow: #FFF9C6;
+
 $color_white: #FFFFFF;
-$color_off_white: #F4F4F4;
-$color_lighter_grey: #E9E9E9;
-$color_light_grey: #D8D8D8;
-$color_grey: #CCCCCC;
-$color_mid_grey: #999999;
-$color_dark_grey: #666666;
-$color_black: #333333;
+$color_off_white: #E9F1F5;
+$color_lighter_grey: #DCECF2;
+$color_light_grey: #CFDDE3;
+$color_grey: #B1C2C9;
+$color_mid_grey: #849196;
+$color_dark_grey: #5A6266;
+$color_black: #282C2E;
 
 $color_twitter: #55acee;
 $color_facebook: #3b5998;
@@ -22,7 +27,7 @@ $color_linkedin: #0077b5;
 $color_google: #dd4b39;
 $color_github: #666666;
 
-$link_color: $color_red;
+$link_color: $color_blue;
 $border_color: $color_lighter_grey;
 
 $border_radius: 5px;
