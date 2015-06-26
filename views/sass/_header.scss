@@ -1,0 +1,14 @@
+.app-header {
+    text-align: center;
+    padding: 0.5em 1em;
+    background-color: $color_off_white;
+
+    h1 {
+        font-size: 1em;
+        margin: 0;
+    }
+
+    @media (min-width: $screen_medium_min) {
+        @include border-top-radius($border_radius);
+    }
+}

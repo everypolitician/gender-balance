@@ -1,0 +1,110 @@
+.unstyled-list {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+
+.inline-list {
+    margin-bottom: 0;
+    margin-left: -0.5em;
+    li {
+        display: inline-block;
+        margin-left: 0.5em;
+    }
+}
+
+.button {
+    display: inline-block;
+    border-radius: $border_radius;
+    font-weight: bold;
+    padding: 0.75em 1.5em;
+    color: $link_color;
+    text-decoration: none;
+    text-align: center;
+
+    &:hover,
+    &:active,
+    &:focus {
+        color: darken($link_color, 5%);
+    }
+}
+
+.button--small {
+    padding: 0.2em 0.7em;
+    font-size: 0.9em;
+}
+
+.button--link {
+    text-decoration: underline;
+}
+
+@mixin make_button($background_color, $text_color: inherit, $hover_background_darken_percentage: 5%){
+    color: $text_color;
+    background-color: $background_color;
+
+    &:hover,
+    &:active,
+    &:focus {
+        color: $text_color;
+        background-color: darken($background_color, $hover_background_darken_percentage);
+    }
+}
+
+.button--primary {
+    @include make_button($color_blue, $color_white);
+}
+
+.button--secondary {
+    @include make_button($color_green, $color_white);
+}
+
+.button__social-icon {
+    font-size: 1.2em;
+    margin: -0.2em 0.7em -0.2em 0;
+    padding: 0.2em 0.7em 0.2em 0;
+    border-right: 1px solid rgba(255,255,255,0.3);
+    vertical-align: -0.1em;
+}
+
+@mixin social_icon($font-awesome-codepoint){
+    &:before {
+        @extend .#{$fa-css-prefix};
+        @extend .button__social-icon;
+        content: $font-awesome-codepoint;
+        @content;
+    }
+}
+
+.button--twitter {
+    @include make_button($color_twitter, $color_white);
+    @include social_icon($fa-var-twitter);
+}
+
+.button--facebook {
+    @include make_button($color_facebook, $color_white);
+    @include social_icon($fa-var-facebook-f);
+}
+
+.button--linkedin {
+    @include make_button($color_linkedin, $color_white);
+    @include social_icon($fa-var-linkedin) {
+        padding-top: 0.15em;
+        padding-bottom: 0.25em;
+        vertical-align: -0.05em;
+    }
+}
+
+.button--google {
+    @include make_button($color_google, $color_white);
+    @include social_icon($fa-var-google) {
+        padding-top: 0.25em;
+        padding-bottom: 0.15em;
+        vertical-align: -0.15em;
+    }
+}
+
+.button--github {
+    @include make_button($color_github, $color_white);
+    @include social_icon($fa-var-github);
+}
+

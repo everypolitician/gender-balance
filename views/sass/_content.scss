@@ -1,0 +1,9 @@
+.app-content {
+    padding: 1.5em;
+    background-color: $color_white;
+
+    @media (min-width: $screen_medium_min) {
+        padding: 2em;
+        @include border-bottom-radius($border_radius);
+    }
+}

@@ -1,5 +1,47 @@
-body {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 10px;
+@import 'normalize';
+@import 'variables';
+@import 'mixins';
+
+@import 'font-awesome';
+
+*,
+*:before,
+*:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
+
+html {
+    height: 100%;
+}
+
+body {
+    color: $color_black;
+    font-family: $roboto;
+    font-size: $one_pixel_in_root_ems * 18;
+    height: 100%;
+    line-height: $one_pixel_in_root_ems * 24;
+    min-height: 100%;
+}
+
+.app {
+    max-width: 768px;
+}
+
+@media (min-width: $screen_medium_min) {
+    body {
+        background-color: $color_light_grey;
+        padding-top: 2em;
+    }
+
+    .app {
+        margin: 0 auto;
+    }
+}
+
+@import 'typography';
+@import 'components';
+@import 'header';
+@import 'content';
+@import 'home';
