@@ -1,0 +1,62 @@
+.person {
+    text-align: center;
+}
+
+.person__picture {
+    border-radius: 100%;
+}
+
+.person__name {
+    margin: 0.5em 0 0 0;
+}
+
+.person__party {
+    color: $color_mid_grey;
+    margin: 0.5em 0 1em 0;
+}
+
+.controls {
+    text-align: center;
+}
+
+.controls__male,
+.controls__female {
+    display: inline-block;
+    width: 6em;
+    line-height: 6em;
+    border-radius: 6em;
+    background-color: $color_blue;
+    color: $color_white;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+        background-color: darken($color_blue, 5%);
+    }
+}
+
+.controls__female {
+    background-color: $color_pink;
+
+    &:hover,
+    &:focus {
+        background-color: darken($color_pink, 5%);
+    }
+}
+
+.controls__other,
+.controls__skip {
+    display: inline-block;
+    width: 4em;
+    line-height: 4em;
+    border-radius: 4em;
+    font-size: 0.8em;
+    color: $color_white;
+    background-color: $color_grey;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+        background-color: darken($color_grey, 5%);
+    }
+}

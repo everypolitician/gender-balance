@@ -36,6 +36,7 @@
 
 .button--link {
     text-decoration: underline;
+    font-weight: inherit;
 }
 
 @mixin make_button($background_color, $text_color: inherit, $hover_background_darken_percentage: 5%){

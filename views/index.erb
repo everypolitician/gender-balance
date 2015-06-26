@@ -4,10 +4,10 @@
     </div>
 
   <% if current_user %>
-    <h2>Hey there, <%= current_user.name %>!</h2>
+    <h2 class="home-welcome">Hey there, <%= current_user?.name %>!</h2>
     <ul class="home-loggedin">
-        <li><a class="button button--primary" href="#">Continue game</a></li>
-        <li><a href="button button--link button--small"><a href="<%= url '/logout' %>">Log out</a><li>
+        <li><a class="button button--primary" href="/countries">Continue game</a></li>
+        <li><a class="button button--link button--small" href="<%= url '/logout' %>">Log out</a><li>
     </ul>
   <% else %>
     <ul class="home-login">

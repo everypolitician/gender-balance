@@ -7,3 +7,21 @@
         @include border-bottom-radius($border_radius);
     }
 }
+
+.page-nav {
+    margin-bottom: 1em;
+    @include clearfix();
+
+    h2 {
+        margin: 0;
+        text-align: center;
+    }
+}
+
+.page-nav__help {
+    float: right;
+}
+
+.page-nav__terms {
+    float: left;
+}

@@ -9,7 +9,7 @@
     }
 }
 
-.home-login {
+.home-login, .home-loggedin {
     @extend .unstyled-list;
     max-width: 20em;
     margin: 0 auto;
@@ -21,4 +21,8 @@
     li + li {
         margin-top: 1em;
     }
+}
+
+.home-welcome {
+    text-align: center;
 }

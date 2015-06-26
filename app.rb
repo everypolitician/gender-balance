@@ -62,3 +62,15 @@ get '/auth/failure' do
   flash[:notice] = params[:message]
   redirect '/'
 end
+
+get '/countries' do
+  erb :countries
+end
+
+get '/country' do
+  erb :country
+end
+
+get '/person' do
+  erb :person
+end
