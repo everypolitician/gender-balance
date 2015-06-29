@@ -12,9 +12,11 @@
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
         <script src="/js/jquery-1.11.3.min.js"></script>
+        <script src="/js/jquery.transform2d.js"></script>
+        <script src="/js/jquery.jtinder.js"></script>
         <script src="/js/main.js"></script>
     </head>
-    <body>
+    <body class="<%= yield_content :body_class %>">
         <div class="app">
             <div class="app-messages">
                 <%= erb :flash %>

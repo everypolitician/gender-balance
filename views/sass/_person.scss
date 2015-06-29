@@ -1,14 +1,61 @@
-.person {
+body.person-page {
+    overflow: hidden;
+}
+
+.people {
+    position: relative;
+    height: 16em;
     text-align: center;
+
+    @media (min-width: $screen_medium_min) {
+        padding-top: 1em;
+    }
+
+    & > ul {
+        @extend .unstyled-list;
+    }
+}
+
+.person {
     background: $color_white;
     padding: 1em;
-    max-width: 20em;
-    margin: 0 auto 2em auto;
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
     @include remove-margin-from-children();
 
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 16em;
+    margin-left: -8em;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    &:hover,
+    &:focus {
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        @include vendor-prefix('transform', 'translate(0, -1px)')
+    }
+
+    &.dragging {
+        position: relative;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        @include vendor-prefix('transform', 'rotate(1deg)')
+    }
+
+    &:first-child {
+        font-size: 0.95em;
+        top: 1.1em;
+        background-color: mix($color_white, #eee, 50%);
+    }
+
     @media (min-width: $screen_small_min) {
-        padding: 2em 1em;
+        width: 18em;
+        margin-left: -9em;
     }
 }
 
@@ -25,6 +72,23 @@
 .person__party {
     color: $color_mid_grey;
     margin: 0.2em 0 1em 0;
+}
+
+.person__decision {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+}
+
+.person__decision--male {
+    background-color: rgba($color_blue, 0.3);
+}
+
+.person__decision--female {
+    background-color: rgba($color_pink, 0.3);
 }
 
 .controls {
@@ -115,7 +179,6 @@
     bottom: 1em;
 }
 
-// Squash the controls slightly on short screens
 @media (max-height: 530px) {
     .controls__male {
         margin-left: -7.5em;
@@ -129,5 +192,25 @@
 
     .controls__other {
         bottom: 7.5em;
+    }
+}
+
+@media (max-height: 450px) {
+    .controls__male {
+        margin-left: -8em;
+        bottom: 1em;
+    }
+
+    .controls__female {
+        margin-left: 2em;
+        bottom: 1em;
+    }
+
+    .controls__other {
+        bottom: 5.5em;
+    }
+
+    .controls__skip {
+        bottom: 0.5em;
     }
 }
