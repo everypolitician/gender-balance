@@ -15,6 +15,14 @@ a {
     }
 }
 
+.page-title {
+    text-align: center;
+
+    &:first-child {
+        margin-top: 0;
+    }
+}
+
 .list-heading {
     font-size: 1.1em;
     color: $color_dark_grey;

@@ -20,23 +20,25 @@ body {
     color: $color_black;
     font-family: $roboto;
     font-size: $one_pixel_in_root_ems * 18;
-    height: 100%;
     line-height: $one_pixel_in_root_ems * 24;
+    height: 100%;
     min-height: 100%;
+    background-color: $color_off_white;
 }
 
 .app {
     max-width: 768px;
+    height: 100%;
 }
 
 @media (min-width: $screen_medium_min) {
     body {
-        background-color: $color_light_grey;
         padding-top: 2em;
     }
 
     .app {
         margin: 0 auto;
+        height: auto;
     }
 }
 

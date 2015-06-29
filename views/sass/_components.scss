@@ -109,3 +109,89 @@
     @include social_icon($fa-var-github);
 }
 
+.list__item {
+    display: block;
+    padding: 1em;
+    @include remove-margin-from-children();
+    background-color: $color_white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    text-decoration: none;
+
+    & + & {
+        margin-top: 1em;
+    }
+
+    &:hover,
+    &:focus {
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        position: relative;
+        top: -1px;
+        outline: none;
+    }
+
+    &:active {
+        box-shadow: 0 0 1px rgba(0,0,0,0.3);
+        position: relative;
+        top: 1px;
+    }
+
+    h3 {
+        margin-bottom: 0.8em;
+    }
+
+    p {
+        margin-top: 0;
+        color: $color_mid_grey;
+    }
+
+    h3 + p {
+        margin-top: -0.5em;
+    }
+}
+
+.list__item--disabled {
+    background-color: mix($color_off_white, #fff, 30%);
+    color: $color_grey;
+    box-shadow: none;
+    border: 1px solid darken($color_off_white, 4%);
+
+    &:hover,
+    &:focus,
+    &:active {
+        box-shadow: none;
+        position: static;
+    }
+
+    p {
+        color: inherit;
+    }
+
+    .progress-bar {
+        background-color: darken($color_off_white, 2%);
+
+        & > * {
+            background-color: $color_grey;
+        }
+    }
+}
+
+.progress-bar {
+    background-color: $color_off_white;
+    height: 0.5em;
+    border-radius: 0.25em;
+
+    & > * {
+        background-color: $color_green;
+        height: 0.5em;
+        border-radius: 0.25em;
+        min-width: 0.5em;
+    }
+}
+
+.fa--space-after {
+    margin-right: 0.5em;
+}
+
+.fa--space-before {
+    margin-left: 0.5em;
+}

@@ -20,7 +20,9 @@
                 <%= erb :flash %>
             </div>
             <div class="app-header">
+                <%= yield_content :back_button %>
                 <h1>AppTitle</h1>
+                <%= yield_content :forward_button %>
             </div>
             <div class="app-content">
                 <%= yield %>

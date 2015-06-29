@@ -1,27 +1,8 @@
 .app-content {
     padding: 1.5em;
-    background-color: $color_white;
+    background-color: $color_off_white;
 
-    @media (min-width: $screen_medium_min) {
-        padding: 2em;
-        @include border-bottom-radius($border_radius);
+    @media (min-width: $screen_small_min) {
+        padding: 1.5em 0;
     }
-}
-
-.page-nav {
-    margin-bottom: 1em;
-    @include clearfix();
-
-    h2 {
-        margin: 0;
-        text-align: center;
-    }
-}
-
-.page-nav__help {
-    float: right;
-}
-
-.page-nav__terms {
-    float: left;
 }

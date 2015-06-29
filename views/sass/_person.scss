@@ -1,42 +1,88 @@
 .person {
     text-align: center;
+    background: $color_white;
+    padding: 1em;
+    max-width: 20em;
+    margin: 0 auto 2em auto;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    @include remove-margin-from-children();
+
+    @media (min-width: $screen_small_min) {
+        padding: 2em 1em;
+    }
 }
 
 .person__picture {
     border-radius: 100%;
+    max-width: 6em;
+    height: auto;
 }
 
 .person__name {
-    margin: 0.5em 0 0 0;
+    margin: 0.4em 0 0 0;
 }
 
 .person__party {
     color: $color_mid_grey;
-    margin: 0.5em 0 1em 0;
+    margin: 0.2em 0 1em 0;
 }
 
 .controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     text-align: center;
+
+    @media (min-width: $screen_medium_min) {
+        position: relative;
+        height: 12em;
+    }
+}
+
+.controls__male,
+.controls__female,
+.controls__other,
+.controls__skip {
+    display: block;
+    color: $color_white;
+    text-decoration: none;
+    position: absolute;
+    left: 50%;
+
+    &:hover,
+    &:focus {
+        color: $color_white;
+    }
+
+    &:focus {
+        outline: none;
+    }
 }
 
 .controls__male,
 .controls__female {
-    display: inline-block;
     width: 6em;
     line-height: 6em;
     border-radius: 6em;
     background-color: $color_blue;
-    color: $color_white;
-    text-decoration: none;
+
+    bottom: 3em;
+    margin-left: -6.5em;
 
     &:hover,
     &:focus {
         background-color: darken($color_blue, 5%);
     }
+
+    &:active {
+        margin-bottom: -0.2em;
+    }
 }
 
 .controls__female {
     background-color: $color_pink;
+    margin-left: 0.5em;
 
     &:hover,
     &:focus {
@@ -46,17 +92,42 @@
 
 .controls__other,
 .controls__skip {
-    display: inline-block;
     width: 4em;
     line-height: 4em;
     border-radius: 4em;
     font-size: 0.8em;
-    color: $color_white;
     background-color: $color_grey;
-    text-decoration: none;
+
+    bottom: 10em;
+    margin-left: -2em;
 
     &:hover,
     &:focus {
         background-color: darken($color_grey, 5%);
+    }
+
+    &:active {
+        margin-bottom: -0.3em;
+    }
+}
+
+.controls__skip {
+    bottom: 1em;
+}
+
+// Squash the controls slightly on short screens
+@media (max-height: 530px) {
+    .controls__male {
+        margin-left: -7.5em;
+        bottom: 2em;
+    }
+
+    .controls__female {
+        margin-left: 1.5em;
+        bottom: 2em;
+    }
+
+    .controls__other {
+        bottom: 7.5em;
     }
 }
