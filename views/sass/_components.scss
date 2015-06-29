@@ -188,6 +188,14 @@
     }
 }
 
+.progress-bar--unhealthy > * {
+    background-color: $color_orange;
+}
+
+.progress-bar--dangerous > * {
+    background-color: $color_red;
+}
+
 .fa--space-after {
     margin-right: 0.5em;
 }
