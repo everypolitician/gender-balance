@@ -82,6 +82,17 @@ $(function(){
       $('.js-jtinder').jTinder('dislike');
     });
 
+    $('.js-person-other').on('click', function(e){
+      e.preventDefault();
+      $('.js-jtinder').jTinder('next');
+      loadNewPerson();
+    });
+
+    $('.js-person-skip').on('click', function(e){
+      e.preventDefault();
+      $('.js-jtinder').jTinder('next');
+      loadNewPerson();
+    });
   }
 
 });
