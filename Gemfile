@@ -19,6 +19,7 @@ gem 'sinatra-sequel'
 gem 'rubocop'
 gem 'sass'
 gem 'erubis'
+gem 'activesupport', require: 'active_support'
 
 group :test do
   gem 'minitest'

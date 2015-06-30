@@ -4,12 +4,13 @@ Dotenv.load
 
 require 'tilt/erubis'
 require 'tilt/sass'
+require 'active_support/core_ext'
 
 $LOAD_PATH << File.expand_path('../lib', __FILE__)
 $LOAD_PATH << File.expand_path('../', __FILE__)
 
 configure do
-  enable :sessions
+  set :sessions, expire_after: 5.years
   set :session_secret, ENV['SESSION_SECRET']
   set :database, lambda {
     ENV['DATABASE_URL'] ||
