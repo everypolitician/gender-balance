@@ -1,1 +1,20 @@
-<h1>Gender Crowdsourcing</h1>
+    <div class="home-hero">
+        <h1>Some persuasive headline!</h1>
+        <p>This should explain what the app is about, and why you want to play it.</p>
+    </div>
+
+  <% if current_user %>
+    <h2 class="home-welcome">Hey there, <%= current_user?.name %>!</h2>
+    <ul class="home-loggedin">
+        <li><a class="button button--primary" href="/countries">Continue game</a></li>
+        <li><a class="button button--link button--small" href="<%= url '/logout' %>">Log out</a><li>
+    </ul>
+  <% else %>
+    <ul class="home-login">
+        <li><a class="button button--twitter" href="<%= url '/auth/twitter' %>">Log in with Twitter</a></li>
+        <li><a class="button button--facebook" href="<%= url '/auth/facebook' %>">Log in with Facebook</a></li>
+        <li><a class="button button--google" href="<%= url '/auth/google_oauth2' %>">Log in with Google</a></li>
+        <li><a class="button button--linkedin" href="<%= url '/auth/linkedin' %>">Log in with LinkedIn</a></li>
+        <li><a class="button button--github" href="<%= url '/auth/github' %>">Log in with GitHub</a></li>
+    </ul>
+  <% end %>

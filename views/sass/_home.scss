@@ -1,0 +1,28 @@
+.home-hero {
+    text-align: center;
+    padding: 2em 0;
+    margin-top: -1.5em;
+    @include remove-margin-from-children();
+
+    @media (min-width: $screen_medium_min) {
+        margin-top: -2em;
+    }
+}
+
+.home-login, .home-loggedin {
+    @extend .unstyled-list;
+    max-width: 20em;
+    margin: 0 auto;
+
+    .button {
+        display: block;
+    }
+
+    li + li {
+        margin-top: 1em;
+    }
+}
+
+.home-welcome {
+    text-align: center;
+}

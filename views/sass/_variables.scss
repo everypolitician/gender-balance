@@ -1,0 +1,50 @@
+$root_font_size: 16px;
+$one_pixel_in_root_ems: 1em * (1px / $root_font_size);
+
+$roboto: 'Roboto', "Helvetica Neue", Arial, Helvetica, serif;
+
+$color_blue: #308ACF;
+$color_navy: #243661;
+$color_pink: #DE45AD;
+$color_green: #0BBD83;
+$color_orange: #ECAB1E;
+$color_red: #D71520;
+$color_dark_red: #BD3038;
+$color_light_red: #FF858C;
+$color_mustard_yellow: #F2DE33;
+$color_light_yellow: #FFF9C6;
+
+$color_white: #FFFFFF;
+$color_off_white: #E9F1F5;
+$color_lighter_grey: #DCECF2;
+$color_light_grey: #CFDDE3;
+$color_grey: #B1C2C9;
+$color_mid_grey: #849196;
+$color_dark_grey: #5A6266;
+$color_black: #282C2E;
+
+$color_twitter: #55acee;
+$color_facebook: #3b5998;
+$color_linkedin: #0077b5;
+$color_google: #dd4b39;
+$color_github: #666666;
+
+$link_color: $color_blue;
+$border_color: $color_lighter_grey;
+
+$border_radius: 5px;
+
+$screen_tiny_min: 0em; // eg: phones, 0-399px
+$screen_small_min: $one_pixel_in_root_ems * 400; // eg: phablets, 400-767px
+$screen_medium_min: $one_pixel_in_root_ems * 768; // eg: tablets and netbooks, 768-1023px
+$screen_large_min: $one_pixel_in_root_ems * 1024; // eg: laptops, 1024-1439px
+$screen_xlarge_min: $one_pixel_in_root_ems * 1440; // eg: large laptops, 1440-1919px
+$screen_huge_min: $one_pixel_in_root_ems * 1920; // eg: desktops, 1990px+
+
+$screen_tiny_max: $screen_small_min - $one_pixel_in_root_ems;
+$screen_small_max: $screen_medium_min - $one_pixel_in_root_ems;
+$screen_medium_max: $screen_large_min - $one_pixel_in_root_ems;
+$screen_large_max: $screen_xlarge_min - $one_pixel_in_root_ems;
+$screen_xlarge_max: $screen_huge_min - $one_pixel_in_root_ems;
+
+$high_dpi_screen: '-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi';

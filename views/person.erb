@@ -1,0 +1,16 @@
+<% content_for :body_class do %>person-page<% end %>
+
+<% content_for :back_button do %>
+    <a class="app-header__back" href="/country"><i class="fa fa-chevron-left fa--space-after"></i>Terms</a>
+<% end %>
+
+<div class="people js-jtinder">
+    <ul></ul>
+</div>
+
+<div class="controls">
+    <a class="controls__other js-person-other" href="#">Other</a>
+    <a class="controls__male js-jtinder-dislike" href="#">Male</a>
+    <a class="controls__female js-jtinder-like" href="#">Female</a>
+    <a class="controls__skip js-person-skip" href="#">Skip</a>
+</div>

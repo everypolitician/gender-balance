@@ -1,0 +1,29 @@
+h1 {
+    font-size: 2em;
+    line-height: 1.1em;
+}
+
+a {
+    color: $link_color;
+
+    &:hover, &:focus {
+        text-decoration: none;
+    }
+
+    &:active {
+        color: darken($link_color, 5%);
+    }
+}
+
+.page-title {
+    text-align: center;
+
+    &:first-child {
+        margin-top: 0;
+    }
+}
+
+.list-heading {
+    font-size: 1.1em;
+    color: $color_dark_grey;
+}

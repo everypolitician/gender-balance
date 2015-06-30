@@ -20,6 +20,7 @@ gem 'rubocop'
 gem 'sass'
 gem 'erubis'
 gem 'activesupport', require: 'active_support'
+gem 'sinatra-contrib', require: 'sinatra/content_for'
 
 group :test do
   gem 'minitest'

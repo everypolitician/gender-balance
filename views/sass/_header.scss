@@ -1,0 +1,50 @@
+.app-header {
+    text-align: center;
+    padding: 0.5em;
+    background-color: $color_white;
+    position: relative;
+    border-bottom: 1px solid darken($color_off_white, 4%);
+
+    & > * {
+        line-height: 1.1em;
+        font-size: 1em;
+        margin: 0;
+    }
+
+    @media (min-width: $screen_medium_min) {
+        background-color: $color_off_white;
+        border-bottom: 1px solid $color_light_grey;
+        padding: 0 0 1em 0;
+    }
+}
+
+.app-header__back,
+.app-header__forward {
+    position: absolute;
+    text-decoration: none;
+    font-size: 0.8em;
+    top: 50%;
+    margin-top: -0.45em;
+
+    @media (min-width: $screen_medium_min) {
+        font-size: 1em;
+        top: auto;
+        margin-top: 0;
+    }
+}
+
+.app-header__back {
+    left: 0.7em;
+
+    @media (min-width: $screen_medium_min) {
+        left: 0;
+    }
+}
+
+.app-header__forward {
+    right: 0.7em;
+
+    @media (min-width: $screen_medium_min) {
+        right: 0;
+    }
+}
