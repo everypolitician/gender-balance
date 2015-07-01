@@ -73,7 +73,8 @@ get '/countries' do
   erb :countries
 end
 
-get '/country' do
+get '/countries/:country' do
+  @country = settings.countries.find { |c| c[:slug] == params[:country] }
   erb :country
 end
 
