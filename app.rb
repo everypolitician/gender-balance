@@ -6,6 +6,7 @@ require 'tilt/erubis'
 require 'tilt/sass'
 require 'active_support/core_ext'
 require 'open-uri'
+require 'csv'
 
 $LOAD_PATH << File.expand_path('../lib', __FILE__)
 $LOAD_PATH << File.expand_path('../', __FILE__)
@@ -78,6 +79,11 @@ get '/countries/:country' do
   erb :country
 end
 
-get '/person' do
+get '/countries/:country/legislatures/:legislature/periods/:period/person' do
+  @country = settings.countries.find { |c| c[:slug] == params[:country] }
+  @legislature = @country[:legislatures].find { |l| l[:slug] == params[:legislature] }
+  @legislative_period = @legislature[:legislative_periods].find { |lp| lp[:id].split('/').last == params[:period] }
+  csv_url = "https://cdn.rawgit.com/everypolitician/everypolitician-data/#{@legislature[:sha]}/#{@legislative_period[:csv]}"
+  @people = CSV.parse(open(csv_url).read, headers: true, header_converters: :symbol)
   erb :person
 end
