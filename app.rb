@@ -69,6 +69,7 @@ get '/auth/failure' do
 end
 
 get '/countries' do
+  @countries = settings.countries
   erb :countries
 end
 
