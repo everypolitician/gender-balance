@@ -5,6 +5,7 @@ Dotenv.load
 require 'tilt/erubis'
 require 'tilt/sass'
 require 'active_support/core_ext'
+require 'open-uri'
 
 $LOAD_PATH << File.expand_path('../lib', __FILE__)
 $LOAD_PATH << File.expand_path('../', __FILE__)
@@ -16,6 +17,10 @@ configure do
     ENV['DATABASE_URL'] ||
       "postgres:///gender_crowdsourcing_#{environment}"
   }
+  countries_json = 'https://github.com/everypolitician/everypolitician-data/' \
+    'raw/master/countries.json'
+  countries = Yajl.load(open(countries_json).read, symbolize_keys: true)
+  set :countries, countries
 end
 
 require 'helpers'
