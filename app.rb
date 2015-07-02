@@ -91,6 +91,8 @@ get '/countries/:country/legislatures/:legislature/periods/:period/person' do
   @legislative_period = @legislature[:legislative_periods].find { |lp| lp[:id].split('/').last == params[:period] }
   csv_url = "https://cdn.rawgit.com/everypolitician/everypolitician-data/#{@legislature[:sha]}/#{@legislative_period[:csv]}"
   @people = CSV.parse(open(csv_url).read, headers: true, header_converters: :symbol)
+  already_done = current_user.responses.map(&:politician_id)
+  @people = @people.reject { |person| already_done.include?(person[:id]) }
   erb :person
 end
 
