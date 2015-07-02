@@ -69,6 +69,12 @@ get '/auth/failure' do
   redirect '/'
 end
 
+before '/countries*' do
+  pass if current_user
+  flash[:alert] = 'Please sign in'
+  redirect to('/')
+end
+
 get '/countries' do
   @countries = settings.countries
   erb :countries
