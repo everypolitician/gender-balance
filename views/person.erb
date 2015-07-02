@@ -7,7 +7,12 @@
 <div class="people js-jtinder">
     <ul>
         <% @people.each do |person| %>
-            <li class="person">
+            <li class="person"
+                data-politician_id="<%= person[:id] %>"
+                data-country_code="<%= @country[:code] %>"
+                data-legislature_slug="<%= @legislature[:slug] %>"
+                data-legislative_period_id="<%= @legislative_period[:id] %>"
+            >
                 <img src="http://api.adorable.io/avatars/200/<%= person[:id] %>.png" class="person__picture">
                 <h1 class="person__name"><%= person[:name] %></h1>
                 <p class="person__party"><%= person[:party] %></p>

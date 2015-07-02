@@ -12,6 +12,19 @@ var hideMessages = function hideMessages(){
   }, 1000);
 }
 
+function saveResponse(response) {
+  return $.ajax({
+    url: window.location.pathname,
+    method: 'POST',
+    data: {
+      response: response
+    },
+    error: function(xhr) {
+      alert("error: " + xhr.responseText);
+    }
+  });
+}
+
 $(function(){
 
   // Animate any messages that have been sent from the server
@@ -25,16 +38,18 @@ $(function(){
 
     $(".js-jtinder").jTinder({
       onDislike: function (item) {
-          console.log('disliked', item);
+        var response = item.data();
+        response.choice = 'male';
+        saveResponse(response);
       },
       onLike: function (item) {
-          console.log('liked', item);
+        var response = item.data();
+        response.choice = 'female';
+        saveResponse(response);
       },
       animationRevertSpeed: 200,
       animationSpeed: 400,
-      threshold: 1,
-      likeSelector: '.js-jtinder-liked',
-      dislikeSelector: '.js-jtinder-disliked'
+      threshold: 1
     });
 
     $('.js-jtinder-like').on('click', function(e){
@@ -49,11 +64,19 @@ $(function(){
 
     $('.js-person-other').on('click', function(e){
       e.preventDefault();
+      var item = $('.js-jtinder').data('plugin_jTinder').getCurrentPane();
+      var response = item.data();
+      response.choice = 'other';
+      saveResponse(response);
       $('.js-jtinder').jTinder('next');
     });
 
     $('.js-person-skip').on('click', function(e){
       e.preventDefault();
+      var item = $('.js-jtinder').data('plugin_jTinder').getCurrentPane();
+      var response = item.data();
+      response.choice = 'skip';
+      saveResponse(response);
       $('.js-jtinder').jTinder('next');
     });
   }

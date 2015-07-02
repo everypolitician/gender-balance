@@ -93,3 +93,12 @@ get '/countries/:country/legislatures/:legislature/periods/:period/person' do
   @people = CSV.parse(open(csv_url).read, headers: true, header_converters: :symbol)
   erb :person
 end
+
+post '/countries/:country/legislatures/:legislature/periods/:period/person' do
+  begin
+    current_user.add_response(params[:response])
+    "ok"
+  rescue Sequel::UniqueConstraintViolation
+    halt 403, "Decision already recorded for this politician"
+  end
+end
