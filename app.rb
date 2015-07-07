@@ -96,7 +96,7 @@ get '/countries/:country/legislatures/:legislature/periods/:period/person' do
   erb :person
 end
 
-post '/countries/:country/legislatures/:legislature/periods/:period/person' do
+post '/responses' do
   begin
     current_user.add_response(params[:response])
     "ok"

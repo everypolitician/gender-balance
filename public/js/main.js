@@ -14,7 +14,7 @@ var hideMessages = function hideMessages(){
 
 function saveResponse(response) {
   return $.ajax({
-    url: window.location.pathname,
+    url: '/responses',
     method: 'POST',
     data: {
       response: response
