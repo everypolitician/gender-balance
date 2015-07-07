@@ -12,31 +12,17 @@ var hideMessages = function hideMessages(){
   }, 1000);
 }
 
-var loadNewPerson = function loadNewPerson(){
-  var people = [
-    ['Alex Chalk', 'Conservative Party'],
-    ['Alok Sharma', 'Conservative Party'],
-    ['Eilidh Whiteford', 'Scottish National Party'],
-    ['Angela Smith', 'Labour Party'],
-    ['Imran Hussain', 'Labour Party'],
-    ['Kit Malthouse', 'Conservative Party'],
-    ['Naseem Shah', 'Labour Party'],
-    ['Francie Molloy', 'Sinn Féin'],
-    ['Glyn Davies', 'Conservative Party'],
-    ['Guto Bebb', 'Conservative Party'],
-    ['Jo Cox', 'Labour Party'],
-    ['Pat Glass', 'Labour Party'],
-    ['Ranil Jayawardena', 'Conservative Party'],
-    ['Rupa Huq', 'Labour Party']
-  ];
-  var num = Math.floor(Math.random() * people.length);
-  $('.js-jtinder ul').prepend('<li class="person"> \
-      <img src="http://api.adorable.io/avatars/200/' + num + '" class="person__picture"> \
-      <h1 class="person__name">' + people[num][0] + '</h1> \
-      <p class="person__party">' + people[num][1] + '</p> \
-      <span class="person__decision person__decision--male js-jtinder-disliked"></span> \
-      <span class="person__decision person__decision--female js-jtinder-liked"></span> \
-    </li>');
+function saveResponse(response) {
+  return $.ajax({
+    url: '/responses',
+    method: 'POST',
+    data: {
+      response: response
+    },
+    error: function(xhr) {
+      alert("error: " + xhr.responseText);
+    }
+  });
 }
 
 $(function(){
@@ -50,26 +36,20 @@ $(function(){
 
   if($('.js-jtinder').length){
 
-    // Load two people to begin with
-    // (These would probably be hard-coded into the page,
-    // but we'll use javascript for now)
-    loadNewPerson();
-    loadNewPerson();
-
     $(".js-jtinder").jTinder({
       onDislike: function (item) {
-          console.log('disliked', item);
-          loadNewPerson();
+        var response = item.data();
+        response.choice = 'male';
+        saveResponse(response);
       },
       onLike: function (item) {
-          console.log('liked', item);
-          loadNewPerson();
+        var response = item.data();
+        response.choice = 'female';
+        saveResponse(response);
       },
       animationRevertSpeed: 200,
       animationSpeed: 400,
-      threshold: 1,
-      likeSelector: '.js-jtinder-liked',
-      dislikeSelector: '.js-jtinder-disliked'
+      threshold: 1
     });
 
     $('.js-jtinder-like').on('click', function(e){
@@ -84,14 +64,20 @@ $(function(){
 
     $('.js-person-other').on('click', function(e){
       e.preventDefault();
+      var item = $('.js-jtinder').data('plugin_jTinder').getCurrentPane();
+      var response = item.data();
+      response.choice = 'other';
+      saveResponse(response);
       $('.js-jtinder').jTinder('next');
-      loadNewPerson();
     });
 
     $('.js-person-skip').on('click', function(e){
       e.preventDefault();
+      var item = $('.js-jtinder').data('plugin_jTinder').getCurrentPane();
+      var response = item.data();
+      response.choice = 'skip';
+      saveResponse(response);
       $('.js-jtinder').jTinder('next');
-      loadNewPerson();
     });
   }
 

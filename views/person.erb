@@ -1,11 +1,28 @@
 <% content_for :body_class do %>person-page<% end %>
 
 <% content_for :back_button do %>
-    <a class="app-header__back" href="/country"><i class="fa fa-chevron-left fa--space-after"></i>Terms</a>
+    <a class="app-header__back" href="<%= url "/countries/#{@country[:slug]}" %>"><i class="fa fa-chevron-left fa--space-after"></i>Terms</a>
 <% end %>
 
+<% if @people.any? %>
+
 <div class="people js-jtinder">
-    <ul></ul>
+    <ul>
+        <% @people.each do |person| %>
+            <li class="person"
+                data-politician_id="<%= person[:id] %>"
+                data-country_code="<%= @country[:code] %>"
+                data-legislature_slug="<%= @legislature[:slug] %>"
+                data-legislative_period_id="<%= @legislative_period[:id] %>"
+            >
+                <img src="https://everypolitician-image-proxy.herokuapp.com/<%= URI.encode_www_form_component(person[:image]) %>/0/140.jpg" class="person__picture">
+                <h1 class="person__name"><%= person[:name] %></h1>
+                <p class="person__party"><%= person[:party] %></p>
+                <span class="person__decision person__decision--male js-jtinder-disliked"></span>
+                <span class="person__decision person__decision--female js-jtinder-liked"></span>
+            </li>
+        <% end %>
+    </ul>
 </div>
 
 <div class="controls">
@@ -14,3 +31,7 @@
     <a class="controls__female js-jtinder-like" href="#">Female</a>
     <a class="controls__skip js-person-skip" href="#">Skip</a>
 </div>
+
+<% else %>
+    <p>All done! There are no more people to classify for <%= @legislature[:name] %> <%= @legislative_period[:name] %></p>
+<% end %>

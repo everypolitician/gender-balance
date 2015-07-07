@@ -126,6 +126,7 @@ GEM
     webmock (1.21.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
+    yajl-ruby (1.2.1)
 
 PLATFORMS
   ruby
@@ -155,6 +156,7 @@ DEPENDENCIES
   sinatra-contrib
   sinatra-sequel
   webmock
+  yajl-ruby
 
 BUNDLED WITH
    1.10.5
