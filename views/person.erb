@@ -4,6 +4,8 @@
     <a class="app-header__back" href="<%= url "/countries/#{@country[:slug]}" %>"><i class="fa fa-chevron-left fa--space-after"></i>Terms</a>
 <% end %>
 
+<% if @people.any? %>
+
 <div class="people js-jtinder">
     <ul>
         <% @people.each do |person| %>
@@ -29,3 +31,7 @@
     <a class="controls__female js-jtinder-like" href="#">Female</a>
     <a class="controls__skip js-person-skip" href="#">Skip</a>
 </div>
+
+<% else %>
+    <p>All done! There are no more people to classify for <%= @legislature[:name] %> <%= @legislative_period[:name] %></p>
+<% end %>
