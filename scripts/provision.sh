@@ -10,7 +10,7 @@ sudo apt-get update
 
 # Install required packages
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
-  ruby2.2 ruby2.2-dev git build-essential libxslt1-dev libssl-dev redis-server \
+  ruby2.2 ruby2.2-dev git build-essential libxslt1-dev libssl-dev \
   postgresql libpq-dev
 
 sudo -u postgres createuser --createdb vagrant
