@@ -9,7 +9,7 @@
 
     <div class="list list--terms">
         <% legislative_period = legislature[:legislative_periods].first %>
-        <a class="list__item" href="<%= url "/countries/#{params[:country]}/legislatures/#{URI.escape(legislature[:slug])}/periods/#{legislative_period[:id].split('/').last}/person" %>">
+        <a class="list__item" href="<%= url "/countries/#{params[:country]}/legislatures/#{URI.escape(legislature[:slug])}/periods/#{legislative_period[:slug]}/person" %>">
             <h3><%= legislative_period[:name] %></h3>
             <p class="term__date"><%= legislative_period[:start_date] %>–<%= legislative_period[:end_date] || 'current' %></p>
             <div class="progress-bar progress-bar--unhealthy"><div style="width: 30%"></div></div>
