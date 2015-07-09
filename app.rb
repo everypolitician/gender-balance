@@ -89,8 +89,7 @@ get '/countries/:country/legislatures/:legislature/periods/:period/person' do
   @country = settings.countries.find { |c| c[:slug] == params[:country] }
   @legislature = @country[:legislatures].find { |l| l[:slug] == params[:legislature] }
   @legislative_period = @legislature[:legislative_periods].find { |lp| lp[:slug] == params[:period] }
-  csv_url = "https://cdn.rawgit.com/everypolitician/everypolitician-data/#{@legislature[:sha]}/#{@legislative_period[:csv]}"
-  @people = CSV.parse(open(csv_url).read, headers: true, header_converters: :symbol)
+  @people = csv_for(@legislature[:sha], @legislative_period[:csv], @legislature[:lastmod])
   already_done = current_user.responses.map(&:politician_id)
   @people = @people.reject { |person| already_done.include?(person[:id]) }.shuffle
   erb :person
