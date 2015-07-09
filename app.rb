@@ -18,10 +18,6 @@ configure do
     ENV['DATABASE_URL'] ||
       "postgres:///gender_crowdsourcing_#{environment}"
   }
-  countries_json = 'https://github.com/everypolitician/everypolitician-data/' \
-    'raw/master/countries.json'
-  countries = Yajl.load(open(countries_json).read, symbolize_keys: true)
-  set :countries, countries
 end
 
 require 'helpers'
@@ -45,6 +41,11 @@ end
 
 get '/' do
   erb :index
+end
+
+get '/event_handler' do
+  expire('countries.json')
+  'ok'
 end
 
 get '/logout' do
@@ -76,21 +77,20 @@ before '/countries*' do
 end
 
 get '/countries' do
-  @countries = settings.countries
+  @countries = countries
   erb :countries
 end
 
 get '/countries/:country' do
-  @country = settings.countries.find { |c| c[:slug] == params[:country] }
+  @country = countries.find { |c| c[:slug] == params[:country] }
   erb :country
 end
 
 get '/countries/:country/legislatures/:legislature/periods/:period/person' do
-  @country = settings.countries.find { |c| c[:slug] == params[:country] }
+  @country = countries.find { |c| c[:slug] == params[:country] }
   @legislature = @country[:legislatures].find { |l| l[:slug] == params[:legislature] }
   @legislative_period = @legislature[:legislative_periods].find { |lp| lp[:slug] == params[:period] }
-  csv_url = "https://cdn.rawgit.com/everypolitician/everypolitician-data/#{@legislature[:sha]}/#{@legislative_period[:csv]}"
-  @people = CSV.parse(open(csv_url).read, headers: true, header_converters: :symbol)
+  @people = csv_for(@legislature[:sha], @legislative_period[:csv], @legislature[:lastmod])
   already_done = current_user.responses.map(&:politician_id)
   @people = @people.reject { |person| already_done.include?(person[:id]) }.shuffle
   erb :person
@@ -99,8 +99,8 @@ end
 post '/responses' do
   begin
     current_user.add_response(params[:response])
-    "ok"
+    'ok'
   rescue Sequel::UniqueConstraintViolation
-    halt 403, "Decision already recorded for this politician"
+    halt 403, 'Decision already recorded for this politician'
   end
 end

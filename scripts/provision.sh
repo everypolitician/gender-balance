@@ -10,8 +10,8 @@ sudo apt-get update
 
 # Install required packages
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
-  ruby2.2 ruby2.2-dev git build-essential libxslt1-dev libssl-dev redis-server \
-  postgresql libpq-dev
+  ruby2.2 ruby2.2-dev git build-essential libxslt1-dev libssl-dev \
+  postgresql libpq-dev memcached
 
 sudo -u postgres createuser --createdb vagrant
 createdb gender_crowdsourcing_development

@@ -4,7 +4,6 @@ ruby '2.2.2'
 
 gem 'sinatra'
 gem 'dotenv'
-gem 'sidekiq'
 gem 'puma'
 gem 'sequel'
 gem 'rake'
@@ -22,6 +21,8 @@ gem 'erubis'
 gem 'activesupport', require: 'active_support'
 gem 'sinatra-contrib', require: 'sinatra/content_for'
 gem 'yajl-ruby', require: 'yajl'
+gem 'dalli'
+gem 'sinatra-dalli'
 
 group :test do
   gem 'minitest'
