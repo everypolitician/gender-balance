@@ -99,8 +99,8 @@ end
 post '/responses' do
   begin
     current_user.add_response(params[:response])
-    "ok"
+    'ok'
   rescue Sequel::UniqueConstraintViolation
-    halt 403, "Decision already recorded for this politician"
+    halt 403, 'Decision already recorded for this politician'
   end
 end
