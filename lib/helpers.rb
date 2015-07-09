@@ -11,4 +11,12 @@ module Helpers
       CSV.parse(open(csv_url).read, headers: true, header_converters: :symbol)
     end
   end
+
+  def countries
+    cache 'countries.json' do
+      countries_json = 'https://github.com/everypolitician/' \
+      'everypolitician-data/raw/master/countries.json'
+      Yajl.load(open(countries_json).read, symbolize_keys: true)
+    end
+  end
 end

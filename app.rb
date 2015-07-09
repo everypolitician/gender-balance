@@ -18,10 +18,6 @@ configure do
     ENV['DATABASE_URL'] ||
       "postgres:///gender_crowdsourcing_#{environment}"
   }
-  countries_json = 'https://github.com/everypolitician/everypolitician-data/' \
-    'raw/master/countries.json'
-  countries = Yajl.load(open(countries_json).read, symbolize_keys: true)
-  set :countries, countries
 end
 
 require 'helpers'
@@ -76,17 +72,17 @@ before '/countries*' do
 end
 
 get '/countries' do
-  @countries = settings.countries
+  @countries = countries
   erb :countries
 end
 
 get '/countries/:country' do
-  @country = settings.countries.find { |c| c[:slug] == params[:country] }
+  @country = countries.find { |c| c[:slug] == params[:country] }
   erb :country
 end
 
 get '/countries/:country/legislatures/:legislature/periods/:period/person' do
-  @country = settings.countries.find { |c| c[:slug] == params[:country] }
+  @country = countries.find { |c| c[:slug] == params[:country] }
   @legislature = @country[:legislatures].find { |l| l[:slug] == params[:legislature] }
   @legislative_period = @legislature[:legislative_periods].find { |lp| lp[:slug] == params[:period] }
   @people = csv_for(@legislature[:sha], @legislative_period[:csv], @legislature[:lastmod])
