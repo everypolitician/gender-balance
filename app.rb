@@ -43,6 +43,11 @@ get '/' do
   erb :index
 end
 
+get '/event_handler' do
+  expire('countries.json')
+  'ok'
+end
+
 get '/logout' do
   session.clear
   flash[:notice] = 'You have been logged out'
