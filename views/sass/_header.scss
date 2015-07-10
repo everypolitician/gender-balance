@@ -22,29 +22,24 @@
 .app-header__forward {
     position: absolute;
     text-decoration: none;
-    font-size: 0.8em;
-    top: 50%;
-    margin-top: -0.45em;
+    font-size: 0.9em;
+    padding: 0.5em;
+    top: 0;
 
     @media (min-width: $screen_medium_min) {
         font-size: 1em;
-        top: auto;
-        margin-top: 0;
+        top: -0.5em;
+    }
+
+    .fa {
+        vertical-align: middle;
     }
 }
 
 .app-header__back {
-    left: 0.7em;
-
-    @media (min-width: $screen_medium_min) {
-        left: 0;
-    }
+    left: 0;
 }
 
 .app-header__forward {
-    right: 0.7em;
-
-    @media (min-width: $screen_medium_min) {
-        right: 0;
-    }
+    right: 0;
 }

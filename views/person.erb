@@ -1,7 +1,7 @@
 <% content_for :body_class do %>person-page<% end %>
 
 <% content_for :back_button do %>
-    <a class="app-header__back" href="<%= url "/countries/#{@country[:slug]}" %>"><i class="fa fa-chevron-left fa--space-after"></i>Terms</a>
+    <a class="app-header__back" href="<%= url "/countries/#{@country[:slug]}" %>"><i class="fa fa-chevron-left"></i></a>
 <% end %>
 
 <% if @people.any? %>
