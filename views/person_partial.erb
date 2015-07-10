@@ -1,0 +1,16 @@
+<li class="person"
+    data-politician_id="<%= person[:id] %>"
+    data-country_code="<%= @country[:code] %>"
+    data-legislature_slug="<%= @legislature[:slug] %>"
+    data-legislative_period_id="<%= @legislative_period[:id] %>"
+>
+  <% if person[:image] %>
+    <img src="https://everypolitician-image-proxy.herokuapp.com/<%= URI.encode_www_form_component(person[:image]) %>/140/140.jpg" class="person__picture">
+  <% else %>
+    <img src="/img/person.png" class="person__picture">
+  <% end %>
+    <h1 class="person__name"><%= person[:name] %></h1>
+    <p class="person__party"><%= person[:party] %></p>
+    <span class="person__decision person__decision--male js-jtinder-disliked"></span>
+    <span class="person__decision person__decision--female js-jtinder-liked"></span>
+</li>
