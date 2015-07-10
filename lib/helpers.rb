@@ -13,7 +13,7 @@ module Helpers
   end
 
   def countries
-    cache 'countries.json' do
+    @countries ||= cache 'countries.json' do
       countries_json = 'https://github.com/everypolitician/' \
       'everypolitician-data/raw/master/countries.json'
       Yajl.load(open(countries_json).read, symbolize_keys: true)
