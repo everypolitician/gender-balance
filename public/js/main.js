@@ -12,6 +12,10 @@ var hideMessages = function hideMessages(){
   }, 1000);
 }
 
+function loadNewPerson() {
+  $('.js-extra-people li:last').prependTo('.js-jtinder ul');
+}
+
 function saveResponse(response) {
   return $.ajax({
     url: '/responses',
@@ -78,6 +82,10 @@ $(function(){
       response.choice = 'skip';
       saveResponse(response);
       $('.js-jtinder').jTinder('next');
+    });
+
+    $('.controls a').click(function(e) {
+      loadNewPerson();
     });
   }
 

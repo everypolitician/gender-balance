@@ -8,11 +8,17 @@
 
 <div class="people js-jtinder">
     <ul>
-        <% @people.each do |person| %>
+        <% @people.take(2).each do |person| %>
             <%= erb :person_partial, locals: { person: person } %>
         <% end %>
     </ul>
 </div>
+
+<ul class="js-extra-people" style="display: none">
+    <% @people.drop(2).each do |person| %>
+        <%= erb :person_partial, locals: { person: person } %>
+    <% end %>
+</ul>
 
 <div class="controls">
     <a class="controls__other js-person-other" href="#">Other</a>
