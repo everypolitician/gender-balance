@@ -2,10 +2,12 @@
 
 <h3 class="list-heading">Your recent countries</h3>
 <div class="list list--countries list--recent">
-    <a class="list__item" href="/country">
-        <h3>United Kingdom</h3>
-        <div class="progress-bar progress-bar--unhealthy"><div style="width: 30%"></div></div>
-    </a>
+    <% @recent.each do |country| %>
+        <a class="list__item" href="<%= url "/countries/#{country[:slug]}" %>">
+            <h3><%= country[:country] %></h3>
+            <div class="progress-bar progress-bar--healthy"><div style="width: 52%"></div></div>
+        </a>
+    <% end %>
 </div>
 
 <h3 class="list-heading">All countries</h3>
