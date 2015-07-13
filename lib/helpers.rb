@@ -53,4 +53,15 @@ module Helpers
     complete, total = term_counts(country, legislature, legislative_period)
     (complete / total) * 100
   end
+
+  def progress_word(percent)
+    case
+    when percent > 70
+      'healthy'
+    when percent > 40
+      'unhealthy'
+    else
+      'dangerous'
+    end
+  end
 end

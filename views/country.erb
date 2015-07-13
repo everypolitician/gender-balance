@@ -12,7 +12,7 @@
         <a class="list__item" href="<%= url "/countries/#{params[:country]}/legislatures/#{URI.escape(legislature[:slug])}/periods/#{legislative_period[:slug]}/person" %>">
             <h3><%= legislative_period[:name] %></h3>
             <p class="term__date"><%= legislative_period[:start_date] %>–<%= legislative_period[:end_date] || 'current' %></p>
-            <div class="progress-bar progress-bar--unhealthy"><div style="width: <%= percent_complete_term(@country, legislature, legislative_period) %>%"></div></div>
+            <div class="progress-bar progress-bar--<%= progress_word(percent_complete_term(@country, legislature, legislative_period)) %>"><div style="width: <%= percent_complete_term(@country, legislature, legislative_period) %>%"></div></div>
         </a>
         <p class="terms__encouragement">
         Complete your first term to unlock terms further in the past
@@ -21,7 +21,7 @@
             <div class="list__item list__item--disabled">
                 <h3><%= legislative_period[:name] %></h3>
                 <p class="term__date"><%= legislative_period[:start_date] %>–<%= legislative_period[:end_date] || 'current' %></p>
-                <div class="progress-bar progress-bar--unhealthy"><div style="width: <%= percent_complete_term(@country, legislature, legislative_period) %>%"></div></div>
+                <div class="progress-bar progress-bar--<%= progress_word(percent_complete_term(@country, legislature, legislative_period)) %>"><div style="width: <%= percent_complete_term(@country, legislature, legislative_period) %>%"></div></div>
             </div>
         <% end %>
     </div>
