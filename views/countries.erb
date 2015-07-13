@@ -6,7 +6,7 @@
       <% @recent.each do |country| %>
         <a class="list__item" href="<%= url "/countries/#{country[:slug]}" %>">
           <h3><%= country[:country] %></h3>
-          <div class="progress-bar progress-bar--healthy"><div style="width: 52%"></div></div>
+          <div class="progress-bar progress-bar--healthy"><div style="width: <%= percent_complete(country) %>%"></div></div>
         </a>
       <% end %>
     </div>
@@ -18,7 +18,7 @@
       <% @countries.each do |country| %>
         <a class="list__item" href="<%= url "/countries/#{country[:slug]}" %>">
           <h3><%= country[:country] %></h3>
-          <div class="progress-bar progress-bar--healthy"><div style="width: 52%"></div></div>
+          <div class="progress-bar progress-bar--healthy"><div style="width: <%= percent_complete(country) %>%"></div></div>
           <%# Other progress-bar types are progress-bar--unhealthy and progress-bar--dangerous %>
         </a>
       <% end %>
