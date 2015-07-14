@@ -86,7 +86,8 @@ end
 
 get '/countries' do
   @countries = countries
-  recent_country_codes = Response.distinct(:country_code)
+  recent_country_codes = current_user.responses_dataset
+                         .distinct(:country_code)
                          .order(:country_code, Sequel.desc(:created_at))
                          .limit(5)
                          .map(&:country_code)
