@@ -105,7 +105,9 @@ get '/countries/:country/legislatures/:legislature/periods/:period/person' do
   @legislative_period = @legislature[:legislative_periods].find { |lp| lp[:slug] == params[:period] }
   @people = csv_for(@legislature[:sha], @legislative_period[:csv], @legislature[:lastmod])
   already_done = current_user.responses.map(&:politician_id)
-  @people = @people.reject { |person| already_done.include?(person[:id]) }.shuffle
+  @people = @people.reject { |person| already_done.include?(person[:id]) }
+  @people = @people.reject { |person| person[:gender] }
+  @people.shuffle!
   erb :person
 end
 
