@@ -22,9 +22,6 @@ function saveResponse(response) {
     method: 'POST',
     data: {
       response: response
-    },
-    error: function(xhr) {
-      alert("error: " + xhr.responseText);
     }
   });
 }
