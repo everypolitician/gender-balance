@@ -86,4 +86,24 @@ $(function(){
     });
   }
 
+  $('[data-filter-elements]').on('keyup', function(){
+    var $elements = $($(this).attr('data-filter-elements'));
+    var searchText = $.trim($(this).val().toLowerCase());
+
+    if(searchText == ''){
+      $elements.show();
+      return true;
+    }
+
+    $elements.each(function(){
+      var itemText = $(this).text().toLowerCase();
+      var found = itemText.indexOf(searchText) > -1;
+      if(found){
+        $(this).show();
+      } else {
+        $(this).hide();
+      }
+    });
+  });
+
 });
