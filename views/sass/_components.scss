@@ -59,6 +59,10 @@
     @include make_button($color_green, $color_white);
 }
 
+.button--tertiary {
+    @include make_button($color_pink, $color_white);
+}
+
 .button__social-icon {
     font-size: 1.2em;
     margin: -0.2em 0.7em -0.2em 0;

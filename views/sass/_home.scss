@@ -1,18 +1,113 @@
-.home-hero {
+.home-page .app-content {
+    max-width: none;
+    padding: 0;
     text-align: center;
-    padding: 2em 0;
-    margin-top: -1.5em;
-    @include remove-margin-from-children();
+}
+
+.home-hero {
+    position: relative;
+    padding-top: 77%;
+
+    background: transparent url(/img/men-small.jpg) top center no-repeat;
+    background-size: 100%;
 
     @media (min-width: $screen_medium_min) {
-        margin-top: -2em;
+        background-image: url(/img/men.jpg);
+        background-size: auto;
+    }
+
+    h1 {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        background: #fff;
+        border-radius: 3px 3px 0 0;
+        margin: 0 0 0 -4em;
+        padding: 0.7em 0.5em 0 0.5em;
+        width: 8em;
+    }
+
+    @media (min-width: $screen_medium_min) {
+        padding-top: 270px;
+
+        h1 {
+            width: 12em;
+            margin-left: -6em;
+            padding: 0.7em 0.7em 0.2em 0.7em;
+            bottom: 0.5em;
+            color: #fff;
+            background: transparent;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.3);
+        }
+    }
+}
+
+.home-primary,
+.home-secondary {
+    padding: 1em;
+
+    @media (min-width: $screen_small_min) {
+        padding: 1.5em;
+    }
+
+    @media (min-width: $screen_medium_min) {
+        padding: 1.5em 3em;
+    }
+}
+
+.home-primary {
+    background: #fff;
+
+    & > :last-child {
+        margin-bottom: 2em;
+    }
+}
+
+.home-secondary {
+    @media (min-width: $screen_medium_min) {
+        margin-top: 2px;
+        background-color: #fff;
+        padding-bottom: 3em !important;
+    }
+}
+
+.home-cta {
+    @extend .unstyled-list;
+    margin: -2.5em 0 1.5em 0;
+
+    @media (min-width: $screen_small_min) {
+        margin: -3em 0 2em 0;
+    }
+
+    a {
+        @extend .button;
+        border-radius: 0;
+        width: 7em;
+    }
+
+    li {
+        display: inline;
+
+        &:first-child a {
+            border-radius: $border-radius 0 0 $border-radius;
+            @extend .button--primary;
+        }
+
+        &:last-child a {
+            border-radius: 0 $border-radius $border-radius 0;
+            @extend .button--tertiary;
+        }
+    }
+
+    li + li {
+        margin-left: 2px;
     }
 }
 
 .home-login, .home-loggedin {
     @extend .unstyled-list;
     max-width: 20em;
-    margin: 0 auto;
+    margin: 2em auto 0 auto;
 
     .button {
         display: block;
@@ -23,6 +118,13 @@
     }
 }
 
-.home-welcome {
-    text-align: center;
+.home-attribution {
+    color: mix($color_grey, $color_mid_grey, 50%);
+    font-size: 0.8em;
+    margin: 2em 1em;
+
+    a {
+        color: inherit;
+        text-decoration: underline;
+    }
 }

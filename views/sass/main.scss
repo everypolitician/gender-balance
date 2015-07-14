@@ -36,9 +36,13 @@ body {
     }
 
     .app {
+        height: auto;
+    }
+
+    .app-header, .app-content,
+    .home-primary, .home-secondary {
         max-width: 700px;
         margin: 0 auto;
-        height: auto;
     }
 }
 
