@@ -19,9 +19,9 @@ configure do
       "postgres:///gender_crowdsourcing_#{environment}"
   }
   set :cache_client, Dalli::Client.new(
-    (ENV["MEMCACHIER_SERVERS"] || "localhost:11211").split(","),
-    username: ENV["MEMCACHIER_USERNAME"],
-    password: ENV["MEMCACHIER_PASSWORD"],
+    (ENV['MEMCACHIER_SERVERS'] || 'localhost:11211').split(','),
+    username: ENV['MEMCACHIER_USERNAME'],
+    password: ENV['MEMCACHIER_PASSWORD'],
     failover: true,
     socket_timeout: 1.5,
     socket_failure_delay: 0.2
@@ -87,9 +87,9 @@ end
 get '/countries' do
   @countries = countries
   recent_country_codes = Response.distinct(:country_code)
-    .order(:country_code, Sequel.desc(:created_at))
-    .limit(5)
-    .map(&:country_code)
+                         .order(:country_code, Sequel.desc(:created_at))
+                         .limit(5)
+                         .map(&:country_code)
   @recent = countries.select { |c| recent_country_codes.include?(c[:code]) }
   erb :countries
 end
