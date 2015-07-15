@@ -36,8 +36,7 @@ module Helpers
   def term_counts(country, legislature, legislative_period)
     response_count = current_user.responses_dataset.where(
       country_code: country[:code],
-      legislature_slug: legislature[:slug],
-      legislative_period_id: legislative_period[:id]
+      legislature_slug: legislature[:slug]
     ).count
     complete_people = response_count
     csv = csv_for(
@@ -58,7 +57,7 @@ module Helpers
     case
     when percent > 70
       'healthy'
-    when percent > 40
+    when percent > 10
       'unhealthy'
     else
       'dangerous'
