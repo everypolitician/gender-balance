@@ -30,3 +30,15 @@ require 'rubocop/rake_task'
 RuboCop::RakeTask.new
 
 task default: :test
+
+namespace :results do
+  MINIMUM_VOTES = 5
+  desc 'print results'
+  task print: :app do
+    responses = Response.with_votes(MINIMUM_VOTES)
+    abort 'Nothing found' if responses.empty?
+    responses.each do |response|
+      p response if response.no_conflicts?
+    end
+  end
+end
