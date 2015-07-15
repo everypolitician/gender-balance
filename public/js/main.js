@@ -61,6 +61,10 @@ $(function(){
       threshold: 1,
       likeSelector: '.js-jtinder-liked',
       dislikeSelector: '.js-jtinder-disliked'
+    }).on('mousedown', '.tindr-card', function(e){
+      $(this).addClass('grabbing');
+    }).on('mouseup', '.tindr-card', function(e){
+      $(this).removeClass('grabbing');
     });
 
     $('.js-jtinder-like').on('click', function(e){

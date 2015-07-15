@@ -43,16 +43,24 @@ body.person-page {
     -ms-user-select: none;
     user-select: none;
 
-    &:hover,
-    &:focus {
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        @include vendor-prefix('transform', 'translate(0, -1px)')
-    }
+    &:first-child {
+        cursor: move;
+        cursor: -webkit-grab;
+        cursor: -moz-grab;
+        cursor: drag;
 
-    &.dragging {
-        position: relative;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        @include vendor-prefix('transform', 'rotate(1deg)')
+        &:hover,
+        &:focus {
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            @include vendor-prefix('transform', 'translate(0, -1px)')
+        }
+
+        &.grabbing {
+            cursor: -webkit-grabbing;
+            cursor: -moz-grabbing;
+            cursor: grabbing;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
     }
 
     & > * {
