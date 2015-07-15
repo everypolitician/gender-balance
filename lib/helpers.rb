@@ -35,17 +35,18 @@ module Helpers
   end
 
   def term_counts(country, legislature, legislative_period)
-    response_count = current_user.responses_dataset.where(
-      country_code: country[:code],
-      legislature_slug: legislature[:slug]
-    ).count
-    complete_people = response_count
     csv = csv_for(
       legislature[:sha],
       legislative_period[:csv],
       legislature[:lastmod]
     )
     total_people = csv.size
+    response_count = current_user.responses_dataset.where(
+      politician_id: csv.map { |row| row[:id] },
+      country_code: country[:code],
+      legislature_slug: legislature[:slug]
+    ).count
+    complete_people = response_count
     [complete_people.to_f, total_people.to_f]
   end
 

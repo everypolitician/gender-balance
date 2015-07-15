@@ -104,6 +104,8 @@ get '/countries' do
 end
 
 get '/countries/:country' do
+  @previous_term_complete = true
+  @first_term = true
   @country = countries.find { |c| c[:slug] == params[:country] }
   erb :country
 end
