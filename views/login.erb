@@ -1,0 +1,10 @@
+<% content_for :body_class do %>login<% end %>
+
+<h2 class="page-title">Log in to play</h2>
+<ul class="home-login">
+    <li><a class="button button--twitter" href="<%= url '/auth/twitter' %>">Log in with Twitter</a></li>
+    <li><a class="button button--facebook" href="<%= url '/auth/facebook' %>">Log in with Facebook</a></li>
+    <li><a class="button button--google" href="<%= url '/auth/google_oauth2' %>">Log in with Google</a></li>
+    <li><a class="button button--linkedin" href="<%= url '/auth/linkedin' %>">Log in with LinkedIn</a></li>
+    <li><a class="button button--github" href="<%= url '/auth/github' %>">Log in with GitHub</a></li>
+</ul>

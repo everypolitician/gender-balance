@@ -59,6 +59,10 @@
     @include make_button($color_green, $color_white);
 }
 
+.button--tertiary {
+    @include make_button($color_pink, $color_white);
+}
+
 .button__social-icon {
     font-size: 1.2em;
     margin: -0.2em 0.7em -0.2em 0;
@@ -202,4 +206,16 @@
 
 .fa--space-before {
     margin-left: 0.5em;
+}
+
+.static-text-section {
+    margin-bottom: 2em;
+    background: #fff;
+    padding: 1.5em;
+
+    @include remove-margin-from-children();
+
+    @media (min-width: $screen_medium_min) {
+        padding: 2em;
+    }
 }

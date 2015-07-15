@@ -51,6 +51,14 @@ get '/' do
   erb :index
 end
 
+get '/login' do
+  erb :login
+end
+
+get '/about' do
+  erb :about
+end
+
 get '/event_handler' do
   expire('countries.json')
   'ok'

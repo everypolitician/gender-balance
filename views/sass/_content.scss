@@ -1,12 +1,4 @@
 .app-content {
-    padding: 1em;
     background-color: $color_off_white;
-
-    @media (min-width: $screen_small_min) {
-        padding: 1.5em;
-    }
-
-    @media (min-width: $screen_medium_min) {
-        padding: 1.5em 0;
-    }
+    @include content-padding();
 }

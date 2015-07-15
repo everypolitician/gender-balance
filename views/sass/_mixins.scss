@@ -20,6 +20,18 @@
     }
 }
 
+@mixin content-padding(){
+    padding: 1em;
+
+    @media (min-width: $screen_small_min) {
+        padding: 1.5em;
+    }
+
+    @media (min-width: $screen_medium_min) {
+        padding: 1.5em 0;
+    }
+}
+
 @mixin vendor-prefix($name, $argument) {
     -webkit-#{$name}: #{$argument};
     -ms-#{$name}: #{$argument};
