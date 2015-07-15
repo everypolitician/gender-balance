@@ -119,6 +119,7 @@ get '/countries/:country/legislatures/:legislature/periods/:period/person' do
     country_code: @country[:code],
     legislature_slug: @legislature[:slug]
   ).map(&:politician_id)
+  @total = @people.size
   @people = @people.reject { |person| already_done.include?(person[:id]) }
   @people = @people.reject { |person| person[:gender] }
   @people.shuffle!

@@ -14,6 +14,13 @@ var hideMessages = function hideMessages(){
 
 function loadNewPerson() {
   $('.js-extra-people li:last').prependTo('.js-jtinder ul');
+  var total = $('.progress-bar').data('total');
+  var remaining = $('.js-extra-people li, .js-jtinder li').length;
+  var done = total - remaining;
+  var percent = (done / total) * 100;
+  $('.progress-bar div').animate({
+    width: percent + '%'
+  });
 }
 
 function saveResponse(response) {
