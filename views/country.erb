@@ -16,7 +16,7 @@
                     <div class="progress-bar progress-bar--<%= progress_word(percent_complete_term(@country, legislature, legislative_period)) %>"><div style="width: <%= percent_complete_term(@country, legislature, legislative_period) %>%"></div></div>
                 </a>
                 <% @previous_term_complete = (percent_complete_term(@country, legislature, legislative_period) == 100) %>
-                <% if @first_term && !@previous_term_complete %>
+                <% if @first_term && !@previous_term_complete && legislature[:legislative_periods].length > 1 %>
                     <p class="terms__encouragement">
                     Complete your first term to unlock terms further in the past
                     </p>
