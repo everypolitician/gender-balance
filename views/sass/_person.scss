@@ -211,11 +211,17 @@ body.person-page {
     bottom: 0;
     left: 0;
     right: 0;
+    z-index: 10;
     text-align: center;
+
+    @media (min-height: 500px) {
+        bottom: 1em;
+    }
 
     @media (min-width: $screen_medium_min) {
         position: relative;
         height: 10em;
+        bottom: 0;
     }
 }
 
