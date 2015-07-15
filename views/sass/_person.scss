@@ -140,7 +140,8 @@ body.person-page {
     background-color: rgba($color_pink, 0.3);
 }
 
-.tindr-card--advice {
+.tindr-card--advice,
+.level-complete {
     h2 + p,
     p + p {
         margin-top: 0.5em;
@@ -152,8 +153,40 @@ body.person-page {
     color: rgba(255,255,255,0.8);
 }
 
+.level-complete {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 50%;
+    width: 16em;
+    margin-left: -8em;
+    height: 13em;
+    padding: 1em;
+
+    // Vertically centre the card contents (in modern browsers)
+    @include flexbox();
+    @include flex-align(center);
+    @include flex-justify(center);
+    -webkit-box-orient: vertical;
+    @include vendor-prefix(flex-direction, column);
+
+    & > * {
+        margin: 0;
+    }
+
+    .button {
+        margin-top: 0.5em;
+    }
+
+    @media (min-width: $screen_small_min) {
+        width: 16em;
+        margin-left: -8em;
+    }
+}
+
 @media (min-height: 460px) {
-    .tindr-card {
+    .tindr-card,
+    .level-complete {
         height: 14em;
     }
 
@@ -163,7 +196,8 @@ body.person-page {
 }
 
 @media (min-height: 520px) {
-    .tindr-card {
+    .tindr-card,
+    .level-complete {
         height: 15em;
     }
 
