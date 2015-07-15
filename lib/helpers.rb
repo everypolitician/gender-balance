@@ -21,6 +21,7 @@ module Helpers
   end
 
   def percent_complete(country)
+    return 0 if current_user.responses_for_country(country[:code]).empty?
     complete_people = 0
     total_people = 0
     country[:legislatures].each do |legislature|
