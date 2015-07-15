@@ -42,11 +42,13 @@ $(function(){
         var response = item.data();
         response.choice = 'male';
         saveResponse(response);
+        loadNewPerson();
       },
       onLike: function (item) {
         var response = item.data();
         response.choice = 'female';
         saveResponse(response);
+        loadNewPerson();
       },
       animationRevertSpeed: 200,
       animationSpeed: 400,
@@ -70,6 +72,7 @@ $(function(){
       response.choice = 'other';
       saveResponse(response);
       $('.js-jtinder').jTinder('next');
+      loadNewPerson();
     });
 
     $('.js-person-skip').on('click', function(e){
@@ -79,9 +82,6 @@ $(function(){
       response.choice = 'skip';
       saveResponse(response);
       $('.js-jtinder').jTinder('next');
-    });
-
-    $('.controls a').click(function(e) {
       loadNewPerson();
     });
   }
