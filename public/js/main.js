@@ -13,7 +13,7 @@ var hideMessages = function hideMessages(){
 }
 
 function loadNewPerson() {
-  $('.js-extra-people li:last').prependTo('.js-jtinder ul');
+  $('.js-extra-people li:first-child').appendTo('.js-jtinder ul');
 }
 
 function saveResponse(response) {

@@ -59,7 +59,7 @@
     },
 
     getCurrentPane: function(){
-      return $that.getPanes().filter(':last-child');
+      return $that.getPanes().filter(':first-child');
     },
 
     skip: function () {

@@ -22,6 +22,7 @@ body.person-page {
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 
     position: absolute;
+    z-index: 2;
     top: 0;
     left: 50%;
     width: 16em;
@@ -58,7 +59,8 @@ body.person-page {
         margin: 0;
     }
 
-    &:first-child {
+    & + & {
+        z-index: 1;
         font-size: 0.95em;
         top: 1.2em;
         background-color: mix($color_white, #eee, 50%);
@@ -74,7 +76,7 @@ body.person-page {
     background-color: $color_pink;
     color: #fff;
 
-    &:first-child {
+    .tindr-card + & {
         background-color: darken($color_pink, 3%);
     }
 }
@@ -83,7 +85,7 @@ body.person-page {
     background-color: $color_blue;
     color: #fff;
 
-    &:first-child {
+    .tindr-card + & {
         background-color: darken($color_blue, 3%);
     }
 }
@@ -92,7 +94,7 @@ body.person-page {
     background-color: $color_green;
     color: #fff;
 
-    &:first-child {
+    .tindr-card + & {
         background-color: darken($color_green, 3%);
     }
 }
@@ -101,7 +103,7 @@ body.person-page {
     background-color: $color_orange;
     color: #fff;
 
-    &:first-child {
+    .tindr-card + & {
         background-color: darken($color_orange, 3%);
     }
 }
