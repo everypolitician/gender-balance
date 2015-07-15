@@ -6,7 +6,7 @@
 
 <% if @people.any? %>
 
-<div class="people js-jtinder">
+<div class="tindr-cards js-jtinder">
     <ul>
         <% @people.take(2).each do |person| %>
             <%= erb :person_partial, locals: { person: person } %>

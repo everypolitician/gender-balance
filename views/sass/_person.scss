@@ -2,7 +2,7 @@ body.person-page {
     overflow: hidden;
 }
 
-.people {
+.tindr-cards {
     position: relative;
     height: 16em;
     text-align: center;
@@ -16,17 +16,24 @@ body.person-page {
     }
 }
 
-.person {
-    background: $color_white;
+.tindr-card {
+    background-color: $color_white;
     padding: 1em;
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    @include remove-margin-from-children();
 
     position: absolute;
     top: 0;
     left: 50%;
     width: 16em;
     margin-left: -8em;
+    height: 13em;
+
+    // Vertically centre the card contents (in modern browsers)
+    @include flexbox();
+    @include flex-align(center);
+    @include flex-justify(center);
+    -webkit-box-orient: vertical;
+    @include vendor-prefix(flex-direction, column);
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -47,9 +54,13 @@ body.person-page {
         @include vendor-prefix('transform', 'rotate(1deg)')
     }
 
+    & > * {
+        margin: 0;
+    }
+
     &:first-child {
         font-size: 0.95em;
-        top: 1.1em;
+        top: 1.2em;
         background-color: mix($color_white, #eee, 50%);
     }
 
@@ -61,17 +72,17 @@ body.person-page {
 
 .person__picture {
     border-radius: 100%;
-    max-width: 6em;
-    height: auto;
-}
+    max-height: 4em;
+    width: auto;
 
-.person__name {
-    margin: 0.4em 0 0 0;
+    & + .person__name {
+        margin-top: 0.4em;
+    }
 }
 
 .person__party {
     color: $color_mid_grey;
-    margin: 0.2em 0 1em 0;
+    margin-top: 0.2em;
 }
 
 .person__decision {
@@ -91,6 +102,26 @@ body.person-page {
     background-color: rgba($color_pink, 0.3);
 }
 
+@media (min-height: 460px) {
+    .tindr-card {
+        height: 14em;
+    }
+
+    .person__picture {
+        max-height: 5em;
+    }
+}
+
+@media (min-height: 520px) {
+    .tindr-card {
+        height: 15em;
+    }
+
+    .person__picture {
+        max-height: 6em;
+    }
+}
+
 .controls {
     position: absolute;
     bottom: 0;
@@ -100,7 +131,7 @@ body.person-page {
 
     @media (min-width: $screen_medium_min) {
         position: relative;
-        height: 12em;
+        height: 10em;
     }
 }
 
@@ -131,8 +162,8 @@ body.person-page {
     border-radius: 6em;
     background-color: $color_blue;
 
-    bottom: 3em;
-    margin-left: -6.5em;
+    bottom: 1em;
+    margin-left: -8em;
 
     &:hover,
     &:focus {
@@ -146,7 +177,7 @@ body.person-page {
 
 .controls__female {
     background-color: $color_pink;
-    margin-left: 0.5em;
+    margin-left: 2em;
 
     &:hover,
     &:focus {
@@ -162,7 +193,7 @@ body.person-page {
     font-size: 0.8em;
     background-color: $color_grey;
 
-    bottom: 10em;
+    bottom: 5.5em;
     margin-left: -2em;
 
     &:hover,
@@ -176,41 +207,5 @@ body.person-page {
 }
 
 .controls__skip {
-    bottom: 1em;
-}
-
-@media (max-height: 530px) {
-    .controls__male {
-        margin-left: -7.5em;
-        bottom: 2em;
-    }
-
-    .controls__female {
-        margin-left: 1.5em;
-        bottom: 2em;
-    }
-
-    .controls__other {
-        bottom: 7.5em;
-    }
-}
-
-@media (max-height: 450px) {
-    .controls__male {
-        margin-left: -8em;
-        bottom: 1em;
-    }
-
-    .controls__female {
-        margin-left: 2em;
-        bottom: 1em;
-    }
-
-    .controls__other {
-        bottom: 5.5em;
-    }
-
-    .controls__skip {
-        bottom: 0.5em;
-    }
+    bottom: 0.5em;
 }

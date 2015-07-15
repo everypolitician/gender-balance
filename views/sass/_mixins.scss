@@ -88,6 +88,13 @@
     flex-wrap: $wrap;
 }
 
+@mixin flex-justify($direction) {
+    -webkit-justify-content: $direction;
+    -moz-justify-content: $direction;
+    -ms-justify-content: $direction;
+    justify-content: $direction;
+}
+
 %image-replacement {
     overflow: hidden;
     text-indent: -1000%;
