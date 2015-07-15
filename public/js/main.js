@@ -78,7 +78,7 @@ $(function(){
       var response = item.data();
       response.choice = 'skip';
       saveResponse(response);
-      $('.js-jtinder').jTinder('next');
+      $('.js-jtinder').jTinder('skip');
     });
 
     $('.controls a').click(function(e) {

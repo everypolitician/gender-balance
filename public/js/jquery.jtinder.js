@@ -62,6 +62,15 @@
       return $that.getPanes().filter(':last-child');
     },
 
+    skip: function () {
+      $that.getCurrentPane().animate({
+        "transform": "scale(1.2)",
+        "opacity": 0
+      }, 200, function(){
+        $(this).remove();
+      });
+    },
+
     next: function () {
       $that.getCurrentPane().remove();
     },
