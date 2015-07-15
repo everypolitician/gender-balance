@@ -52,7 +52,9 @@ $(function(){
       },
       animationRevertSpeed: 200,
       animationSpeed: 400,
-      threshold: 1
+      threshold: 1,
+      likeSelector: '.js-jtinder-liked',
+      dislikeSelector: '.js-jtinder-disliked'
     });
 
     $('.js-jtinder-like').on('click', function(e){
