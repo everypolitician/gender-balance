@@ -70,6 +70,42 @@ body.person-page {
     }
 }
 
+.tindr-card--pink {
+    background-color: $color_pink;
+    color: #fff;
+
+    &:first-child {
+        background-color: darken($color_pink, 3%);
+    }
+}
+
+.tindr-card--blue {
+    background-color: $color_blue;
+    color: #fff;
+
+    &:first-child {
+        background-color: darken($color_blue, 3%);
+    }
+}
+
+.tindr-card--green {
+    background-color: $color_green;
+    color: #fff;
+
+    &:first-child {
+        background-color: darken($color_green, 3%);
+    }
+}
+
+.tindr-card--orange {
+    background-color: $color_orange;
+    color: #fff;
+
+    &:first-child {
+        background-color: darken($color_orange, 3%);
+    }
+}
+
 .person__picture {
     border-radius: 100%;
     max-height: 4em;
@@ -100,6 +136,18 @@ body.person-page {
 
 .person__decision--female {
     background-color: rgba($color_pink, 0.3);
+}
+
+.tindr-card--advice {
+    h2 + p,
+    p + p {
+        margin-top: 0.5em;
+    }
+}
+
+.tindr-card--advice__hint {
+    font-size: 0.9em;
+    color: rgba(255,255,255,0.8);
 }
 
 @media (min-height: 460px) {

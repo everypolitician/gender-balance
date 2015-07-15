@@ -17,6 +17,10 @@ function loadNewPerson() {
 }
 
 function saveResponse(response) {
+  if(window.onboarding){
+    return;
+  }
+
   return $.ajax({
     url: '/responses',
     method: 'POST',
@@ -36,6 +40,8 @@ $(function(){
   }
 
   if($('.js-jtinder').length){
+
+    window.onboarding = ( $('.onboarding-page').length > 0 );
 
     $(".js-jtinder").jTinder({
       onDislike: function (item) {
