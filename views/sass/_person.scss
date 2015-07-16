@@ -275,6 +275,9 @@ body.person-page {
     position: absolute;
     left: 50%;
 
+    // Avoid square grey outlines on touch
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+
     &:hover,
     &:focus {
         color: $color_white;
