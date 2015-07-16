@@ -6,7 +6,11 @@
 
 <div class="home-primary">
   <% if current_user %>
-    <h2>Welcome back, <%= current_user.name %>!</h2>
+    <% if current_user.responses.any? %>
+        <h2>Welcome back, <%= current_user.name %>!</h2>
+    <% else %>
+        <h2>Welcome, <%= current_user.name %>!</h2>
+    <% end %>
     <p>Ready to help us categorise the world’s politicians?</p>
     <ul class="home-loggedin">
       <% if current_user.responses.any? %>
