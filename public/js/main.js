@@ -36,6 +36,8 @@ function saveResponse(response) {
     return;
   }
 
+  delete response.googleLink;
+
   return $.ajax({
     url: '/responses',
     method: 'POST',
