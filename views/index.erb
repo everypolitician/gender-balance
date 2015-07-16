@@ -1,7 +1,7 @@
 <% content_for :body_class do %>home-page<% end %>
 
 <div class="home-hero">
-    <h1>Politics: No longer just a man’s world?</h1>
+    <h1>Politics: A man’s world?</h1>
 </div>
 
 <div class="home-primary">
@@ -11,12 +11,12 @@
     <% else %>
         <h2>Welcome, <%= current_user.name %>!</h2>
     <% end %>
-    <p>Ready to help us categorise the world’s politicians?</p>
+    <p>Let’s sort the women from the boys.</p>
     <ul class="home-loggedin">
       <% if current_user.responses.any? %>
         <li><a class="button button--primary" href="/countries">Continue game</a></li>
       <% else %>
-        <li><a class="button button--primary" href="/onboarding">Take a dry run</a></li>
+        <li><a class="button button--primary" href="/onboarding">Here’s how</a></li>
       <% end %>
         <li><a class="button button--link button--small" href="<%= url '/logout' %>">Log out</a><li>
     </ul>
