@@ -39,7 +39,7 @@ body.person-page {
     left: 50%;
     width: 16em;
     margin-left: -8em;
-    height: 13em;
+    height: 11em;
 
     // Vertically centre the card contents (in modern browsers)
     @include flexbox();
@@ -133,14 +133,35 @@ body.person-page {
     max-height: 4em;
     width: auto;
 
+    @media (min-height: 540px) {
+        max-height: 4.5em;
+    }
+
+    @media (min-height: 600px), (min-width: $screen_medium_min) {
+        max-height: 5em;
+    }
+
     & + .person__name {
         margin-top: 0.4em;
+    }
+}
+
+.person__name {
+    font-size: 1.5em;
+
+    @media (min-height: 600px), (min-width: $screen_medium_min) {
+        font-size: 1.8em;
     }
 }
 
 .person__party {
     color: $color_mid_grey;
     margin-top: 0.2em;
+    font-size: 0.9em;
+
+    @media (min-height: 600px), (min-width: $screen_medium_min) {
+        font-size: 1em;
+    }
 }
 
 .person__decision {
@@ -180,7 +201,7 @@ body.person-page {
     left: 50%;
     width: 16em;
     margin-left: -8em;
-    height: 13em;
+    height: 11em;
     padding: 1em;
 
     // Vertically centre the card contents (in modern browsers)
@@ -204,25 +225,24 @@ body.person-page {
     }
 }
 
-@media (min-height: 460px) {
+@media (min-height: 500px) {
+    .tindr-card,
+    .level-complete {
+        height: 12em;
+    }
+}
+
+@media (min-height: 540px) {
     .tindr-card,
     .level-complete {
         height: 14em;
     }
-
-    .person__picture {
-        max-height: 5em;
-    }
 }
 
-@media (min-height: 520px) {
+@media (min-height: 600px) {
     .tindr-card,
     .level-complete {
         height: 15em;
-    }
-
-    .person__picture {
-        max-height: 6em;
     }
 }
 
@@ -240,7 +260,7 @@ body.person-page {
 
     @media (min-width: $screen_medium_min) {
         position: relative;
-        height: 10em;
+        height: 12em;
         bottom: 0;
     }
 }
@@ -318,4 +338,33 @@ body.person-page {
 
 .controls__skip {
     bottom: 0.5em;
+}
+
+.controls__google {
+    position: absolute;
+    bottom: 9em;
+    left: 0;
+    right: 0;
+
+    font-size: 0.9em;
+    color: $color_mid_grey;
+    text-shadow: 0 1px 10px $color_off_white, 0 1px 10px $color_off_white;
+
+    @media (min-height: 600px), (min-width: $screen_medium_min) {
+        bottom: 10em;
+    }
+
+    a {
+        margin-left: 0.5em;
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+            text-decoration: underline;
+        }
+    }
+
+    .fa {
+        margin-right: 0.3em;
+    }
 }
