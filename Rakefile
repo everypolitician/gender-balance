@@ -30,3 +30,18 @@ require 'rubocop/rake_task'
 RuboCop::RakeTask.new
 
 task default: :test
+
+namespace :cache do
+  task country_person_counts: :app do
+    countries_json = 'https://github.com/everypolitician/' \
+      'everypolitician-data/raw/master/countries.json'
+    countries = Yajl.load(open(countries_json).read, symbolize_keys: true)
+    countries.each do |country|
+      puts "Caching person count for #{country[:name]}"
+      country_count = CountryCount.find_or_create(country_code: country[:code])
+      counts = country[:legislatures].map { |l| l[:person_count] }
+      country_count.person_count = counts.reduce(:+)
+      country_count.save
+    end
+  end
+end
