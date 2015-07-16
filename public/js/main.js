@@ -101,10 +101,6 @@ $(function(){
       var response = item.data();
       response.choice = 'skip';
       saveResponse(response);
-<<<<<<< HEAD
-      $('.js-jtinder').jTinder('next');
-=======
->>>>>>> issues/17-onboarding
       loadNewPerson();
       $('.js-jtinder').jTinder('skip');
     });
