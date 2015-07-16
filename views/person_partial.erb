@@ -3,6 +3,7 @@
     data-country_code="<%= @country[:code] %>"
     data-legislature_slug="<%= @legislature[:slug] %>"
     data-legislative_period_id="<%= @legislative_period[:id] %>"
+    data-google-link="https://google.com/search?q=<%= person[:name] %> <%= @country[:name] %> <%= @legislature[:name] %>"
 >
   <% if person[:image] %>
     <img src="https://everypolitician-image-proxy.herokuapp.com/<%= URI.encode_www_form_component(person[:image]) %>/140/140.jpg" class="person__picture">

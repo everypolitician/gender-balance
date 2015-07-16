@@ -12,8 +12,16 @@ var hideMessages = function hideMessages(){
   }, 1000);
 }
 
+var updateGoogleLink = function updateGoogleLink(){
+  var link = $('.js-jtinder li').eq(0).attr('data-google-link');
+  $('.js-google-link').attr('href', link);
+}
+
 function loadNewPerson() {
   $('.js-extra-people li:first-child').appendTo('.js-jtinder ul');
+
+  setTimeout(updateGoogleLink, 500);
+
   var total = $('.progress-bar').data('total');
   var remaining = $('.js-extra-people li, .js-jtinder li').length;
   var done = total - remaining;
@@ -27,6 +35,8 @@ function saveResponse(response) {
   if(window.onboarding){
     return;
   }
+
+  delete response.googleLink;
 
   return $.ajax({
     url: '/responses',
@@ -49,6 +59,8 @@ $(function(){
   if($('.js-jtinder').length){
 
     window.onboarding = ( $('.onboarding-page').length > 0 );
+
+    updateGoogleLink();
 
     $(".js-jtinder").jTinder({
       onDislike: function (item) {
