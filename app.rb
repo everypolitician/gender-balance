@@ -86,6 +86,10 @@ get '/auth/failure' do
   redirect '/'
 end
 
+get '/onboarding' do
+  erb :onboarding
+end
+
 before '/countries*' do
   pass if current_user
   flash[:alert] = 'Please sign in'

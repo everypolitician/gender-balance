@@ -59,7 +59,16 @@
     },
 
     getCurrentPane: function(){
-      return $that.getPanes().filter(':last-child');
+      return $that.getPanes().filter(':first-child');
+    },
+
+    skip: function () {
+      $that.getCurrentPane().animate({
+        "transform": "scale(1.2)",
+        "opacity": 0
+      }, 200, function(){
+        $(this).remove();
+      });
     },
 
     next: function () {

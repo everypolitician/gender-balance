@@ -9,7 +9,11 @@
     <h2>Welcome back, <%= current_user.name %>!</h2>
     <p>Ready to help us categorise the world’s politicians?</p>
     <ul class="home-loggedin">
+      <% if current_user.responses.any? %>
         <li><a class="button button--primary" href="/countries">Continue game</a></li>
+      <% else %>
+        <li><a class="button button--primary" href="/onboarding">Take a dry run</a></li>
+      <% end %>
         <li><a class="button button--link button--small" href="<%= url '/logout' %>">Log out</a><li>
     </ul>
   <% else %>

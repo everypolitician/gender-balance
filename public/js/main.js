@@ -13,7 +13,7 @@ var hideMessages = function hideMessages(){
 }
 
 function loadNewPerson() {
-  $('.js-extra-people li:last').prependTo('.js-jtinder ul');
+  $('.js-extra-people li:first-child').appendTo('.js-jtinder ul');
   var total = $('.progress-bar').data('total');
   var remaining = $('.js-extra-people li, .js-jtinder li').length;
   var done = total - remaining;
@@ -24,6 +24,10 @@ function loadNewPerson() {
 }
 
 function saveResponse(response) {
+  if(window.onboarding){
+    return;
+  }
+
   return $.ajax({
     url: '/responses',
     method: 'POST',
@@ -44,6 +48,8 @@ $(function(){
 
   if($('.js-jtinder').length){
 
+    window.onboarding = ( $('.onboarding-page').length > 0 );
+
     $(".js-jtinder").jTinder({
       onDislike: function (item) {
         var response = item.data();
@@ -59,7 +65,13 @@ $(function(){
       },
       animationRevertSpeed: 200,
       animationSpeed: 400,
-      threshold: 1
+      threshold: 1,
+      likeSelector: '.js-jtinder-liked',
+      dislikeSelector: '.js-jtinder-disliked'
+    }).on('mousedown', '.tindr-card', function(e){
+      $(this).addClass('grabbing');
+    }).on('mouseup', '.tindr-card', function(e){
+      $(this).removeClass('grabbing');
     });
 
     $('.js-jtinder-like').on('click', function(e){
@@ -78,6 +90,7 @@ $(function(){
       var response = item.data();
       response.choice = 'other';
       saveResponse(response);
+      loadNewPerson();
       $('.js-jtinder').jTinder('next');
       loadNewPerson();
     });
@@ -88,8 +101,12 @@ $(function(){
       var response = item.data();
       response.choice = 'skip';
       saveResponse(response);
+<<<<<<< HEAD
       $('.js-jtinder').jTinder('next');
+=======
+>>>>>>> issues/17-onboarding
       loadNewPerson();
+      $('.js-jtinder').jTinder('skip');
     });
   }
 
