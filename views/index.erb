@@ -18,7 +18,10 @@
       <% else %>
         <li><a class="button button--primary" href="/onboarding">Here’s how</a></li>
       <% end %>
-        <li><a class="button button--link button--small" href="<%= url '/logout' %>">Log out</a><li>
+        <li>
+            <a style="margin-right: 0.5em" href="<%= url '/about' %>">About</a> &middot;
+            <a style="margin-left: 0.5em"  href="<%= url '/logout' %>">Log out</a>
+        <li>
     </ul>
   <% else %>
     <p>From Afghanistan to Zimbabwe, there are over 180 parliaments in the world — but what percentage of their members are female?</p>
