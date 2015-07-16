@@ -20,9 +20,6 @@ var updateGoogleLink = function updateGoogleLink(){
 function loadNewPerson() {
   $('.js-extra-people li:first-child').appendTo('.js-jtinder ul');
 
-  console.log( $('.js-jtinder ul').text() );
-  console.log( $('.js-jtinder li').eq(1).text() );
-
   setTimeout(updateGoogleLink, 500);
 
   var total = $('.progress-bar').data('total');
