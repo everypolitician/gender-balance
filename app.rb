@@ -26,6 +26,7 @@ configure do
     socket_timeout: 1.5,
     socket_failure_delay: 0.2
   )
+  set :static_cache_control, [:public, max_age: 5.minutes] if production?
 end
 
 require 'helpers'
@@ -44,6 +45,7 @@ use OmniAuth::Builder do
 end
 
 get '/*.css' do |filename|
+  cache_control :public, max_age: 5.minutes if settings.production?
   scss :"sass/#{filename}"
 end
 
