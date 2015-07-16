@@ -2,6 +2,18 @@ body.person-page {
     overflow: hidden;
 }
 
+.person-page .progress-bar {
+    margin: 0 auto 0.8em auto;
+    max-width: 16em;
+    background-color: darken($color_off_white, 4%);
+    box-shadow: inset 0 0 0 1px darken($color_off_white, 8%);
+
+    @media (min-width: $screen_medium_min) {
+        max-width: 18em;
+        margin-bottom: 1em;
+    }
+}
+
 .tindr-cards {
     position: relative;
     height: 16em;

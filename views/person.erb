@@ -6,6 +6,8 @@
 
 <% if @people.any? %>
 
+<div class="progress-bar progress-bar--healthy" data-total="<%= @total %>"><div style="width: <%= percent_complete_term(@country, @legislature, @legislative_period) %>%"></div></div>
+
 <div class="tindr-cards js-jtinder">
     <ul>
         <% @people.take(2).each do |person| %>
@@ -19,8 +21,6 @@
         <%= erb :person_partial, locals: { person: person } %>
     <% end %>
 </ul>
-
-<div class="progress-bar progress-bar--healthy" data-total="<%= @total %>"><div style="width: <%= percent_complete_term(@country, @legislature, @legislative_period) %>%"></div></div>
 
 <div class="controls">
     <a class="controls__other js-person-other" href="#">Other</a>

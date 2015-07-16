@@ -182,12 +182,12 @@
 .progress-bar {
     background-color: $color_off_white;
     height: 0.5em;
-    border-radius: 0.25em;
+    border-radius: 0.5em;
 
     & > * {
         background-color: $color_green;
         height: 0.5em;
-        border-radius: 0.25em;
+        border-radius: 0.5em;
         min-width: 0.5em;
     }
 }
