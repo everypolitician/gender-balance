@@ -14,6 +14,11 @@
             <%= erb :person_partial, locals: { person: person } %>
         <% end %>
     </ul>
+    <div class="level-complete">
+        <h2><%= ['Well done!', 'High fives!', 'Awesome!', 'Nice work!' ].sample %></h2>
+        <p>That didn’t take you long. How about another game?</p>
+        <p><a class="button button--secondary" href="<%= url "/countries/#{@country[:slug]}" %>">Pick another term</a></p>
+    </div>
 </div>
 
 <ul class="js-extra-people" style="display: none">
