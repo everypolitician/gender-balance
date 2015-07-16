@@ -2,3 +2,5 @@
 .env
 .sass-cache
 coverage
+
+*.swp
