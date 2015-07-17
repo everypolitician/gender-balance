@@ -7,3 +7,4 @@ Sequel::Model.plugin :validation_helpers
 require 'app/models/user'
 require 'app/models/response'
 require 'app/models/country_count'
+require 'app/models/legislative_period'
