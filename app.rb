@@ -110,10 +110,13 @@ get '/countries' do
 end
 
 get '/countries/:country' do
-  @previous_term_complete = true
-  @first_term = true
   @country = countries.find { |c| c[:slug] == params[:country] }
-  erb :country
+  if @country[:legislatures].length == 1
+    legislature = @country[:legislatures].first
+    redirect to("/countries/#{@country[:slug]}/legislatures/#{legislature[:slug]}")
+  else
+    erb :country
+  end
 end
 
 get '/countries/:country/legislatures/:legislature/periods/:period/person' do
