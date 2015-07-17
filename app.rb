@@ -119,12 +119,21 @@ get '/countries/:country' do
   end
 end
 
-get '/countries/:country/legislatures/:legislature/periods/:period/person' do
+get '/countries/:country/legislatures/:legislature' do
   @country = countries.find { |c| c[:slug] == params[:country] }
   @legislature = @country[:legislatures].find { |l| l[:slug] == params[:legislature] }
-  @legislative_period = @legislature[:legislative_periods].find { |lp| lp[:slug] == params[:period] }
+  last_vote = current_user.responses_dataset.join(:legislative_periods, id: :legislative_period_id).order(:start_date).first
+  last_legislative_period = LegislativePeriod.first(legislative_period_id: last_vote.legislative_period_id)
+  if last_legislative_period.person_count == current_user.responses_dataset.where(legislative_period_id: last_legislative_period.id).count
+    # User has finished this term, move onto the next
+    legislative_period_index = @legislature[:legislative_periods].index { |lp| lp[:id] == last_legislative_period.legislative_period_id }
+    @legislative_period = @legislature[:legislative_periods][legislative_period_index + 1]
+  else
+    # User is in the middle of this term, show it
+    @legislative_period = @legislature[:legislative_periods].find { |lp| lp[:id] == last_legislative_period.legislative_period_id }
+  end
   @people = csv_for(@legislature[:sha], @legislative_period[:csv], @legislature[:lastmod])
-  already_done = current_user.responses_dataset.select(:politician_id).where(
+  already_done = current_user.responses_dataset.join(:legislative_periods, id: :legislative_period_id).select(:politician_id).where(
     country_code: @country[:code],
     legislature_slug: @legislature[:slug]
   ).map(&:politician_id)
@@ -137,7 +146,17 @@ end
 
 post '/responses' do
   begin
-    current_user.add_response(params[:response])
+    response = params[:response]
+    legislative_period = LegislativePeriod.first(
+      country_code: response[:country_code],
+      legislature_slug: response[:legislature_slug],
+      legislative_period_id: response[:legislative_period_id]
+    )
+    current_user.add_response(
+      politician_id: response[:politician_id],
+      choice: response[:choice],
+      legislative_period_id: legislative_period.id
+    )
     'ok'
   rescue Sequel::UniqueConstraintViolation
     halt 403, 'Decision already recorded for this politician'

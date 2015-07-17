@@ -48,7 +48,7 @@ module Helpers
       legislature[:lastmod]
     )
     total_people = csv.size
-    response_count = current_user.responses_dataset.where(
+    response_count = current_user.responses_dataset.join(:legislative_periods, id: :legislative_period_id).where(
       politician_id: csv.map { |row| row[:id] },
       country_code: country[:code],
       legislature_slug: legislature[:slug]
