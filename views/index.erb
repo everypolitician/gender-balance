@@ -13,11 +13,7 @@
     <% end %>
     <p>Let’s sort the women from the boys.</p>
     <ul class="home-loggedin">
-      <% if current_user.responses.any? %>
-        <li><a class="button button--primary" href="/countries">Continue game</a></li>
-      <% else %>
-        <li><a class="button button--primary" href="/onboarding">Here’s how</a></li>
-      <% end %>
+        <li><a class="button button--primary" href="/countries">Play</a></li>
         <li>
             <a style="margin-right: 0.5em" href="<%= url '/about' %>">About</a> &middot;
             <a style="margin-left: 0.5em"  href="<%= url '/logout' %>">Log out</a>
