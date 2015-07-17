@@ -79,7 +79,7 @@ end
            User.create_with_omniauth(auth)
     session[:user_id] = user.id
     flash[:notice] = 'Signed in!'
-    redirect to('/')
+    redirect to('/countries')
   end
 end
 
