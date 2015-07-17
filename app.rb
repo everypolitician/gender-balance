@@ -93,7 +93,7 @@ end
 before '/countries*' do
   pass if current_user
   flash[:alert] = 'Please sign in'
-  redirect to('/')
+  redirect to('/login')
 end
 
 get '/countries' do
