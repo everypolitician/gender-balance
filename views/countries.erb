@@ -1,3 +1,7 @@
+<% content_for :back_button do %>
+    <a class="app-header__back" href="<%= url '/' %>"><i class="fa fa-chevron-left"></i></a>
+<% end %>
+
 <h2 class="page-title">Pick a country</h2>
 
   <% unless @recent.empty? %>

@@ -1,6 +1,6 @@
-# Gender Crowdsourcing
+# Gender Balance
 
-[![Build Status](https://travis-ci.org/everypolitician/gender-crowdsourcing.svg?branch=master)](https://travis-ci.org/everypolitician/gender-crowdsourcing)
+[![Build Status](https://travis-ci.org/everypolitician/gender-balance.svg?branch=master)](https://travis-ci.org/everypolitician/gender-balance)
 
 Crowdsourcing platform for gathering gender information about politicians to improve the data in [EveryPolitician](http://everypolitician.org).
 
@@ -8,8 +8,8 @@ Crowdsourcing platform for gathering gender information about politicians to imp
 
 Get the code from GitHub
 
-    git clone https://github.com/everypolitician/gender-crowdsourcing
-    cd gender-crowdsourcing
+    git clone https://github.com/everypolitician/gender-balance
+    cd gender-balance
 
 Configure the environment by copying `.env.example` and following the instructions inside to configure the app.
 

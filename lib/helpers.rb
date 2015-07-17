@@ -20,18 +20,25 @@ module Helpers
     end
   end
 
+  def country_counts
+    @country_counts ||= CountryCount.to_hash(:country_code, :person_count)
+  end
+
+  def started_countries
+    @started_countries ||= Response.distinct.select(:country_code).map(:country_code)
+  end
+
   def percent_complete(country)
-    return 0 if current_user.responses_for_country(country[:code]).empty?
-    complete_people = 0
-    total_people = 0
-    country[:legislatures].each do |legislature|
-      legislature[:legislative_periods].each do |legislative_period|
-        complete, total = term_counts(country, legislature, legislative_period)
-        complete_people += complete
-        total_people += total
+    return 0 unless started_countries.include?(country[:code])
+    @percent_complete_countries ||= {}
+    @percent_complete_countries[country[:code]] ||=
+      begin
+        total_people = country_counts[country[:code]]
+        complete_people = current_user.responses_dataset.where(
+          country_code: country[:code]
+        ).count
+        (complete_people.to_f / total_people.to_f) * 100
       end
-    end
-    (complete_people.to_f / total_people.to_f) * 100
   end
 
   def term_counts(country, legislature, legislative_period)
