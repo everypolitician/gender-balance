@@ -92,24 +92,6 @@ body.person-page {
     }
 }
 
-.tindr-card--pink {
-    background-color: $color_pink;
-    color: #fff;
-
-    .tindr-card + & {
-        background-color: darken($color_pink, 3%);
-    }
-}
-
-.tindr-card--blue {
-    background-color: $color_blue;
-    color: #fff;
-
-    .tindr-card + & {
-        background-color: darken($color_blue, 3%);
-    }
-}
-
 .tindr-card--green {
     background-color: $color_green;
     color: #fff;
@@ -120,11 +102,29 @@ body.person-page {
 }
 
 .tindr-card--orange {
-    background-color: $color_orange;
+    background-color: $color_light_orange;
     color: #fff;
 
     .tindr-card + & {
-        background-color: darken($color_orange, 3%);
+        background-color: darken($color_light_orange, 3%);
+    }
+}
+
+.tindr-card--grey {
+    background-color: $color_mid_grey;
+    color: #fff;
+
+    .tindr-card + & {
+        background-color: darken($color_mid_grey, 3%);
+    }
+}
+
+.tindr-card--blue {
+    background-color: $color_blue;
+    color: #fff;
+
+    .tindr-card + & {
+        background-color: darken($color_blue, 3%);
     }
 }
 
@@ -174,11 +174,11 @@ body.person-page {
 }
 
 .person__decision--male {
-    background-color: rgba($color_blue, 0.3);
+    background-color: rgba($color_orange, 0.3);
 }
 
 .person__decision--female {
-    background-color: rgba($color_pink, 0.3);
+    background-color: rgba($color_green, 0.3);
 }
 
 .tindr-card--advice,
@@ -293,14 +293,14 @@ body.person-page {
     width: 6em;
     line-height: 6em;
     border-radius: 6em;
-    background-color: $color_blue;
+    background-color: $color_orange;
 
     bottom: 1em;
     margin-left: -8em;
 
     &:hover,
     &:focus {
-        background-color: darken($color_blue, 5%);
+        background-color: darken($color_orange, 5%);
     }
 
     &:active {
@@ -309,12 +309,12 @@ body.person-page {
 }
 
 .controls__female {
-    background-color: $color_pink;
+    background-color: $color_green;
     margin-left: 2em;
 
     &:hover,
     &:focus {
-        background-color: darken($color_pink, 5%);
+        background-color: darken($color_green, 5%);
     }
 }
 

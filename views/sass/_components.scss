@@ -60,7 +60,7 @@
 }
 
 .button--tertiary {
-    @include make_button($color_pink, $color_white);
+    @include make_button($color_orange, $color_white);
 }
 
 .button__social-icon {
@@ -193,7 +193,7 @@
 }
 
 .progress-bar--unhealthy > * {
-    background-color: $color_orange;
+    background-color: $color_light_orange;
 }
 
 .progress-bar--dangerous > * {
