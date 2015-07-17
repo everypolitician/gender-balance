@@ -67,6 +67,7 @@ namespace :cache do
             legislative_period_id: legislative_period[:id]
           )
           start_date = legislative_period[:start_date]
+          next if start_date.nil?
           start_date = "#{start_date}-01-01" if start_date.length == 4
           lp.start_date = Date.parse(start_date)
           csv = csv_for(legislature[:sha], legislative_period[:csv])
