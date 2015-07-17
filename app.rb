@@ -79,7 +79,7 @@ end
            User.create_with_omniauth(auth)
     session[:user_id] = user.id
     flash[:notice] = 'Signed in!'
-    redirect to('/')
+    redirect to('/countries')
   end
 end
 
@@ -95,7 +95,7 @@ end
 before '/countries*' do
   pass if current_user
   flash[:alert] = 'Please sign in'
-  redirect to('/')
+  redirect to('/login')
 end
 
 get '/countries' do
