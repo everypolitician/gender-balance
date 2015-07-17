@@ -49,9 +49,9 @@
       pane_width = container.width();
       $that = this;
 
-      $(element).bind('touchstart mousedown', this.handler);
-      $(element).bind('touchmove mousemove', this.handler);
-      $(element).bind('touchend mouseup', this.handler);
+      container.bind('touchstart mousedown', this.handler);
+      container.bind('touchmove mousemove', this.handler);
+      container.bind('touchend mouseup', this.handler);
     },
 
     getPanes: function(){
