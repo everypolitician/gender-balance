@@ -125,17 +125,7 @@ end
 
 post '/responses' do
   begin
-    response = params[:response]
-    legislative_period = LegislativePeriod.first(
-      country_code: response[:country_code],
-      legislature_slug: response[:legislature_slug],
-      legislative_period_id: response[:legislative_period_id]
-    )
-    current_user.add_response(
-      politician_id: response[:politician_id],
-      choice: response[:choice],
-      legislative_period_id: legislative_period.id
-    )
+    current_user.add_response(params[:response])
     'ok'
   rescue Sequel::UniqueConstraintViolation
     halt 403, 'Decision already recorded for this politician'
