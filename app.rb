@@ -117,10 +117,8 @@ end
 
 get '/countries/:country/legislatures/:legislature' do
   country = Country.find_by_slug(params[:country])
-  @legislative_period = LegislativePeriod.first(
-    country_code: country[:code],
-    legislature_slug: params[:legislature]
-  )
+  legislature = country.legislature(params[:legislature])
+  @legislative_period = current_user.legislative_period_for(country, legislature)
   @people = current_user.people_for(@legislative_period)
   erb :term
 end

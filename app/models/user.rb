@@ -27,14 +27,24 @@ class User < Sequel::Model
   end
 
   def responses_for_country(country_code)
-    responses_dataset.where(country_code: country_code)
+    responses_dataset.for_country_code(country_code)
   end
 
-  def last_vote
-    responses_dataset.join(:legislative_periods, id: :legislative_period_id).order(:start_date).first
+  def last_response
+    responses.first
+  end
+
+  def responses
+    responses_dataset.join(:legislative_periods, id: :legislative_period_id).order(:start_date)
   end
 
   def last_legislative_period
-    LegislativePeriod.first(legislative_period_id: last_vote.legislative_period_id)
+    LegislativePeriod.first(legislative_period_id: last_response.legislative_period_id)
+  end
+
+  def legislative_period_for(country, legislature)
+    if responses_for_country(country[:code]).empty?
+      LegislativePeriod.for_country_code(country[:code]).first
+    end
   end
 end

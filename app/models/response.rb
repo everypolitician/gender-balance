@@ -9,6 +9,11 @@ class Response < Sequel::Model
   end
 
   dataset_module do
+    def for_country_code(country_code)
+      join(:legislative_periods, id: :legislative_period_id)
+        .where(country_code: country_code)
+    end
+
     def countries
       join(:legislative_periods, id: :legislative_period_id)
         .distinct(:country_code)
