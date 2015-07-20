@@ -22,7 +22,6 @@ gem 'activesupport', require: 'active_support'
 gem 'sinatra-contrib', require: 'sinatra/content_for'
 gem 'yajl-ruby', require: 'yajl'
 gem 'dalli'
-gem 'sinatra-dalli'
 
 group :test do
   gem 'minitest'

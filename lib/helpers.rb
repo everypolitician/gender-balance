@@ -5,18 +5,10 @@ module Helpers
   end
 
   def csv_for(ref, path, last_modified)
-    cache [ref, path, last_modified].join(':'), expiry: 1.month do
+    settings.cache_client.fetch([ref, path, last_modified].join(':'), 1.month) do
       csv_url = 'https://cdn.rawgit.com/everypolitician/everypolitician-data/' \
         "#{ref}/#{path}"
       CSV.parse(open(csv_url).read, headers: true, header_converters: :symbol)
-    end
-  end
-
-  def countries
-    @countries ||= cache 'countries.json' do
-      countries_json = 'https://github.com/everypolitician/' \
-      'everypolitician-data/raw/master/countries.json'
-      Yajl.load(open(countries_json).read, symbolize_keys: true)
     end
   end
 

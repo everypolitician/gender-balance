@@ -62,7 +62,7 @@ get '/about' do
 end
 
 get '/event_handler' do
-  expire('countries.json')
+  settings.cache_client.delete('countries.json')
   'ok'
 end
 
