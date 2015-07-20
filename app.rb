@@ -101,10 +101,11 @@ end
 get '/countries' do
   @countries = countries
   recent_country_codes = current_user.responses_dataset
+                         .join(:legislative_periods, id: :legislative_period_id)
                          .distinct(:country_code)
-                         .order(:country_code, Sequel.desc(:created_at))
+                         .order(:country_code, Sequel.desc(Sequel.qualify(:responses, :created_at)))
                          .limit(5)
-                         .map(&:country_code)
+                         .map(:country_code)
   @recent = countries.select { |c| recent_country_codes.include?(c[:code]) }
   erb :countries
 end
