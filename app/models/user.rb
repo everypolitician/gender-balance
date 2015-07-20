@@ -33,7 +33,7 @@ class User < Sequel::Model
   def last_response_for(country, legislature)
     responses_dataset.join(:legislative_periods, id: :legislative_period_id)
       .where(country_code: country[:code], legislature_slug: legislature[:slug])
-      .order(Sequel.desc(:start_date))
+      .order(:start_date)
       .first
   end
 
