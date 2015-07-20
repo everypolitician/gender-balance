@@ -142,7 +142,7 @@ get '/countries/:country/legislatures/:legislature' do
   @people = @people.reject { |person| already_done.include?(person[:id]) }
   @people = @people.reject { |person| person[:gender] }
   @people.shuffle!
-  erb :person
+  erb :term
 end
 
 post '/responses' do
