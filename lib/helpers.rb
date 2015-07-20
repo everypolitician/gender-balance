@@ -25,10 +25,7 @@ module Helpers
   end
 
   def started_countries
-    @started_countries ||= current_user.responses_dataset
-                           .join(:legislative_periods, id: :legislative_period_id)
-                           .distinct(:country_code)
-                           .map(:country_code)
+    @started_countries ||= current_user.responses_dataset.country_codes
   end
 
   def percent_complete(country)
