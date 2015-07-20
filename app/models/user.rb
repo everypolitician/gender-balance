@@ -45,6 +45,9 @@ class User < Sequel::Model
       legislative_periods.first
     elsif incomplete?(last_legislative_period)
       last_legislative_period
+    elsif complete?(last_legislative_period)
+      legislative_periods_for(country, legislature)
+        .where{start_date < last_legislative_period.start_date}.first
     end
   end
 

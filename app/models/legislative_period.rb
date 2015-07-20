@@ -7,6 +7,10 @@ class LegislativePeriod < Sequel::Model
     end
   end
 
+  def name
+    legislative_period[:name]
+  end
+
   def country
     @country ||= Country.find_by_code(country_code)
   end
@@ -33,7 +37,6 @@ class LegislativePeriod < Sequel::Model
     Sinatra::Application.cache_client.fetch(cache_key, 1.month) do
       csv_url = 'https://cdn.rawgit.com/everypolitician/everypolitician-data/' \
         "#{legislature[:sha]}/#{legislative_period[:csv]}"
-      puts csv_url
       CSV.parse(open(csv_url).read, headers: true, header_converters: :symbol)
     end
   end
