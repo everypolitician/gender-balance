@@ -21,17 +21,6 @@ class LegislativePeriod < Sequel::Model
     end
   end
 
-  def people
-    people = csv_for(legislature[:sha], legislative_period[:csv], legislature[:lastmod])
-    already_done = current_user.responses_dataset.join(:legislative_periods, id: :legislative_period_id).select(:politician_id).where(
-      country_code: @country[:code],
-      legislature_slug: @legislature[:slug]
-    ).map(&:politician_id)
-    people = people.reject { |person| already_done.include?(person[:id]) }
-    people = people.reject { |person| person[:gender] }
-    people.shuffle
-  end
-
   def cache_key
     @cache_key ||= [
       legislature[:sha],
@@ -42,11 +31,14 @@ class LegislativePeriod < Sequel::Model
 
   def csv
     Sinatra::Application.cache_client.fetch(cache_key, 1.month) do
-      p legislature
       csv_url = 'https://cdn.rawgit.com/everypolitician/everypolitician-data/' \
         "#{legislature[:sha]}/#{legislative_period[:csv]}"
       puts csv_url
       CSV.parse(open(csv_url).read, headers: true, header_converters: :symbol)
     end
+  end
+
+  def already_have_gender
+    csv.count { |person| person[:gender] }
   end
 end

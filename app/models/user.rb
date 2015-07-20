@@ -26,25 +26,36 @@ class User < Sequel::Model
     people.shuffle
   end
 
-  def responses_for_country(country_code)
-    responses_dataset.for_country_code(country_code)
+  def legislative_periods_for(country, legislature)
+    LegislativePeriod.where(country_code: country[:code], legislature_slug: legislature[:slug]).order(Sequel.desc(:start_date))
   end
 
-  def last_response
-    responses.first
-  end
-
-  def responses
-    responses_dataset.join(:legislative_periods, id: :legislative_period_id).order(:start_date)
-  end
-
-  def last_legislative_period
-    LegislativePeriod.first(legislative_period_id: last_response.legislative_period_id)
+  def last_response_for(country, legislature)
+    responses_dataset.join(:legislative_periods, id: :legislative_period_id)
+      .where(country_code: country[:code], legislature_slug: legislature[:slug])
+      .order(Sequel.desc(:start_date))
+      .first
   end
 
   def legislative_period_for(country, legislature)
-    if responses_for_country(country[:code]).empty?
-      LegislativePeriod.for_country_code(country[:code]).first
+    legislative_periods = legislative_periods_for(country, legislature)
+    last_response = last_response_for(country, legislature)
+    last_legislative_period = LegislativePeriod.first(legislative_period_id: last_response.legislative_period_id)
+    if responses_dataset.join(:legislative_periods, id: :legislative_period_id).where(country_code: country[:code]).empty?
+      legislative_periods.first
+    elsif incomplete?(last_legislative_period)
+      last_legislative_period
     end
+  end
+
+  def incomplete?(legislative_period)
+    !complete?(legislative_period)
+  end
+
+  def complete?(legislative_period)
+    total = legislative_period.person_count
+    completed = responses_dataset.where(legislative_period_id: legislative_period.id).count
+    already_have_gender = legislative_period.already_have_gender
+    (completed + already_have_gender) == total
   end
 end
