@@ -40,10 +40,9 @@ class User < Sequel::Model
   def legislative_period_for(country, legislature)
     legislative_periods = legislative_periods_for(country, legislature)
     last_response = last_response_for(country, legislature)
+    return legislative_periods.first unless last_response
     last_legislative_period = LegislativePeriod.first(legislative_period_id: last_response.legislative_period_id)
-    if responses_dataset.join(:legislative_periods, id: :legislative_period_id).where(country_code: country[:code]).empty?
-      legislative_periods.first
-    elsif incomplete?(last_legislative_period)
+    if incomplete?(last_legislative_period)
       last_legislative_period
     elsif complete?(last_legislative_period)
       legislative_periods_for(country, legislature)
