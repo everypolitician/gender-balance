@@ -42,7 +42,7 @@ module Helpers
       end
   end
 
-  def term_counts(country, legislature, legislative_period)
+  def percent_complete_term(country, legislature, legislative_period)
     csv = csv_for(
       legislature[:sha],
       legislative_period[:csv],
@@ -55,12 +55,7 @@ module Helpers
       legislature_slug: legislature[:slug]
     ).count
     complete_people = response_count
-    [complete_people.to_f, total_people.to_f]
-  end
-
-  def percent_complete_term(country, legislature, legislative_period)
-    complete, total = term_counts(country, legislature, legislative_period)
-    (complete / total) * 100
+    (complete_people.to_f / total_people.to_f) * 100
   end
 
   def progress_word(percent)
