@@ -7,8 +7,13 @@ class Country
     end
   end
 
-  def self.find(slug)
+  def self.find_by_slug(slug)
     country = all.find { |c| c[:slug] == slug }
+    new(country)
+  end
+
+  def self.find_by_code(code)
+    country = all.find { |c| c[:code] == code }
     new(country)
   end
 

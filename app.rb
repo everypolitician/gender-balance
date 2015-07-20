@@ -99,14 +99,14 @@ before '/countries*' do
 end
 
 get '/countries' do
-  @countries = countries
+  @countries = Country.all
   recent_country_codes = current_user.responses_dataset.recent_country_codes
-  @recent = countries.select { |c| recent_country_codes.include?(c[:code]) }
+  @recent = Country.all.select { |c| recent_country_codes.include?(c[:code]) }
   erb :countries
 end
 
 get '/countries/:country' do
-  @country = countries.find { |c| c[:slug] == params[:country] }
+  @country = Country.find_by_slug(params[:country])
   if @country[:legislatures].length == 1
     legislature = @country[:legislatures].first
     redirect to("/countries/#{@country[:slug]}/legislatures/#{legislature[:slug]}")
@@ -116,27 +116,12 @@ get '/countries/:country' do
 end
 
 get '/countries/:country/legislatures/:legislature' do
-  @country = countries.find { |c| c[:slug] == params[:country] }
-  @legislature = @country[:legislatures].find { |l| l[:slug] == params[:legislature] }
-  last_vote = current_user.responses_dataset.join(:legislative_periods, id: :legislative_period_id).order(:start_date).first
-  last_legislative_period = LegislativePeriod.first(legislative_period_id: last_vote.legislative_period_id)
-  if last_legislative_period.person_count == current_user.responses_dataset.where(legislative_period_id: last_legislative_period.id).count
-    # User has finished this term, move onto the next
-    legislative_period_index = @legislature[:legislative_periods].index { |lp| lp[:id] == last_legislative_period.legislative_period_id }
-    @legislative_period = @legislature[:legislative_periods][legislative_period_index + 1]
-  else
-    # User is in the middle of this term, show it
-    @legislative_period = @legislature[:legislative_periods].find { |lp| lp[:id] == last_legislative_period.legislative_period_id }
-  end
-  @people = csv_for(@legislature[:sha], @legislative_period[:csv], @legislature[:lastmod])
-  already_done = current_user.responses_dataset.join(:legislative_periods, id: :legislative_period_id).select(:politician_id).where(
-    country_code: @country[:code],
-    legislature_slug: @legislature[:slug]
-  ).map(&:politician_id)
-  @total = @people.size
-  @people = @people.reject { |person| already_done.include?(person[:id]) }
-  @people = @people.reject { |person| person[:gender] }
-  @people.shuffle!
+  country = Country.find_by_slug(params[:country])
+  @legislative_period = LegislativePeriod.first(
+    country_code: country[:code],
+    legislature_slug: params[:legislature]
+  )
+  @people = current_user.people_for(@legislative_period)
   erb :term
 end
 
