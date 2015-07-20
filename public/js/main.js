@@ -116,6 +116,22 @@ $(function(){
       loadNewPerson();
       $('.js-jtinder').jTinder('skip');
     });
+
+    $(document).on('keydown', function(e){
+      if(e.keyCode == 77 || e.keyCode == 37){
+        // m key or left arrow
+        $('.js-jtinder-dislike').trigger('click');
+      } else if(e.keyCode == 70 || e.keyCode == 39){
+        // f key or right arrow
+        $('.js-jtinder-like').trigger('click');
+      } else if(e.keyCode == 32 || e.keyCode == 38){
+        // space key or up arrow
+        $('.js-person-skip').trigger('click');
+      } else if(e.keyCode == 79 || e.keyCode == 40){
+        // o key or down arrow
+        $('.js-person-other').trigger('click');
+      }
+    });
   }
 
   $('[data-filter-elements]').on('keyup', function(){
