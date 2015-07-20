@@ -116,12 +116,15 @@ get '/countries/:country' do
 end
 
 get '/countries/:country/legislatures/:legislature' do
-  country = Country.find_by_slug(params[:country])
-  legislature = country.legislature(params[:legislature])
-  @legislative_period = current_user.legislative_period_for(country, legislature)
-  p @legislative_period
-  @people = current_user.people_for(@legislative_period)
-  erb :term
+  @country = Country.find_by_slug(params[:country])
+  @legislature = @country.legislature(params[:legislature])
+  @legislative_period = current_user.legislative_period_for(@country, @legislature)
+  if @legislative_period
+    @people = current_user.people_for(@legislative_period)
+    erb :term
+  else
+    erb :congratulations
+  end
 end
 
 post '/responses' do
