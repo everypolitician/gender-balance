@@ -44,20 +44,16 @@ class User < Sequel::Model
     last_legislative_period = LegislativePeriod.first(legislative_period_id: last_response.legislative_period_id)
     if incomplete?(last_legislative_period)
       last_legislative_period
-    elsif complete?(last_legislative_period)
+    else
       legislative_periods_for(country, legislature)
         .where{start_date < last_legislative_period.start_date}.first
     end
   end
 
   def incomplete?(legislative_period)
-    !complete?(legislative_period)
-  end
-
-  def complete?(legislative_period)
     total = legislative_period.person_count
     completed = responses_dataset.where(legislative_period_id: legislative_period.id).count
     already_have_gender = legislative_period.already_have_gender
-    (completed + already_have_gender) == total
+    (completed + already_have_gender) != total
   end
 end
