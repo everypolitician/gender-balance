@@ -101,6 +101,15 @@ body.person-page {
     }
 }
 
+.tindr-card--teal {
+    background-color: $color_teal;
+    color: #fff;
+
+    .tindr-card + & {
+        background-color: darken($color_teal, 3%);
+    }
+}
+
 .tindr-card--orange {
     background-color: $color_light_orange;
     color: #fff;
