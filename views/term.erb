@@ -6,7 +6,7 @@
 
 <% if @people.any? %>
 
-<div class="progress-bar progress-bar--healthy" data-total="<%= @total %>"><div style="width: <%= percent_complete_term(@legislative_period) %>%"></div></div>
+<div class="progress-bar progress-bar--healthy" data-total="<%= @people.size %>"><div style="width: <%= percent_complete_term(@legislative_period) %>%"></div></div>
 
 <div class="tindr-cards js-jtinder">
     <ul>
