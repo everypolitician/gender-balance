@@ -5,18 +5,10 @@ module Helpers
   end
 
   def csv_for(ref, path, last_modified)
-    cache [ref, path, last_modified].join(':'), expiry: 1.month do
+    settings.cache_client.fetch([ref, path, last_modified].join(':'), 1.month) do
       csv_url = 'https://cdn.rawgit.com/everypolitician/everypolitician-data/' \
         "#{ref}/#{path}"
       CSV.parse(open(csv_url).read, headers: true, header_converters: :symbol)
-    end
-  end
-
-  def countries
-    @countries ||= cache 'countries.json' do
-      countries_json = 'https://github.com/everypolitician/' \
-      'everypolitician-data/raw/master/countries.json'
-      Yajl.load(open(countries_json).read, symbolize_keys: true)
     end
   end
 
@@ -25,7 +17,7 @@ module Helpers
   end
 
   def started_countries
-    @started_countries ||= Response.distinct.select(:country_code).map(:country_code)
+    @started_countries ||= current_user.responses_dataset.country_codes
   end
 
   def percent_complete(country)
@@ -34,32 +26,22 @@ module Helpers
     @percent_complete_countries[country[:code]] ||=
       begin
         total_people = country_counts[country[:code]]
-        complete_people = current_user.responses_dataset.where(
-          country_code: country[:code]
-        ).count
+        complete_people = current_user.responses_dataset
+          .join(:legislative_periods, id: :legislative_period_id)
+          .where(country_code: country[:code])
+          .count
         (complete_people.to_f / total_people.to_f) * 100
       end
   end
 
-  def term_counts(country, legislature, legislative_period)
-    csv = csv_for(
-      legislature[:sha],
-      legislative_period[:csv],
-      legislature[:lastmod]
-    )
-    total_people = csv.size
+  def percent_complete_term(legislative_period)
+    total_people = legislative_period.csv.size
     response_count = current_user.responses_dataset.where(
-      politician_id: csv.map { |row| row[:id] },
-      country_code: country[:code],
-      legislature_slug: legislature[:slug]
+      politician_id: legislative_period.csv.map { |row| row[:id] },
+      legislative_period_id: legislative_period.id
     ).count
     complete_people = response_count
-    [complete_people.to_f, total_people.to_f]
-  end
-
-  def percent_complete_term(country, legislature, legislative_period)
-    complete, total = term_counts(country, legislature, legislative_period)
-    (complete / total) * 100
+    (complete_people.to_f / total_people.to_f) * 100
   end
 
   def progress_word(percent)

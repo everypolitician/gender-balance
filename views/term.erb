@@ -1,12 +1,14 @@
 <% content_for :body_class do %>person-page<% end %>
 
 <% content_for :back_button do %>
-    <a class="app-header__back" href="<%= url "/countries/#{@country[:slug]}" %>"><i class="fa fa-chevron-left"></i></a>
+    <a class="app-header__back" href="<%= url "/countries" %>"><i class="fa fa-chevron-left"></i></a>
 <% end %>
 
 <% if @people.any? %>
 
-<div class="progress-bar progress-bar--healthy" data-total="<%= @total %>"><div style="width: <%= percent_complete_term(@country, @legislature, @legislative_period) %>%"></div></div>
+    <h3><%= @legislative_period.name %></h3>
+
+<div class="progress-bar progress-bar--healthy" data-total="<%= @legislative_period.csv.size %>"><div style="width: <%= percent_complete_term(@legislative_period) %>%"></div></div>
 
 <div class="tindr-cards js-jtinder">
     <ul>
@@ -17,7 +19,7 @@
     <div class="level-complete">
         <h2><%= ['Well done!', 'High fives!', 'Awesome!', 'Nice work!' ].sample %></h2>
         <p>That didn’t take you long. How about another game?</p>
-        <p><a class="button button--secondary" href="<%= url "/countries/#{@country[:slug]}" %>">Pick another term</a></p>
+        <p><a class="button button--secondary" href="<%= url "/countries/#{@legislative_period.country[:slug]}" %>">Pick another term</a></p>
     </div>
 </div>
 
@@ -36,5 +38,5 @@
 </div>
 
 <% else %>
-    <p>All done! There are no more people to classify for <%= @legislature[:name] %> <%= @legislative_period[:name] %></p>
+    <p>All done! There are no more people to classify for <%= @legislative_period.legislature[:name] %> <%= @legislative_period[:name] %></p>
 <% end %>

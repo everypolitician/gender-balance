@@ -62,7 +62,7 @@ get '/about' do
 end
 
 get '/event_handler' do
-  expire('countries.json')
+  settings.cache_client.delete('countries.json')
   'ok'
 end
 
@@ -99,37 +99,32 @@ before '/countries*' do
 end
 
 get '/countries' do
-  @countries = countries
-  recent_country_codes = current_user.responses_dataset
-                         .distinct(:country_code)
-                         .order(:country_code, Sequel.desc(:created_at))
-                         .limit(5)
-                         .map(&:country_code)
-  @recent = countries.select { |c| recent_country_codes.include?(c[:code]) }
+  @countries = Country.all
+  recent_country_codes = current_user.responses_dataset.recent_country_codes
+  @recent = Country.all.select { |c| recent_country_codes.include?(c[:code]) }
   erb :countries
 end
 
 get '/countries/:country' do
-  @previous_term_complete = true
-  @first_term = true
-  @country = countries.find { |c| c[:slug] == params[:country] }
-  erb :country
+  @country = Country.find_by_slug(params[:country])
+  if @country[:legislatures].length == 1
+    legislature = @country[:legislatures].first
+    redirect to("/countries/#{@country[:slug]}/legislatures/#{legislature[:slug]}")
+  else
+    erb :country
+  end
 end
 
-get '/countries/:country/legislatures/:legislature/periods/:period/person' do
-  @country = countries.find { |c| c[:slug] == params[:country] }
-  @legislature = @country[:legislatures].find { |l| l[:slug] == params[:legislature] }
-  @legislative_period = @legislature[:legislative_periods].find { |lp| lp[:slug] == params[:period] }
-  @people = csv_for(@legislature[:sha], @legislative_period[:csv], @legislature[:lastmod])
-  already_done = current_user.responses_dataset.select(:politician_id).where(
-    country_code: @country[:code],
-    legislature_slug: @legislature[:slug]
-  ).map(&:politician_id)
-  @total = @people.size
-  @people = @people.reject { |person| already_done.include?(person[:id]) }
-  @people = @people.reject { |person| person[:gender] }
-  @people.shuffle!
-  erb :person
+get '/countries/:country/legislatures/:legislature' do
+  @country = Country.find_by_slug(params[:country])
+  @legislature = @country.legislature(params[:legislature])
+  @legislative_period = current_user.legislative_period_for(@country, @legislature)
+  if @legislative_period
+    @people = current_user.people_for(@legislative_period)
+    erb :term
+  else
+    erb :congratulations
+  end
 end
 
 post '/responses' do

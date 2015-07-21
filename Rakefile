@@ -44,4 +44,37 @@ namespace :cache do
       country_count.save
     end
   end
+
+
+  def csv_for(ref, path)
+    csv_url = 'https://cdn.rawgit.com/everypolitician/everypolitician-data/' \
+      "#{ref}/#{path}"
+    puts csv_url
+    CSV.parse(open(csv_url).read, headers: true, header_converters: :symbol)
+  end
+
+  task legislative_periods: :app do
+    countries_json = 'https://github.com/everypolitician/' \
+      'everypolitician-data/raw/master/countries.json'
+    countries = Yajl.load(open(countries_json).read, symbolize_keys: true)
+    countries.each do |country|
+      country[:legislatures].each do |legislature|
+        legislature[:legislative_periods].each do |legislative_period|
+          puts "Processing #{country[:name]} #{legislature[:name]} #{legislative_period[:name]}"
+          lp = LegislativePeriod.find_or_create(
+            country_code: country[:code],
+            legislature_slug: legislature[:slug],
+            legislative_period_id: legislative_period[:id]
+          )
+          start_date = legislative_period[:start_date]
+          next if start_date.nil?
+          start_date = "#{start_date}-01-01" if start_date.length == 4
+          lp.start_date = Date.parse(start_date)
+          csv = csv_for(legislature[:sha], legislative_period[:csv])
+          lp.person_count = csv.length
+          lp.save
+        end
+      end
+    end
+  end
 end
