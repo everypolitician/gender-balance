@@ -35,9 +35,9 @@ module Helpers
   end
 
   def percent_complete_term(legislative_period)
-    total_people = legislative_period.csv.size
+    total_people = legislative_period.csv.uniq { |p| p[:id] }.size
     response_count = current_user.responses_dataset.where(
-      politician_id: legislative_period.csv.map { |row| row[:id] },
+      politician_id: legislative_period.csv.map { |row| row[:id] }.uniq,
       legislative_period_id: legislative_period.id
     ).count
     complete_people = response_count

@@ -41,7 +41,11 @@ class LegislativePeriod < Sequel::Model
     end
   end
 
+  def unique_people
+    csv.uniq { |person| person[:id] }
+  end
+
   def already_have_gender
-    csv.count { |person| person[:gender] }
+    unique_people.count { |person| person[:gender] }
   end
 end
