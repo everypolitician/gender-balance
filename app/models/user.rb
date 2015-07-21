@@ -32,6 +32,7 @@ class User < Sequel::Model
 
   def last_response_for(country, legislature)
     responses_dataset.join(:legislative_periods, id: :legislative_period_id)
+      .select(Sequel.qualify(:responses, :legislative_period_id))
       .where(country_code: country[:code], legislature_slug: legislature[:slug])
       .order(:start_date)
       .first
@@ -41,7 +42,7 @@ class User < Sequel::Model
     legislative_periods = legislative_periods_for(country, legislature)
     last_response = last_response_for(country, legislature)
     return legislative_periods.first unless last_response
-    last_legislative_period = LegislativePeriod.first(legislative_period_id: last_response.legislative_period_id)
+    last_legislative_period = LegislativePeriod[last_response.legislative_period_id]
     if incomplete?(last_legislative_period)
       last_legislative_period
     else
