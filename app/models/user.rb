@@ -55,4 +55,8 @@ class User < Sequel::Model
   def incomplete?(legislative_period)
     people_for(legislative_period).any?
   end
+
+  def has_completed_onboarding?
+    completed_onboarding
+  end
 end
