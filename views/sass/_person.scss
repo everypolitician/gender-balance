@@ -16,7 +16,7 @@ body.person-page {
 
 .tindr-cards {
     position: relative;
-    height: 16em;
+    height: 12em;
     text-align: center;
 
     @media (min-width: $screen_medium_min) {
@@ -101,6 +101,15 @@ body.person-page {
     }
 }
 
+.tindr-card--teal {
+    background-color: $color_teal;
+    color: #fff;
+
+    .tindr-card + & {
+        background-color: darken($color_teal, 3%);
+    }
+}
+
 .tindr-card--orange {
     background-color: $color_light_orange;
     color: #fff;
@@ -174,11 +183,11 @@ body.person-page {
 }
 
 .person__decision--male {
-    background-color: rgba($color_orange, 0.3);
+    background-color: rgba($color_green, 0.3);
 }
 
 .person__decision--female {
-    background-color: rgba($color_green, 0.3);
+    background-color: rgba($color_teal, 0.3);
 }
 
 .tindr-card--advice,
@@ -226,6 +235,10 @@ body.person-page {
 }
 
 @media (min-height: 500px) {
+    .tindr-cards {
+        height: 13em;
+    }
+
     .tindr-card,
     .level-complete {
         height: 12em;
@@ -233,6 +246,10 @@ body.person-page {
 }
 
 @media (min-height: 540px) {
+    .tindr-cards {
+        height: 15em;
+    }
+
     .tindr-card,
     .level-complete {
         height: 14em;
@@ -240,6 +257,10 @@ body.person-page {
 }
 
 @media (min-height: 600px) {
+    .tindr-cards {
+        height: 16em;
+    }
+
     .tindr-card,
     .level-complete {
         height: 15em;
@@ -248,20 +269,16 @@ body.person-page {
 
 .controls {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    bottom: 0.5em;
+    left: 0.5em;
+    right: 0.5em;
     z-index: 10;
     text-align: center;
 
-    @media (min-height: 500px) {
-        bottom: 1em;
-    }
-
     @media (min-width: $screen_medium_min) {
-        position: relative;
-        height: 12em;
-        bottom: 0;
+        position: static;
+        margin: 1em auto 0 auto;
+        max-width: 18em;
     }
 }
 
@@ -270,16 +287,17 @@ body.person-page {
 .controls__other,
 .controls__skip {
     display: block;
-    color: $color_white;
     text-decoration: none;
-    position: absolute;
-    left: 50%;
+    float: left;
+    color: $color_white;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+    border-radius: $border_radius;
+    margin-top: 0.5em;
 
     // Avoid square grey outlines on touch
     -webkit-tap-highlight-color: rgba(0,0,0,0);
 
-    &:hover,
-    &:focus {
+    &:active {
         color: $color_white;
     }
 
@@ -290,74 +308,89 @@ body.person-page {
 
 .controls__male,
 .controls__female {
-    width: 6em;
-    line-height: 6em;
-    border-radius: 6em;
-    background-color: $color_orange;
-
-    bottom: 1em;
-    margin-left: -8em;
-
-    &:hover,
-    &:focus {
-        background-color: darken($color_orange, 5%);
-    }
+    padding: 1em 0.5em;
+    width: 49%;
+    width: calc(50% - 0.25em);
 
     &:active {
-        margin-bottom: -0.2em;
+        padding-top: 1.25em;
+        padding-bottom: 0.75em;
+        box-shadow: inset 0 0.25em rgba(0,0,0,0.2);
+    }
+
+    @media (min-height: 600px) {
+        padding: 1.25em 0.5em;
+
+        &:active {
+            padding-top: 1.5em;
+            padding-bottom: 1em;
+        }
+    }
+}
+
+.controls__male {
+    background-color: $color_green;
+
+    &:hover, &:focus {
+        background-color: darken($color_green, 5%);
     }
 }
 
 .controls__female {
-    background-color: $color_green;
-    margin-left: 2em;
+    float: right;
+    background-color: $color_teal;
 
-    &:hover,
-    &:focus {
-        background-color: darken($color_green, 5%);
+    &:hover, &:focus {
+        background-color: darken($color_teal, 5%);
     }
 }
 
 .controls__other,
 .controls__skip {
-    width: 4em;
-    line-height: 4em;
-    border-radius: 4em;
-    font-size: 0.8em;
-    background-color: $color_grey;
-
-    bottom: 5.5em;
-    margin-left: -2em;
-
-    &:hover,
-    &:focus {
-        background-color: darken($color_grey, 5%);
-    }
+    padding: 0.5em 0.5em;
 
     &:active {
-        margin-bottom: -0.3em;
+        padding-top: 0.75em;
+        padding-bottom: 0.25em;
+        box-shadow: inset 0 0.25em rgba(0,0,0,0.2);
+    }
+
+    @media (min-height: 600px) {
+        padding: 1em 0.5em;
+
+        &:active {
+            padding-top: 1.25em;
+            padding-bottom: 0.75em;
+        }
     }
 }
 
 .controls__skip {
-    bottom: 0.5em;
-    line-height: 1.2em;
-    padding: 0.8em 0;
+    width: 65%;
+    width: calc(66% - 0.25em);
+    background-color: $color_mid_grey;
+
+    &:hover, &:focus {
+        background-color: darken($color_mid_grey, 8%);
+    }
+}
+
+.controls__other {
+    float: right;
+    width: 33%;
+    width: calc(34% - 0.25em);
+    background-color: $color_grey;
+
+    &:hover, &:focus {
+        background-color: darken($color_grey, 5%);
+    }
 }
 
 .controls__google {
-    position: absolute;
-    bottom: 9em;
-    left: 0;
-    right: 0;
-
+    display: block;
     font-size: 0.9em;
     color: $color_mid_grey;
     text-shadow: 0 1px 10px $color_off_white, 0 1px 10px $color_off_white;
-
-    @media (min-height: 600px), (min-width: $screen_medium_min) {
-        bottom: 10em;
-    }
 
     a {
         margin-left: 0.5em;
@@ -371,5 +404,13 @@ body.person-page {
 
     .fa {
         margin-right: 0.3em;
+    }
+
+    @media (min-height: 500px) {
+        margin-bottom: 0.5em;
+    }
+
+    @media (min-height: 600px) {
+        margin-bottom: 1em;
     }
 }
