@@ -61,9 +61,11 @@ get '/about' do
   erb :about
 end
 
-get '/event_handler' do
-  settings.cache_client.delete('countries.json')
-  'ok'
+%w(get post).each do |method|
+  send(method, '/event_handler') do
+    settings.cache_client.delete('countries.json')
+    'ok'
+  end
 end
 
 get '/logout' do
