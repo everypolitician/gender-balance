@@ -45,14 +45,6 @@ namespace :cache do
     end
   end
 
-
-  def csv_for(ref, path)
-    csv_url = 'https://cdn.rawgit.com/everypolitician/everypolitician-data/' \
-      "#{ref}/#{path}"
-    puts csv_url
-    CSV.parse(open(csv_url).read, headers: true, header_converters: :symbol)
-  end
-
   task legislative_periods: :app do
     countries_json = 'https://github.com/everypolitician/' \
       'everypolitician-data/raw/master/countries.json'
@@ -70,8 +62,7 @@ namespace :cache do
           next if start_date.nil?
           start_date = "#{start_date}-01-01" if start_date.length == 4
           lp.start_date = Date.parse(start_date)
-          csv = csv_for(legislature[:sha], legislative_period[:csv])
-          lp.person_count = csv.length
+          lp.person_count = lp.unique_people.size
           lp.save
         end
       end

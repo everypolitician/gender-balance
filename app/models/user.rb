@@ -52,15 +52,6 @@ class User < Sequel::Model
   end
 
   def incomplete?(legislative_period)
-    total = legislative_period.person_count
-    completed = responses_dataset
-      .join(:legislative_periods, id: :legislative_period_id)
-      .where(
-        country_code: legislative_period.country[:code],
-        legislature_slug: legislative_period.legislature[:slug],
-        politician_id: legislative_period.unique_people.map { |row| row[:id] }
-      ).count
-    already_have_gender = legislative_period.already_have_gender
-    (completed + already_have_gender) != total
+    people_for(legislative_period).any?
   end
 end

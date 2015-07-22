@@ -4,14 +4,6 @@ module Helpers
     @current_user ||= User[session[:user_id]]
   end
 
-  def csv_for(ref, path, last_modified)
-    settings.cache_client.fetch([ref, path, last_modified].join(':'), 1.month) do
-      csv_url = 'https://cdn.rawgit.com/everypolitician/everypolitician-data/' \
-        "#{ref}/#{path}"
-      CSV.parse(open(csv_url).read, headers: true, header_converters: :symbol)
-    end
-  end
-
   def country_counts
     @country_counts ||= CountryCount.to_hash(:country_code, :person_count)
   end
