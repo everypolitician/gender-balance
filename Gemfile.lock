@@ -13,6 +13,7 @@ GEM
       parser (>= 2.2.0.pre.3, < 3.0)
     backports (3.6.4)
     bacon (1.2.0)
+    coderay (1.1.0)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
     dalli (2.7.4)
@@ -26,6 +27,7 @@ GEM
     i18n (0.7.0)
     json (1.8.3)
     jwt (1.5.1)
+    method_source (0.8.2)
     minitest (5.7.0)
     multi_json (1.11.1)
     multi_xml (0.5.5)
@@ -64,6 +66,10 @@ GEM
       ast (>= 1.1, < 3.0)
     pg (0.18.2)
     powerpack (0.1.1)
+    pry (0.10.1)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
     puma (2.11.3)
       rack (>= 1.1, < 2.0)
     rack (1.6.4)
@@ -105,6 +111,7 @@ GEM
       bacon
       sequel (>= 3.2.0)
       sinatra (>= 0.9.4)
+    slop (3.6.0)
     thread_safe (0.3.5)
     tilt (2.0.1)
     tzinfo (1.2.2)
@@ -130,6 +137,7 @@ DEPENDENCIES
   omniauth-linkedin-oauth2
   omniauth-twitter
   pg
+  pry
   puma
   rack-flash3
   rack-test
