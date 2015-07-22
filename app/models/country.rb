@@ -29,4 +29,14 @@ class Country
   def [](key)
     @country_data[key]
   end
+
+  def gender_count
+    counts = @country_data[:legislatures].map do |legislature|
+      popolo_json = 'https://github.com/everypolitician/' \
+      "everypolitician-data/raw/#{legislature[:sha]}/#{legislature[:popolo]}"
+      popolo = Yajl.load(open(popolo_json).read, symbolize_keys: true)
+      popolo[:persons].count { |p| p[:gender] }
+    end
+    counts.reduce(&:+)
+  end
 end
