@@ -32,11 +32,7 @@ body {
 
 @media (min-width: $screen_medium_min) {
     body {
-        padding-top: 1em;
-
-        @media (min-height: 750px) {
-            padding-top: 2em;
-        }
+        padding-top: 2em;
     }
 
     .app {

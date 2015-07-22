@@ -95,7 +95,7 @@
 
         &:last-child a {
             border-radius: 0 $border-radius $border-radius 0;
-            @extend .button--secondary;
+            @extend .button--tertiary;
         }
     }
 
