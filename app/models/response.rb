@@ -17,6 +17,8 @@ class Response < Sequel::Model
     def countries
       join(:legislative_periods, id: :legislative_period_id)
         .distinct(:country_code)
+        .select(:country_code, Sequel.qualify(:responses, :created_at))
+        .order(:country_code, Sequel.desc(:created_at))
     end
 
     def country_codes
