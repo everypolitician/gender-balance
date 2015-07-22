@@ -25,10 +25,10 @@ class Response < Sequel::Model
       countries.map(:country_code)
     end
 
-    def recent_country_codes
-      countries
-        .order(:country_code, Sequel.desc(Sequel.qualify(:responses, :created_at)))
-        .limit(5)
+    def recent_country_codes(limit = 5)
+      Response.from(countries)
+        .order(Sequel.desc(:created_at))
+        .limit(limit)
         .map(:country_code)
     end
   end
