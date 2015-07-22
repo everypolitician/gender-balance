@@ -31,5 +31,11 @@ class Response < Sequel::Model
         .limit(limit)
         .map(:country_code)
     end
+
+    def recent_countries(limit = 5)
+      recent_country_codes(limit).map do |code|
+        Country.find_by_code(code)
+      end
+    end
   end
 end

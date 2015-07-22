@@ -4,10 +4,10 @@
 
 <h2 class="page-title">Pick a country</h2>
 
-  <% unless @recent.empty? %>
+  <% unless @recent_countries.empty? %>
     <h3 class="list-heading">Your recent countries</h3>
     <div class="list list--countries list--recent">
-      <% @recent.each do |country| %>
+      <% @recent_countries.each do |country| %>
         <a class="list__item" href="<%= url "/countries/#{country[:slug]}" %>">
           <h3><%= country[:country] %></h3>
           <div class="progress-bar progress-bar--<%= progress_word(percent_complete(country)) %>"><div style="width: <%= percent_complete(country) %>%"></div></div>
