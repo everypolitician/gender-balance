@@ -80,6 +80,11 @@ end
     auth = request.env['omniauth.auth']
     user = User.first(provider: auth[:provider], uid: auth[:uid]) ||
            User.create_with_omniauth(auth)
+    if session[:completed_onboarding]
+      user.completed_onboarding = true
+      user.save
+      session.delete(:completed_onboarding)
+    end
     session[:user_id] = user.id
     flash[:notice] = 'Signed in!'
     redirect to('/countries')
@@ -93,6 +98,15 @@ end
 
 get '/onboarding' do
   erb :onboarding
+end
+
+post '/onboarding-complete' do
+  if current_user
+    current_user.completed_onboarding = true
+    current_user.save
+  else
+    session[:completed_onboarding] = true
+  end
 end
 
 before '/countries*' do
