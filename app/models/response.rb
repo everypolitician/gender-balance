@@ -17,17 +17,25 @@ class Response < Sequel::Model
     def countries
       join(:legislative_periods, id: :legislative_period_id)
         .distinct(:country_code)
+        .select(:country_code, Sequel.qualify(:responses, :created_at))
+        .order(:country_code, Sequel.desc(:created_at))
     end
 
     def country_codes
       countries.map(:country_code)
     end
 
-    def recent_country_codes
-      countries
-        .order(:country_code, Sequel.desc(Sequel.qualify(:responses, :created_at)))
-        .limit(5)
+    def recent_country_codes(limit = 5)
+      Response.from(countries)
+        .order(Sequel.desc(:created_at))
+        .limit(limit)
         .map(:country_code)
+    end
+
+    def recent_countries(limit = 5)
+      recent_country_codes(limit).map do |code|
+        Country.find_by_code(code)
+      end
     end
   end
 end

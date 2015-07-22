@@ -102,8 +102,7 @@ end
 
 get '/countries' do
   @countries = Country.all
-  recent_country_codes = current_user.responses_dataset.recent_country_codes
-  @recent = Country.all.select { |c| recent_country_codes.include?(c[:code]) }
+  @recent_countries = current_user.responses_dataset.recent_countries
   erb :countries
 end
 
