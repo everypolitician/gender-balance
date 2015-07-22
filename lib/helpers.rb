@@ -28,10 +28,12 @@ module Helpers
 
   def percent_complete_term(legislative_period)
     total_people = legislative_period.unique_people.size
-    response_count = current_user.responses_dataset.where(
-      politician_id: legislative_period.unique_people.map { |row| row[:id] },
-      legislative_period_id: legislative_period.id
-    ).count
+    response_count = current_user.responses_dataset
+      .join(:legislative_periods, id: :legislative_period_id)
+      .where(
+        politician_id: legislative_period.unique_people.map { |row| row[:id] },
+        legislature_slug: legislative_period.legislature[:slug]
+      ).count
     complete_people = response_count
     (complete_people.to_f / total_people.to_f) * 100
   end

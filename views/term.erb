@@ -8,7 +8,7 @@
 
     <h3><%= @legislative_period.name %></h3>
 
-<div class="progress-bar progress-bar--healthy" data-total="<%= @legislative_period.csv.size %>"><div style="width: <%= percent_complete_term(@legislative_period) %>%"></div></div>
+<div class="progress-bar progress-bar--healthy" data-total="<%= @legislative_period.unique_people.size %>"><div style="width: <%= percent_complete_term(@legislative_period) %>%"></div></div>
 
 <div class="tindr-cards js-jtinder">
     <ul>
