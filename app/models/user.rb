@@ -13,7 +13,7 @@ class User < Sequel::Model
   end
 
   def people_for(legislative_period)
-    people = legislative_period.csv
+    people = legislative_period.unique_people
     already_done = responses_dataset
       .join(:legislative_periods, id: :legislative_period_id)
       .where(
@@ -23,7 +23,7 @@ class User < Sequel::Model
       .map(:politician_id)
     people = people.reject { |person| already_done.include?(person[:id]) }
     people = people.reject { |person| person[:gender] }
-    people.shuffle
+    people.uniq { |p| p[:id] }.shuffle
   end
 
   def legislative_periods_for(country, legislature)
@@ -52,15 +52,6 @@ class User < Sequel::Model
   end
 
   def incomplete?(legislative_period)
-    total = legislative_period.person_count
-    completed = responses_dataset
-      .join(:legislative_periods, id: :legislative_period_id)
-      .where(
-        country_code: legislative_period.country[:code],
-        legislature_slug: legislative_period.legislature[:slug],
-        politician_id: legislative_period.csv.map { |row| row[:id] }
-      ).count
-    already_have_gender = legislative_period.already_have_gender
-    (completed + already_have_gender) != total
+    people_for(legislative_period).any?
   end
 end

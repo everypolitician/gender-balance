@@ -4,14 +4,6 @@ module Helpers
     @current_user ||= User[session[:user_id]]
   end
 
-  def csv_for(ref, path, last_modified)
-    settings.cache_client.fetch([ref, path, last_modified].join(':'), 1.month) do
-      csv_url = 'https://cdn.rawgit.com/everypolitician/everypolitician-data/' \
-        "#{ref}/#{path}"
-      CSV.parse(open(csv_url).read, headers: true, header_converters: :symbol)
-    end
-  end
-
   def country_counts
     @country_counts ||= CountryCount.to_hash(:country_code, :person_count)
   end
@@ -35,9 +27,9 @@ module Helpers
   end
 
   def percent_complete_term(legislative_period)
-    total_people = legislative_period.csv.size
+    total_people = legislative_period.unique_people.size
     response_count = current_user.responses_dataset.where(
-      politician_id: legislative_period.csv.map { |row| row[:id] },
+      politician_id: legislative_period.unique_people.map { |row| row[:id] },
       legislative_period_id: legislative_period.id
     ).count
     complete_people = response_count
