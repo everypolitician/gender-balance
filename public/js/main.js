@@ -22,13 +22,15 @@ function loadNewPerson() {
 
   setTimeout(updateGoogleLink, 500);
 
-  var total = $('.progress-bar').data('total');
-  var remaining = $('.js-extra-people li, .js-jtinder li').length;
-  var done = total - remaining;
-  var percent = (done / total) * 100;
-  $('.progress-bar div').animate({
-    width: percent + '%'
-  });
+  setTimeout(function() {
+    var total = $('.progress-bar').data('total');
+    var remaining = $('.js-extra-people li, .js-jtinder li').length;
+    var done = total - remaining;
+    var percent = (done / total) * 100;
+    $('.progress-bar div').animate({
+      width: percent + '%'
+    });
+  }, 500);
 }
 
 function saveResponse(response) {
