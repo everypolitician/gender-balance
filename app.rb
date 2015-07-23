@@ -119,14 +119,13 @@ end
 
 get '/countries/:country/legislatures/:legislature' do
   @country = Country.find_by_slug(params[:country])
+  country_count = country_counts[@country[:code]]
+  return erb :no_data_needed if country_count.already_has_gender_data?
   @legislature = @country.legislature(params[:legislature])
   @legislative_period = current_user.legislative_period_for(@country, @legislature)
-  if @legislative_period
-    @people = current_user.people_for(@legislative_period)
-    erb :term
-  else
-    erb :congratulations
-  end
+  return erb :congratulations unless @legislative_period
+  @people = current_user.people_for(@legislative_period)
+  erb :term
 end
 
 post '/responses' do

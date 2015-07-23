@@ -1,0 +1,22 @@
+<% content_for :body_class do %>person-page<% end %>
+
+<% content_for :back_button do %>
+    <a class="app-header__back" href="<%= url "/countries" %>"><i class="fa fa-chevron-left"></i></a>
+<% end %>
+
+<div class="tindr-cards">
+    <div class="level-complete">
+        <% if @country[:legislatures].size == 1 %>
+            <p>Thanks - but we're all sorted for <%= @country[:name] %>.</p>
+            <p>There's plenty more to do, though.</p>
+        <% else %>
+            <p>Thanks - but we're all sorted for <%= @country[:name] %> <%= @legislature[:name] %>.</p>
+            <p>There's plenty more to do, though.</p>
+        <% end %>
+        <p>
+        <a class="button button--secondary" href="<%= url "/countries" %>">
+            Pick another country
+        </a>
+        </p>
+    </div>
+</div>
