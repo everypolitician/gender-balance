@@ -17,6 +17,7 @@ module Helpers
     @percent_complete_countries[country[:code]] ||=
       begin
         country_count = country_counts[country[:code]]
+        return 0 if country_count.nil?
         total_people = country_count.person_count
         complete_people = current_user.responses_dataset
           .join(:legislative_periods, id: :legislative_period_id)
