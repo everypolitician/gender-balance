@@ -46,8 +46,9 @@ class User < Sequel::Model
     if incomplete?(last_legislative_period)
       last_legislative_period
     else
-      legislative_periods_for(country, legislature)
-        .where{start_date < last_legislative_period.start_date}.first
+      lps = legislative_periods_for(country, legislature)
+        .where{start_date < last_legislative_period.start_date}
+      lps.find { |lp| incomplete?(lp) }
     end
   end
 
