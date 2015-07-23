@@ -3,7 +3,8 @@ class Country
     @countries ||= Sinatra::Application.cache_client.fetch('countries.json') do
       countries_json = 'https://github.com/everypolitician/' \
       'everypolitician-data/raw/master/countries.json'
-      Yajl.load(open(countries_json).read, symbolize_keys: true)
+      countries = Yajl.load(open(countries_json).read, symbolize_keys: true)
+      countries.map { |country| Country.new(country) }
     end
   end
 
@@ -27,5 +28,15 @@ class Country
 
   def [](key)
     @country_data[key]
+  end
+
+  def gender_count
+    counts = @country_data[:legislatures].map do |legislature|
+      popolo_json = 'https://github.com/everypolitician/' \
+      "everypolitician-data/raw/#{legislature[:sha]}/#{legislature[:popolo]}"
+      popolo = Yajl.load(open(popolo_json).read, symbolize_keys: true)
+      popolo[:persons].count { |p| p[:gender] }
+    end
+    counts.reduce(&:+)
   end
 end

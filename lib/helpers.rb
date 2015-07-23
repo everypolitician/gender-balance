@@ -5,7 +5,7 @@ module Helpers
   end
 
   def country_counts
-    @country_counts ||= CountryCount.to_hash(:country_code, :person_count)
+    @country_counts ||= CountryCount.to_hash(:country_code)
   end
 
   def started_countries
@@ -13,15 +13,16 @@ module Helpers
   end
 
   def percent_complete(country)
-    return 0 unless started_countries.include?(country[:code])
     @percent_complete_countries ||= {}
     @percent_complete_countries[country[:code]] ||=
       begin
-        total_people = country_counts[country[:code]]
+        country_count = country_counts[country[:code]]
+        total_people = country_count.person_count
         complete_people = current_user.responses_dataset
           .join(:legislative_periods, id: :legislative_period_id)
           .where(country_code: country[:code])
           .count
+        complete_people = complete_people + country_count.gender_count
         (complete_people.to_f / total_people.to_f) * 100
       end
   end
