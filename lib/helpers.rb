@@ -12,6 +12,11 @@ module Helpers
     @started_countries ||= current_user.responses_dataset.country_codes
   end
 
+  def completed_onboarding?
+    current_user && current_user.has_completed_onboarding? ||
+      session[:completed_onboarding]
+  end
+
   def percent_complete(country)
     @percent_complete_countries ||= {}
     @percent_complete_countries[country[:code]] ||=
