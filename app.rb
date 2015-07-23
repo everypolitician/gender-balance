@@ -27,6 +27,7 @@ configure do
     socket_failure_delay: 0.2
   )
   set :static_cache_control, [:public, max_age: 5.minutes] if production?
+  set :motivational_quotes, YAML.load_file('config/motivational_quotes.yml')
 end
 
 require 'helpers'

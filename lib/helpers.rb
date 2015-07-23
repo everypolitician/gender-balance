@@ -50,4 +50,8 @@ module Helpers
       'dangerous'
     end
   end
+
+  def motivational_quote
+    settings.motivational_quotes.sample
+  end
 end

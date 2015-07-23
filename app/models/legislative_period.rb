@@ -48,4 +48,15 @@ class LegislativePeriod < Sequel::Model
   def already_have_gender
     unique_people.count { |person| person[:gender] }
   end
+
+  def previous_legislative_period
+    previous_legislative_periods.first
+  end
+
+  def previous_legislative_periods
+    LegislativePeriod
+      .where(country_code: country[:code], legislature_slug: legislature[:slug])
+      .order(Sequel.desc(:start_date))
+      .where('start_date < ?', start_date)
+  end
 end

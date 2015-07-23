@@ -30,6 +30,9 @@ function loadNewPerson() {
     $('.progress-bar div').animate({
       width: percent + '%'
     });
+    if (percent === 100) {
+      $('.js-controls').hide();
+    }
   }, 500);
 }
 
