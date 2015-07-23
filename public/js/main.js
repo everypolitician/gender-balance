@@ -38,13 +38,15 @@ function loadNewPerson() {
 
 function saveResponse(response) {
   if(window.onboarding){
-    var remaining = $('.js-extra-people li, .js-jtinder li').length;
-    if (remaining === 0) {
-      $.ajax({
-        url: '/onboarding-complete',
-        method: 'POST'
-      });
-    }
+    setTimeout(function() {
+      var remaining = $('.js-extra-people li, .js-jtinder li').length;
+      if (remaining === 0) {
+        $.ajax({
+          url: '/onboarding-complete',
+          method: 'POST'
+        });
+      }
+    }, 500);
     return;
   }
 
