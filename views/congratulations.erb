@@ -1,1 +1,21 @@
-<p>Congratulations! You've finished filling in the information for <%= @legislature[:name] %></p>
+<% content_for :body_class do %>person-page<% end %>
+
+<% content_for :back_button do %>
+    <a class="app-header__back" href="<%= url "/countries" %>"><i class="fa fa-chevron-left"></i></a>
+<% end %>
+
+<div class="tindr-cards">
+    <div class="level-complete">
+        <h2><%= motivational_quote %></h2>
+        <% if @country[:legislatures].size == 1 %>
+            <p>You have completed <b><%= @country[:name] %></b>!</p>
+        <% else %>
+            <p>You have completed <b><%= @country[:name] %> <%= @legislature[:name] %></b>!</p>
+        <% end %>
+        <p>
+        <a class="button button--secondary" href="<%= url "/countries" %>">
+            Choose another country
+        </a>
+        </p>
+    </div>
+</div>
