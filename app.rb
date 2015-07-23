@@ -97,6 +97,7 @@ get '/auth/failure' do
 end
 
 get '/onboarding' do
+  redirect to('/countries') if completed_onboarding?
   erb :onboarding
 end
 
@@ -110,6 +111,7 @@ post '/onboarding-complete' do
 end
 
 before '/countries*' do
+  redirect to('/onboarding') unless completed_onboarding?
   pass if current_user
   flash[:alert] = 'Please sign in'
   redirect to('/login')
