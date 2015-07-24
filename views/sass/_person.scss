@@ -326,7 +326,7 @@ body.person-page {
     font-size: 0.8em;
     background-color: $color_grey;
 
-    bottom: 5.5em;
+    bottom: 0.5em;
     margin-left: -2em;
 
     &:hover,
@@ -340,7 +340,7 @@ body.person-page {
 }
 
 .controls__skip {
-    bottom: 0.5em;
+    bottom: 5.5em;
     line-height: 1.2em;
     padding: 0.8em 0;
 }
