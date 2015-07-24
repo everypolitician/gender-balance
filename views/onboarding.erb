@@ -4,21 +4,23 @@
     <a class="app-header__back" href="/"><i class="fa fa-chevron-left"></i></a>
 <% end %>
 
-<div class="tindr-cards js-jtinder">
-    <ul>
-        <li class="tindr-card tindr-card--advice tindr-card--green">
+<div class="person-cards">
+    <ul class="js-cardswipe">
+        <li class="person-card person-card--advice person-card--green">
             <h2>We’re going to show you some&nbsp;people.</h2>
             <p>Press the relevant button for each.</p>
-            <p class="tindr-card--advice__hint">(Press “Female” to start)</p>
-            <span class="person__decision person__decision--male js-jtinder-disliked"></span>
-            <span class="person__decision person__decision--female js-jtinder-liked"></span>
+            <p class="person-card--advice__hint">(Press “Female” to start)</p>
+            <span class="person__decision person__decision--male js-overlay-male"></span>
+            <span class="person__decision person__decision--female js-overlay-female"></span>
+            <span class="person__decision person__decision--dontknow js-overlay-dontknow"></span>
         </li>
-        <li class="tindr-card tindr-card--person">
+        <li class="person-card person-card--person">
             <img src="http://api.adorable.io/avatars/140/alice" class="person__picture">
             <h1 class="person__name">Alice Grey</h1>
             <p class="person__party">The Grey Party</p>
-            <span class="person__decision person__decision--male js-jtinder-disliked"></span>
-            <span class="person__decision person__decision--female js-jtinder-liked"></span>
+            <span class="person__decision person__decision--male js-overlay-male"></span>
+            <span class="person__decision person__decision--female js-overlay-female"></span>
+            <span class="person__decision person__decision--dontknow js-overlay-dontknow"></span>
         </li>
     </ul>
     <div class="level-complete">
@@ -28,82 +30,92 @@
     </div>
 </div>
 
-<ul class="js-extra-people" style="display: none">
-    <li class="tindr-card tindr-card--person">
+<ul class="js-extra-cards" style="display: none">
+    <li class="person-card person-card--person">
         <img src="http://api.adorable.io/avatars/140/bob" class="person__picture">
         <h1 class="person__name">Bob Green</h1>
         <p class="person__party">The Yellow Party</p>
-        <span class="person__decision person__decision--male js-jtinder-disliked"></span>
-        <span class="person__decision person__decision--female js-jtinder-liked"></span>
+        <span class="person__decision person__decision--male js-overlay-male"></span>
+        <span class="person__decision person__decision--female js-overlay-female"></span>
+        <span class="person__decision person__decision--dontknow js-overlay-dontknow"></span>
     </li>
-    <li class="tindr-card tindr-card--advice tindr-card--grey">
+    <li class="person-card person-card--advice person-card--grey">
         <p>If you don’t know a person’s gender, you can Skip&nbsp;them.</p>
         <p>Try it now!</p>
-        <p class="tindr-card--advice__hint">(Press “Don’t know” to continue)</p>
-        <span class="person__decision person__decision--male js-jtinder-disliked"></span>
-        <span class="person__decision person__decision--female js-jtinder-liked"></span>
+        <p class="person-card--advice__hint">(Press “Don’t know” to continue)</p>
+        <span class="person__decision person__decision--male js-overlay-male"></span>
+        <span class="person__decision person__decision--female js-overlay-female"></span>
+        <span class="person__decision person__decision--dontknow js-overlay-dontknow"></span>
     </li>
-    <li class="tindr-card tindr-card--person">
+    <li class="person-card person-card--person">
         <img src="http://api.adorable.io/avatars/140/flooble" class="person__picture">
         <h1 class="person__name">Flooble Blue</h1>
         <p class="person__party">The Grey Party</p>
-        <span class="person__decision person__decision--male js-jtinder-disliked"></span>
-        <span class="person__decision person__decision--female js-jtinder-liked"></span>
+        <span class="person__decision person__decision--male js-overlay-male"></span>
+        <span class="person__decision person__decision--female js-overlay-female"></span>
+        <span class="person__decision person__decision--dontknow js-overlay-dontknow"></span>
     </li>
-    <li class="tindr-card tindr-card--person">
+    <li class="person-card person-card--person">
         <img src="http://api.adorable.io/avatars/140/priscilla" class="person__picture">
         <h1 class="person__name">Priscilla Pink</h1>
         <p class="person__party">The Yellow Party</p>
-        <span class="person__decision person__decision--male js-jtinder-disliked"></span>
-        <span class="person__decision person__decision--female js-jtinder-liked"></span>
+        <span class="person__decision person__decision--male js-overlay-male"></span>
+        <span class="person__decision person__decision--female js-overlay-female"></span>
+        <span class="person__decision person__decision--dontknow js-overlay-dontknow"></span>
     </li>
-    <li class="tindr-card tindr-card--person">
+    <li class="person-card person-card--person">
         <img src="http://api.adorable.io/avatars/140/hoddlebink" class="person__picture">
         <h1 class="person__name">Yota Mauve</h1>
         <p class="person__party">The Transparent Party</p>
-        <span class="person__decision person__decision--male js-jtinder-disliked"></span>
-        <span class="person__decision person__decision--female js-jtinder-liked"></span>
+        <span class="person__decision person__decision--male js-overlay-male"></span>
+        <span class="person__decision person__decision--female js-overlay-female"></span>
+        <span class="person__decision person__decision--dontknow js-overlay-dontknow"></span>
     </li>
-    <li class="tindr-card tindr-card--advice tindr-card--orange">
+    <li class="person-card person-card--advice person-card--orange">
         <h2>Don’t guess!</h2>
         <p>We want our data to be awesome. So don’t guess based on a person’s name or&nbsp;photo.</p>
         <p>If you don’t know, that’s fine!</p>
-        <span class="person__decision person__decision--male js-jtinder-disliked"></span>
-        <span class="person__decision person__decision--female js-jtinder-liked"></span>
+        <span class="person__decision person__decision--male js-overlay-male"></span>
+        <span class="person__decision person__decision--female js-overlay-female"></span>
+        <span class="person__decision person__decision--dontknow js-overlay-dontknow"></span>
     </li>
-    <li class="tindr-card tindr-card--person">
+    <li class="person-card person-card--person">
         <img src="http://api.adorable.io/avatars/140/andi" class="person__picture">
         <h1 class="person__name">Andi Brown</h1>
         <p class="person__party">The Yellow Party</p>
-        <span class="person__decision person__decision--male js-jtinder-disliked"></span>
-        <span class="person__decision person__decision--female js-jtinder-liked"></span>
+        <span class="person__decision person__decision--male js-overlay-male"></span>
+        <span class="person__decision person__decision--female js-overlay-female"></span>
+        <span class="person__decision person__decision--dontknow js-overlay-dontknow"></span>
     </li>
-    <li class="tindr-card tindr-card--advice tindr-card--blue">
+    <li class="person-card person-card--advice person-card--blue">
         <h2>Top tip!</h2>
         <p>You can swipe the cards left and right to categorise more&nbsp;quickly.</p>
         <p>Try dragging this card left or&nbsp;right…</p>
-        <span class="person__decision person__decision--male js-jtinder-disliked"></span>
-        <span class="person__decision person__decision--female js-jtinder-liked"></span>
+        <span class="person__decision person__decision--male js-overlay-male"></span>
+        <span class="person__decision person__decision--female js-overlay-female"></span>
+        <span class="person__decision person__decision--dontknow js-overlay-dontknow"></span>
     </li>
-    <li class="tindr-card tindr-card--person">
+    <li class="person-card person-card--person">
         <img src="http://api.adorable.io/avatars/140/phil" class="person__picture">
         <h1 class="person__name">Phil Violet</h1>
         <p class="person__party">The Transparent Party</p>
-        <span class="person__decision person__decision--male js-jtinder-disliked"></span>
-        <span class="person__decision person__decision--female js-jtinder-liked"></span>
+        <span class="person__decision person__decision--male js-overlay-male"></span>
+        <span class="person__decision person__decision--female js-overlay-female"></span>
+        <span class="person__decision person__decision--dontknow js-overlay-dontknow"></span>
     </li>
-    <li class="tindr-card tindr-card--person">
+    <li class="person-card person-card--person">
         <img src="http://api.adorable.io/avatars/140/eva" class="person__picture">
         <h1 class="person__name">Eva Black</h1>
         <p class="person__party">The Yellow Party</p>
-        <span class="person__decision person__decision--male js-jtinder-disliked"></span>
-        <span class="person__decision person__decision--female js-jtinder-liked"></span>
+        <span class="person__decision person__decision--male js-overlay-male"></span>
+        <span class="person__decision person__decision--female js-overlay-female"></span>
+        <span class="person__decision person__decision--dontknow js-overlay-dontknow"></span>
     </li>
 </ul>
 
 <div class="controls">
-    <div class="controls__skip js-person-skip" href="#">Don’t know</div>
-    <div class="controls__male js-jtinder-dislike" href="#">Male</div>
-    <div class="controls__female js-jtinder-like" href="#">Female</div>
-    <div class="controls__other js-person-other" href="#">Other</div>
+    <div class="controls__skip js-choose-dontknow" href="#">Don’t know</div>
+    <div class="controls__male js-choose-male" href="#">Male</div>
+    <div class="controls__female js-choose-female" href="#">Female</div>
+    <div class="controls__other js-choose-other" href="#">Other</div>
 </div>

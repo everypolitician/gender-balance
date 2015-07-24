@@ -1,4 +1,4 @@
-<li class="tindr-card tindr-card--person"
+<li class="person-card person-card--person"
     data-politician_id="<%= person[:id] %>"
     data-legislative_period_id="<%= @legislative_period.id %>"
     data-google-link="https://google.com/search?q=<%= person[:name] %> <%= @legislative_period.country[:name] %> <%= @legislative_period.legislature[:name] %>"
@@ -12,6 +12,7 @@
     <% unless person[:group].downcase == 'unknown' %>
         <p class="person__party"><%= person[:group] %></p>
     <% end %>
-    <span class="person__decision person__decision--male js-jtinder-disliked"></span>
-    <span class="person__decision person__decision--female js-jtinder-liked"></span>
+    <span class="person__decision person__decision--male js-overlay-male"></span>
+    <span class="person__decision person__decision--female js-overlay-female"></span>
+    <span class="person__decision person__decision--dontknow js-overlay-dontknow"></span>
 </li>

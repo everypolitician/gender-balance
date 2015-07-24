@@ -12,53 +12,62 @@ var hideMessages = function hideMessages(){
   }, 1000);
 }
 
-var updateGoogleLink = function updateGoogleLink(){
-  var link = $('.js-jtinder li').eq(0).attr('data-google-link');
+var updateGoogleLink = function updateGoogleLink($stack){
+  var link = $stack.eq(0).attr('data-google-link');
   $('.js-google-link').attr('href', link);
 }
 
-function loadNewPerson() {
-  $('.js-extra-people li:first-child').appendTo('.js-jtinder ul');
+var updateProgressBar = function updateProgressBar(){
+  var total = $('.progress-bar').data('total');
+  var remaining = $('.js-extra-cards li, .js-cardswipe li').length;
+  var done = total - remaining;
+  var percent = (done / total) * 100;
+  $('.progress-bar div').animate({
+    width: percent + '%'
+  });
+  if (percent === 100) {
+    $('.js-controls').hide();
+  }
+}
 
-  setTimeout(updateGoogleLink, 500);
+var filterElements = function filterElements(){
+  var $elements = $($(this).attr('data-filter-elements'));
+  var searchText = $.trim($(this).val().toLowerCase());
 
-  setTimeout(function() {
-    var total = $('.progress-bar').data('total');
-    var remaining = $('.js-extra-people li, .js-jtinder li').length;
-    var done = total - remaining;
-    var percent = (done / total) * 100;
-    $('.progress-bar div').animate({
-      width: percent + '%'
-    });
-    if (percent === 100) {
-      $('.js-controls').hide();
+  if(searchText == ''){
+    $elements.show();
+    return true;
+  }
+
+  $elements.each(function(){
+    var itemText = $(this).text().toLowerCase();
+    var found = itemText.indexOf(searchText) > -1;
+    if(found){
+      $(this).show();
+    } else {
+      $(this).hide();
     }
-  }, 500);
+  });
 }
 
 function saveResponse(response) {
-  if(window.onboarding){
-    setTimeout(function() {
-      var remaining = $('.js-extra-people li, .js-jtinder li').length;
-      if (remaining === 0) {
-        $.ajax({
-          url: '/onboarding-complete',
-          method: 'POST'
-        });
+  if(window.onboarding && $('.js-extra-cards li, .js-cardswipe li').length === 0){
+    return $.ajax({
+      url: '/onboarding-complete',
+      method: 'POST'
+    });
+
+  } else {
+    delete response.googleLink;
+
+    return $.ajax({
+      url: '/responses',
+      method: 'POST',
+      data: {
+        response: response
       }
-    }, 500);
-    return;
+    });
   }
-
-  delete response.googleLink;
-
-  return $.ajax({
-    url: '/responses',
-    method: 'POST',
-    data: {
-      response: response
-    }
-  });
 }
 
 $(function(){
@@ -70,102 +79,47 @@ $(function(){
     }, 500);
   }
 
-  if($('.js-jtinder').length){
-
+  if($('.js-cardswipe').length){
     window.onboarding = ( $('.onboarding-page').length > 0 );
 
-    updateGoogleLink();
-
-    $(".js-jtinder").jTinder({
-      onDislike: function (item) {
-        var response = item.data();
-        response.choice = 'male';
-        saveResponse(response);
-        loadNewPerson();
+    $(".js-cardswipe").cardSwipe({
+      choices: {
+        male: {
+          direction: 'left',
+          $button: $('.js-choose-male'),
+          overlaySelector: '.js-overlay-male'
+        },
+        female: {
+          direction: 'right',
+          $button: $('.js-choose-female'),
+          overlaySelector: '.js-overlay-female'
+        },
+        other: {
+          direction: 'down',
+          $button: $('.js-choose-other'),
+          overlaySelector: '.js-overlay-other'
+        },
+        dontknow: {
+          direction: 'up',
+          $button: $('.js-choose-dontknow'),
+          overlaySelector: '.js-overlay-dontknow'
+        }
       },
-      onLike: function (item) {
-        var response = item.data();
-        response.choice = 'female';
+      onChoiceMade: function(choice, $card, $stack){
+        response = $card.data();
+        response.choice = choice;
         saveResponse(response);
-        loadNewPerson();
-      },
-      animationRevertSpeed: 200,
-      animationSpeed: 400,
-      threshold: 1,
-      likeSelector: '.js-jtinder-liked',
-      dislikeSelector: '.js-jtinder-disliked'
-    }).on('mousedown', '.tindr-card', function(e){
-      $(this).addClass('grabbing');
-    }).on('mouseup', '.tindr-card', function(e){
-      $(this).removeClass('grabbing');
-    });
 
-    $('.js-jtinder-like').on('click', function(e){
-      e.preventDefault();
-      $('.js-jtinder').jTinder('like');
-    });
+        $card.remove();
 
-    $('.js-jtinder-dislike').on('click', function(e){
-      e.preventDefault();
-      $('.js-jtinder').jTinder('dislike');
-    });
+        $('.js-extra-cards').children().eq(0).appendTo($stack);
 
-    $('.js-person-other').on('click', function(e){
-      e.preventDefault();
-      var item = $('.js-jtinder').data('plugin_jTinder').getCurrentPane();
-      var response = item.data();
-      response.choice = 'other';
-      saveResponse(response);
-      loadNewPerson();
-      $('.js-jtinder').jTinder('next');
-      loadNewPerson();
-    });
-
-    $('.js-person-skip').on('click', function(e){
-      e.preventDefault();
-      var item = $('.js-jtinder').data('plugin_jTinder').getCurrentPane();
-      var response = item.data();
-      response.choice = 'skip';
-      saveResponse(response);
-      loadNewPerson();
-      $('.js-jtinder').jTinder('skip');
-    });
-
-    $(document).on('keydown', function(e){
-      if(e.keyCode == 77 || e.keyCode == 37){
-        // m key or left arrow
-        $('.js-jtinder-dislike').trigger('click');
-      } else if(e.keyCode == 70 || e.keyCode == 39){
-        // f key or right arrow
-        $('.js-jtinder-like').trigger('click');
-      } else if(e.keyCode == 32 || e.keyCode == 38){
-        // space key or up arrow
-        $('.js-person-skip').trigger('click');
-      } else if(e.keyCode == 79 || e.keyCode == 40){
-        // o key or down arrow
-        $('.js-person-other').trigger('click');
+        updateGoogleLink($stack);
+        updateProgressBar();
       }
     });
   }
 
-  $('[data-filter-elements]').on('keyup', function(){
-    var $elements = $($(this).attr('data-filter-elements'));
-    var searchText = $.trim($(this).val().toLowerCase());
-
-    if(searchText == ''){
-      $elements.show();
-      return true;
-    }
-
-    $elements.each(function(){
-      var itemText = $(this).text().toLowerCase();
-      var found = itemText.indexOf(searchText) > -1;
-      if(found){
-        $(this).show();
-      } else {
-        $(this).hide();
-      }
-    });
-  });
+  $('[data-filter-elements]').on('keyup', filterElements);
 
 });
