@@ -65,5 +65,6 @@
 </div>
 
 <% else %>
-    <p>All done! There are no more people to classify for <%= @legislative_period.legislature[:name] %> <%= @legislative_period[:name] %></p>
+  <h2>Nothing to do!</h2> 
+  <p><%= @legislative_period.country[:name] %> already publishes gender information for its legislators — but why not <a href="/countries">pick another country</a>?</p>
 <% end %>
