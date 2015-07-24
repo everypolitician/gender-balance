@@ -9,7 +9,7 @@
     <img src="/img/person.png" class="person__picture">
   <% end %>
     <h1 class="person__name"><%= person[:name] %></h1>
-    <% unless person[:group] == 'unknown' %>
+    <% unless person[:group].downcase == 'unknown' %>
         <p class="person__party"><%= person[:group] %></p>
     <% end %>
     <span class="person__decision person__decision--male js-jtinder-disliked"></span>
