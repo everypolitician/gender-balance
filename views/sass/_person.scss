@@ -254,6 +254,13 @@ body.person-page {
     z-index: 10;
     text-align: center;
 
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
     @media (min-height: 500px) {
         bottom: 1em;
     }
@@ -274,17 +281,11 @@ body.person-page {
     text-decoration: none;
     position: absolute;
     left: 50%;
-
-    // Avoid square grey outlines on touch
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    cursor: pointer;
 
     &:hover,
     &:focus {
         color: $color_white;
-    }
-
-    &:focus {
-        outline: none;
     }
 }
 
