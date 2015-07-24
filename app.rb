@@ -144,6 +144,14 @@ get '/countries/:country/legislatures/:legislature' do
   erb :term
 end
 
+get '/leaderboard' do
+  @leaders = Response.join(:users, id: :user_id)
+    .group_and_count(:name)
+    .order(Sequel.desc(:count))
+    .limit(10)
+  erb :leaderboard
+end
+
 post '/responses' do
   begin
     current_user.add_response(params[:response])

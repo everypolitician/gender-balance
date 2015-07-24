@@ -1,0 +1,13 @@
+<% content_for :back_button do %>
+    <a class="app-header__back" href="<%= url '/' %>"><i class="fa fa-chevron-left"></i></a>
+<% end %>
+
+<h2 class="page-title">Leaderboard</h2>
+
+<div class="list list--all">
+  <ol>
+  <% @leaders.each do |leader| %>
+    <li><%= leader[:name].split(/[[:space:]]+/).first %> (<%= leader[:count] %>)</li>
+  <% end %>
+  </ol>
+</div>
