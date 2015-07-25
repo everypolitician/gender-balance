@@ -218,13 +218,23 @@
             $currentCard.css('transform', 'translate(' + translate + ') rotate(' + (percent / 8) + 'deg)');
 
             // Adjust opacity of the right direction overlay in the current card.
-            if (deltaX >= 0) {
-              var direction = 'right';
+            if(Math.abs(deltaX) < Math.abs(deltaY)){
+              var axis = deltaY;
+              if(axis >= 0){
+                var direction = 'down';
+              } else {
+                var direction = 'up';
+              }
             } else {
-              var direction = 'left';
+              var axis = deltaX;
+              if(axis >= 0){
+                var direction = 'right';
+              } else {
+                var direction = 'left';
+              }
             }
             var choiceSettings = self.settings.choices[self.getChoiceByDirection(direction)];
-            var opacity = (Math.abs(deltaX) / self.settings.threshold) / 100 + 0.2;
+            var opacity = (Math.abs(axis) / self.settings.threshold) / 100 + 0.2;
             $(self.overlaySelectorAll, $currentCard).css('opacity', 0);
             $(choiceSettings.overlaySelector, $currentCard).css('opacity', Math.min(opacity, 1));
           }
@@ -239,12 +249,25 @@
 
           // They have finished dragging.
           // Decide what to do with the card.
-          var opacity = (Math.abs(deltaX) / self.settings.threshold) / 100 + 0.2;
-          if(opacity >= 1){
-            if(deltaX > 0){
-              self.makeChoice(self.getChoiceByDirection('right'));
+          if(Math.abs(deltaX) < Math.abs(deltaY)){
+            // Vertical swipe.
+            var axis = deltaY;
+            var positive = 'down';
+            var negative = 'up';
+          } else {
+            // Horizontal swipe.
+            var axis = deltaX;
+            var positive = 'right';
+            var negative = 'left';
+          }
+
+          // Only perform an action if they've crossed the certainty threshold.
+          var certainty = (Math.abs(axis) / self.settings.threshold) / 100 + 0.2;
+          if(certainty >= 1){
+            if(axis > 0){
+              self.makeChoice(self.getChoiceByDirection(positive));
             } else {
-              self.makeChoice(self.getChoiceByDirection('left'));
+              self.makeChoice(self.getChoiceByDirection(negative));
             }
           } else {
             self.abortChoice();
