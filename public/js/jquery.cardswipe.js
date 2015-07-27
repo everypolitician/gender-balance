@@ -66,6 +66,10 @@
         // Set up a click listener on each choice's button.
         choiceSettings.$button.on('click', function(){
           self.makeChoice(choiceName);
+
+          if('onButtonPress' in self.settings){
+            self.settings.onButtonPress(self.settings.choices[choiceName].direction);
+          }
         });
       });
 
@@ -74,6 +78,10 @@
         if(e.keyCode in self.keyCodeForChoice){
           var choiceName = self.keyCodeForChoice[e.keyCode];
           self.makeChoice(choiceName);
+
+          if('onKeyboardShortcut' in self.settings){
+            self.settings.onKeyboardShortcut(self.settings.choices[choiceName].direction);
+          }
         }
       });
 
@@ -266,8 +274,14 @@
           if(certainty >= 1){
             if(axis > 0){
               self.makeChoice(self.getChoiceByDirection(positive));
+              if('onSwipe' in self.settings){
+                self.settings.onSwipe(positive);
+              }
             } else {
               self.makeChoice(self.getChoiceByDirection(negative));
+              if('onSwipe' in self.settings){
+                self.settings.onSwipe(negative);
+              }
             }
           } else {
             self.abortChoice();
