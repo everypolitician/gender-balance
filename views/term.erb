@@ -16,35 +16,36 @@
     </ul>
     <div class="level-complete">
         <h2><%= motivational_quote %></h2>
-        <% if @legislative_period.previous_legislative_period %>
-            <% previous_count = @legislative_period.previous_legislative_periods.count %>
-            <p>
-                You have completed <b><%= @legislative_period.legislature[:name] %> <%= @legislative_period.name %></b>.
-                There <%= previous_count == 1 ? 'is' : 'are' %>
-                <%= previous_count %> more level<%= previous_count == 1 ? '' : 's' %> to play.
-            </p>
-            <p>
-                <a class="button button--secondary" href="<%= url "/countries/#{@legislative_period.country[:slug]}/legislatures/#{@legislative_period.legislature[:slug]}" %>">
-                    Proceed to <%= @legislative_period.previous_legislative_period.name %>
-                </a>
-            </p>
-        <% else %>
-            <% if @legislative_period.country[:legislatures].size == 1 %>
-                <p>You have completed <%= @legislative_period.country[:name] %>.</p>
-                <p>
-                    <a class="button button--secondary" href="<%= url "/countries" %>">
-                        Choose another country
-                    </a>
-                </p>
-            <% else %>
-                <p>You have completed <%= @legislative_period.country[:name] %> <%= @legislative_period.legislature[:name] %>.</p>
-                <p>
-                    <a class="button button--secondary" href="<%= url "/countries/#{@legislative_period.country[:slug]}" %>">
-                        Choose another legislature
-                    </a>
-                </p>
-            <% end %>
-        <% end %>
+
+      <% if @legislative_period.previous_legislative_period %>
+        <% previous_count = @legislative_period.previous_legislative_periods.count %>
+        <p>
+            You have completed <b><%= @legislative_period.legislature[:name] %> <%= @legislative_period.name %></b>.
+            There <%= previous_count == 1 ? 'is' : 'are' %>
+            <%= previous_count %> more level<%= previous_count == 1 ? '' : 's' %> to play.
+        </p>
+        <p>
+            <a class="button button--secondary" href="<%= url "/countries/#{@legislative_period.country[:slug]}/legislatures/#{@legislative_period.legislature[:slug]}" %>">
+                Play the next level!
+            </a>
+        </p>
+
+      <% elsif @legislative_period.country[:legislatures].size == 1 %>
+        <p>You have completed <%= @legislative_period.country[:name] %>.</p>
+        <p>
+            <a class="button button--secondary" href="<%= url "/countries" %>">
+                Choose another country
+            </a>
+        </p>
+
+      <% else %>
+        <p>You have completed <%= @legislative_period.country[:name] %> <%= @legislative_period.legislature[:name] %>.</p>
+        <p>
+            <a class="button button--secondary" href="<%= url "/countries/#{@legislative_period.country[:slug]}" %>">
+                Choose another legislature
+            </a>
+        </p>
+      <% end %>
     </div>
 </div>
 
@@ -63,6 +64,6 @@
 </div>
 
 <% else %>
-  <h2>Nothing to do!</h2> 
+  <h2>Nothing to do!</h2>
   <p><%= @legislative_period.country[:name] %> already publishes gender information for its legislators — but why not <a href="/countries">pick another country</a>?</p>
 <% end %>
