@@ -26,7 +26,8 @@ var updateProgressBar = function updateProgressBar(){
     width: percent + '%'
   });
   if (percent === 100) {
-    $('.js-controls').hide();
+    $('.js-controls').fadeOut(100);
+    $('.level-complete').fadeIn(100);
   }
 }
 
