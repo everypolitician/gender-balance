@@ -277,7 +277,7 @@ body.person-page {
 
 .controls {
     position: absolute;
-    bottom: 0;
+    bottom: 0.5em;
     left: 0;
     right: 0;
     z-index: 10;
@@ -324,13 +324,15 @@ body.person-page {
 
 .controls__male,
 .controls__female {
-    width: 6em;
-    line-height: 6em;
-    border-radius: 6em;
+    font-size: 0.9em;
+
+    width: 5.5em;
+    line-height: 5.5em;
+    border-radius: 5.5em;
     background-color: $color_orange;
 
     bottom: 1em;
-    margin-left: -8em;
+    margin-left: -8.5em;
 
     &:hover,
     &:focus {
@@ -344,7 +346,7 @@ body.person-page {
 
 .controls__female {
     background-color: $color_green;
-    margin-left: 2em;
+    margin-left: 3em;
 
     &:hover,
     &:focus {
@@ -352,16 +354,17 @@ body.person-page {
     }
 }
 
-.controls__other,
 .controls__skip {
-    width: 4em;
-    line-height: 4em;
-    border-radius: 4em;
-    font-size: 0.8em;
+    font-size: 0.9em;
+
+    width: 5em;
+    line-height: 1.2em;
+    border-radius: 5em;
+    padding: 1.3em 0;
     background-color: $color_grey;
 
-    bottom: 0.5em;
-    margin-left: -2em;
+    bottom: 3.2em;
+    margin-left: -2.5em;
 
     &:hover,
     &:focus {
@@ -369,14 +372,29 @@ body.person-page {
     }
 
     &:active {
-        margin-bottom: -0.3em;
+        margin-bottom: -0.2em;
     }
 }
 
-.controls__skip {
-    bottom: 5.5em;
-    line-height: 1.2em;
-    padding: 0.8em 0;
+.controls__other {
+    font-size: 0.7em;
+
+    width: 5em;
+    line-height: 3em;
+    border-radius: 3em;
+    background-color: mix($color_grey, $color_off_white, 80%);
+
+    bottom: 0;
+    margin-left: -2.5em;
+
+    &:hover,
+    &:focus {
+        background-color: darken(mix($color_grey, $color_off_white, 80%), 5%);
+    }
+
+    &:active {
+        margin-bottom: -0.3em;
+    }
 }
 
 .controls__google {
