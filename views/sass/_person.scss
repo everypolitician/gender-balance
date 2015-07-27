@@ -148,6 +148,8 @@ body.person-page {
 
 .person__name {
     font-size: 1.5em;
+    width: 100%;
+    word-wrap: break-word;
 
     @media (min-height: 600px), (min-width: $screen_medium_min) {
         font-size: 1.8em;
