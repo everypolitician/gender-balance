@@ -204,13 +204,6 @@ body.person-page {
     height: 11em;
     padding: 1em;
 
-    // Vertically centre the card contents (in modern browsers)
-    @include flexbox();
-    @include flex-align(center);
-    @include flex-justify(center);
-    -webkit-box-orient: vertical;
-    @include vendor-prefix(flex-direction, column);
-
     & > * {
         margin: 0;
     }
