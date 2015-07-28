@@ -51,7 +51,11 @@ get '/*.css' do |filename|
 end
 
 get '/' do
-  erb :index
+  if current_user
+    erb :home_loggedin
+  else
+    erb :home_anonymous
+  end
 end
 
 get '/login' do

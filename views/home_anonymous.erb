@@ -1,0 +1,59 @@
+<% content_for :body_class do %>home-page home-page--anonymous<% end %>
+
+<div class="home-hero">
+    <div class="container">
+        <h1>Politics:<br>A man’s world?</h1>
+    </div>
+</div>
+
+<div class="home-context">
+    <div class="container">
+        <p>From Afghanistan to Zimbabwe, there are over 180 parliaments in the world — but what percentage of their members are&nbsp;female?</p>
+        <p>The crazy thing is, <strong>there’s no definitive&nbsp;figure.</strong></p>
+    </div>
+</div>
+
+<div class="home-primary">
+    <div class="container">
+        <div class="home-primary__text">
+            <h2>Let’s get that changed.</h2>
+            <div class="home-primary__login">
+                <a class="button button--primary" href="<%= url '/countries' %>">Play Gender Balance!</a>
+                <p class="played-before">Played before? <a href="<%= url '/login' %>">Log straight in.</a></p>
+            </div>
+            <div class="home-primary__leaderboard">
+                <h3>Top players</h3>
+                <ul class="home-primary__leaderboard__top-5">
+                    <li>Tony <span class="leaderboard-score">2591</span></li>
+                    <li>Kätlin <span class="leaderboard-score">893</span></li>
+                    <li>Myf <span class="leaderboard-score">795</span></li>
+                    <li>Liz <span class="leaderboard-score">650</span></li>
+                    <li>Chris <span class="leaderboard-score">555</span></li>
+                </ul>
+                <ul class="home-primary__leaderboard__next-5">
+                    <li>Gareth <span class="leaderboard-score">249</span></li>
+                    <li>Matthew <span class="leaderboard-score">240</span></li>
+                    <li>Dave <span class="leaderboard-score">217</span></li>
+                    <li>Mark <span class="leaderboard-score">213</span></li>
+                    <li>Tom <span class="leaderboard-score">204</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="home-primary__screenshot">
+            <div class="screenshot-wrapper">
+                <img src="/img/screencast.gif" width="232" height="330">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="home-secondary">
+    <div class="container">
+        <p>By playing this simple game, you can help uncover the true gender balance across individual parliaments, and the&nbsp;world.</p>
+        <a class="button button--primary" href="<%= url '/about' %>">Find out how</a>
+    </div>
+</div>
+
+<p class="home-attribution">
+    Header image: <a href="https://www.flickr.com/photos/uk_parliament/14599371450/">Mark Twain visits Parliament 1907</a>, CC-BY-NC UK Parliament
+</p>
