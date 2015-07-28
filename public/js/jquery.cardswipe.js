@@ -99,6 +99,10 @@
       // Flatten the overlaysSelector list into a string for
       // simple use when we want to match any overlay in a card.
       self.overlaySelectorAll = self.overlaySelectorAll.join(', ');
+
+      if('onInit' in self.settings){
+        self.settings.onInit(self.$element);
+      }
     },
 
     getCards: function(){
