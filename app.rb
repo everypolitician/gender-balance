@@ -32,6 +32,7 @@ end
 
 require 'helpers'
 require 'app/models'
+require 'app/jobs'
 
 helpers Helpers
 
