@@ -41,7 +41,8 @@ module Helpers
         politician_id: legislative_period.unique_people.map { |row| row[:id] },
         legislature_slug: legislative_period.legislature[:slug]
       ).count
-    complete_people = response_count
+    gender_count = legislative_period.unique_people.count { |p| p[:gender] }
+    complete_people = (response_count + gender_count)
     (complete_people.to_f / total_people.to_f) * 100
   end
 
