@@ -118,10 +118,26 @@ $(function(){
 
         updateGoogleLink($stack);
         updateProgressBar();
+      },
+      onKeyboardShortcut: function(direction){
+        ga('send', 'event', 'cardSwipe', 'keyboardShortcut', direction);
+      },
+      onButtonPress: function(direction){
+        ga('send', 'event', 'cardSwipe', 'buttonPress', direction);
+      },
+      onSwipe: function(direction){
+        ga('send', 'event', 'cardSwipe', 'swipe', direction);
       }
+    });
+
+    $('.controls__google a').on('click', function(){
+      ga('send', 'event', 'googleThem', 'click');
     });
   }
 
-  $('[data-filter-elements]').on('keyup', filterElements);
+  $('[data-filter-elements]').on('keyup', filterElements).one('focus', function(){
+    var label = $('label[for="' + $(this).attr('id') + '"]').text();
+    ga('send', 'event', 'filterElements', 'focus', label);
+  });
 
 });
