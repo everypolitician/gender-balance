@@ -31,6 +31,8 @@ RuboCop::RakeTask.new
 
 task default: :test
 
+task cache: ['cache:country_person_counts', 'cache:legislative_periods']
+
 namespace :cache do
   task country_person_counts: :app do
     Country.all.each do |country|
