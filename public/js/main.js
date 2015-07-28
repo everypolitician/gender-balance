@@ -127,6 +127,9 @@ $(function(){
       },
       onSwipe: function(direction){
         ga('send', 'event', 'cardSwipe', 'swipe', direction);
+      },
+      onInit: function($stack){
+        updateGoogleLink($stack);
       }
     });
 
