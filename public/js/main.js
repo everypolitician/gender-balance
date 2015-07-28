@@ -101,7 +101,7 @@ $(function(){
           $button: $('.js-choose-other'),
           overlaySelector: '.js-overlay-other'
         },
-        dontknow: {
+        skip: {
           direction: 'up',
           $button: $('.js-choose-dontknow'),
           overlaySelector: '.js-overlay-dontknow'
