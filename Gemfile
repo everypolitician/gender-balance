@@ -23,6 +23,7 @@ gem 'sinatra-contrib', require: 'sinatra/content_for'
 gem 'yajl-ruby', require: 'yajl'
 gem 'dalli'
 gem 'pry'
+gem 'sidekiq'
 
 group :test do
   gem 'minitest'

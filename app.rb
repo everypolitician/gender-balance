@@ -32,6 +32,7 @@ end
 
 require 'helpers'
 require 'app/models'
+require 'app/jobs'
 
 helpers Helpers
 
@@ -65,6 +66,7 @@ end
 %w(get post).each do |method|
   send(method, '/event_handler') do
     settings.cache_client.delete('countries.json')
+    UpdateCacheJob.perform_async
     'ok'
   end
 end
