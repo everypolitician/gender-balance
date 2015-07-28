@@ -14,7 +14,7 @@ body.person-page {
     }
 }
 
-.tindr-cards {
+.person-cards {
     position: relative;
     height: 16em;
     text-align: center;
@@ -28,7 +28,7 @@ body.person-page {
     }
 }
 
-.tindr-card {
+.person-card {
     background-color: $color_white;
     padding: 1em;
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
@@ -92,38 +92,38 @@ body.person-page {
     }
 }
 
-.tindr-card--green {
+.person-card--green {
     background-color: $color_green;
     color: #fff;
 
-    .tindr-card + & {
+    .person-card + & {
         background-color: darken($color_green, 3%);
     }
 }
 
-.tindr-card--orange {
+.person-card--orange {
     background-color: $color_light_orange;
     color: #fff;
 
-    .tindr-card + & {
+    .person-card + & {
         background-color: darken($color_light_orange, 3%);
     }
 }
 
-.tindr-card--grey {
+.person-card--grey {
     background-color: $color_mid_grey;
     color: #fff;
 
-    .tindr-card + & {
+    .person-card + & {
         background-color: darken($color_mid_grey, 3%);
     }
 }
 
-.tindr-card--blue {
+.person-card--blue {
     background-color: $color_blue;
     color: #fff;
 
-    .tindr-card + & {
+    .person-card + & {
         background-color: darken($color_blue, 3%);
     }
 }
@@ -183,7 +183,11 @@ body.person-page {
     background-color: rgba($color_green, 0.3);
 }
 
-.tindr-card--advice,
+.person__decision--dontknow {
+    background-color: rgba($color_grey, 0.3);
+}
+
+.person-card--advice,
 .level-complete {
     h2 + p,
     p + p {
@@ -191,7 +195,7 @@ body.person-page {
     }
 }
 
-.tindr-card--advice__hint {
+.person-card--advice__hint {
     font-size: 0.9em;
     color: rgba(255,255,255,0.8);
 }
@@ -221,21 +225,21 @@ body.person-page {
 }
 
 @media (min-height: 500px) {
-    .tindr-card,
+    .person-card,
     .level-complete {
         height: 12em;
     }
 }
 
 @media (min-height: 540px) {
-    .tindr-card,
+    .person-card,
     .level-complete {
         height: 14em;
     }
 }
 
 @media (min-height: 600px) {
-    .tindr-card,
+    .person-card,
     .level-complete {
         height: 15em;
     }

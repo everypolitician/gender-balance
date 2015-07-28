@@ -108,6 +108,7 @@ post '/onboarding-complete' do
   else
     session[:completed_onboarding] = true
   end
+  'ok'
 end
 
 before '/countries*' do

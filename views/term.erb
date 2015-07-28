@@ -8,8 +8,8 @@
 
 <div class="progress-bar progress-bar--healthy" data-total="<%= @legislative_period.unique_people.size %>"><div style="width: <%= percent_complete_term(@legislative_period) %>%"></div></div>
 
-<div class="tindr-cards js-jtinder">
-    <ul>
+<div class="person-cards">
+    <ul class="js-cardswipe">
         <% @people.take(2).each do |person| %>
             <%= erb :person_partial, locals: { person: person } %>
         <% end %>
@@ -49,17 +49,17 @@
     </div>
 </div>
 
-<ul class="js-extra-people" style="display: none">
+<ul class="js-extra-cards" style="display: none">
     <% @people.drop(2).each do |person| %>
         <%= erb :person_partial, locals: { person: person } %>
     <% end %>
 </ul>
 
 <div class="controls js-controls">
-    <div class="controls__skip js-person-skip" href="#">Don’t<br>know</div>
-    <div class="controls__male js-jtinder-dislike" href="#">Male</div>
-    <div class="controls__female js-jtinder-like" href="#">Female</div>
-    <div class="controls__other js-person-other" href="#">Other</div>
+    <div class="controls__skip js-choose-dontknow" href="#">Don’t<br>know</div>
+    <div class="controls__male js-choose-male" href="#">Male</div>
+    <div class="controls__female js-choose-female" href="#">Female</div>
+    <div class="controls__other js-choose-other" href="#">Other</div>
     <span class="controls__google">Not sure? <a class="js-google-link" href="#" target="_blank"><i class="fa fa-search"></i>Google them!</a></span>
 </div>
 
