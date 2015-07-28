@@ -32,7 +32,7 @@ body {
 
 @media (min-width: $screen_medium_min) {
     body {
-        padding-top: 2em;
+        padding-top: 1em;
     }
 
     .app {
@@ -43,6 +43,12 @@ body {
     .home-primary, .home-secondary {
         max-width: 700px;
         margin: 0 auto;
+    }
+
+    @media (min-height: 640px){
+        body {
+            padding-top: 2em;
+        }
     }
 }
 
