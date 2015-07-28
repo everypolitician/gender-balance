@@ -51,12 +51,13 @@ var filterElements = function filterElements(){
 }
 
 function saveResponse(response) {
-  if(window.onboarding && $('.js-extra-cards li, .js-cardswipe li').length === 0){
-    return $.ajax({
-      url: '/onboarding-complete',
-      method: 'POST'
-    });
-
+  if(window.onboarding) {
+    if ($('.js-extra-cards li, .js-cardswipe li').length === 0){
+      return $.ajax({
+        url: '/onboarding-complete',
+        method: 'POST'
+      });
+    }
   } else {
     delete response.googleLink;
 
