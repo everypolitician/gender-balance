@@ -31,6 +31,8 @@ RuboCop::RakeTask.new
 
 task default: :test
 
+task cache: ['cache:country_person_counts', 'cache:legislative_periods']
+
 namespace :cache do
   task country_person_counts: :app do
     Country.all.each do |country|
@@ -38,7 +40,9 @@ namespace :cache do
       country_count = CountryCount.find_or_create(country_code: country[:code])
       counts = country[:legislatures].map { |l| l[:person_count] }
       country_count.person_count = counts.reduce(:+)
-      country_count.gender_count = country.gender_count
+      if country_count.respond_to?(:gender_count=)
+        country_count.gender_count = country.gender_count
+      end
       country_count.save
     end
   end
