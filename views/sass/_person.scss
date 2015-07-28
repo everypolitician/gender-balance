@@ -16,15 +16,27 @@ body.person-page {
 
 .person-cards {
     position: relative;
-    height: 16em;
+    height: 10em;
     text-align: center;
-
-    @media (min-width: $screen_medium_min) {
-        padding-top: 1em;
-    }
 
     & > ul {
         @extend .unstyled-list;
+    }
+
+    @media (min-height: 460px) {
+        height: 11em;
+    }
+
+    @media (min-height: 500px) {
+        height: 12em;
+    }
+
+    @media (min-height: 540px) {
+        height: 14em;
+    }
+
+    @media (min-height: 600px) {
+        height: 15em;
     }
 }
 
@@ -39,7 +51,8 @@ body.person-page {
     left: 50%;
     width: 16em;
     margin-left: -8em;
-    height: 11em;
+    height: 10em;
+    line-height: 1.2em;
 
     // Vertically centre the card contents (in modern browsers)
     @include flexbox();
@@ -54,6 +67,22 @@ body.person-page {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+    @media (min-height: 460px) {
+        height: 11em;
+    }
+
+    @media (min-height: 500px) {
+        height: 12em;
+    }
+
+    @media (min-height: 540px) {
+        height: 14em;
+    }
+
+    @media (min-height: 600px) {
+        height: 15em;
+    }
 
     &:first-child {
         cursor: move;
@@ -130,14 +159,22 @@ body.person-page {
 
 .person__picture {
     border-radius: 100%;
-    max-height: 4em;
+    max-height: 3em;
     width: auto;
+
+    @media (min-height: 460px) {
+        max-height: 3.5em;
+    }
+
+    @media (min-height: 500px) {
+        max-height: 4em;
+    }
 
     @media (min-height: 540px) {
         max-height: 4.5em;
     }
 
-    @media (min-height: 600px), (min-width: $screen_medium_min) {
+    @media (min-height: 600px) {
         max-height: 5em;
     }
 
@@ -151,7 +188,7 @@ body.person-page {
     width: 100%;
     word-wrap: break-word;
 
-    @media (min-height: 600px), (min-width: $screen_medium_min) {
+    @media (min-height: 600px) {
         font-size: 1.8em;
     }
 }
@@ -161,7 +198,7 @@ body.person-page {
     margin-top: 0.2em;
     font-size: 0.9em;
 
-    @media (min-height: 600px), (min-width: $screen_medium_min) {
+    @media (min-height: 600px) {
         font-size: 1em;
     }
 }
@@ -189,9 +226,23 @@ body.person-page {
 
 .person-card--advice,
 .level-complete {
-    h2 + p,
-    p + p {
+
+    h2, p {
         margin-top: 0.5em;
+    }
+
+    & > :first-child {
+        margin-top: 0;
+    }
+
+    @media (max-height: 459px) {
+        h2 {
+            font-size: 1.3em;
+        }
+
+        p {
+            font-size: 0.9em;
+        }
     }
 }
 
@@ -207,8 +258,10 @@ body.person-page {
     left: 50%;
     width: 16em;
     margin-left: -8em;
-    height: 11em;
     padding: 1em;
+    line-height: 1.2em;
+
+    display: none; // Will be shown by javascript when level is complete.
 
     & > * {
         margin: 0;
@@ -224,30 +277,9 @@ body.person-page {
     }
 }
 
-@media (min-height: 500px) {
-    .person-card,
-    .level-complete {
-        height: 12em;
-    }
-}
-
-@media (min-height: 540px) {
-    .person-card,
-    .level-complete {
-        height: 14em;
-    }
-}
-
-@media (min-height: 600px) {
-    .person-card,
-    .level-complete {
-        height: 15em;
-    }
-}
-
 .controls {
     position: absolute;
-    bottom: 0;
+    bottom: 0.5em;
     left: 0;
     right: 0;
     z-index: 10;
@@ -268,6 +300,10 @@ body.person-page {
         position: relative;
         height: 12em;
         bottom: 0;
+
+        .onboarding-page & {
+            height: 10em; // Onboarding has no Google link, so can be shorter
+        }
     }
 }
 
@@ -290,13 +326,15 @@ body.person-page {
 
 .controls__male,
 .controls__female {
-    width: 6em;
-    line-height: 6em;
-    border-radius: 6em;
+    font-size: 0.9em;
+
+    width: 5.5em;
+    line-height: 5.5em;
+    border-radius: 5.5em;
     background-color: $color_orange;
 
     bottom: 1em;
-    margin-left: -8em;
+    margin-left: -8.5em;
 
     &:hover,
     &:focus {
@@ -310,7 +348,7 @@ body.person-page {
 
 .controls__female {
     background-color: $color_green;
-    margin-left: 2em;
+    margin-left: 3em;
 
     &:hover,
     &:focus {
@@ -318,16 +356,17 @@ body.person-page {
     }
 }
 
-.controls__other,
 .controls__skip {
-    width: 4em;
-    line-height: 4em;
-    border-radius: 4em;
-    font-size: 0.8em;
+    font-size: 0.9em;
+
+    width: 5em;
+    line-height: 1.2em;
+    border-radius: 5em;
+    padding: 1.3em 0;
     background-color: $color_grey;
 
-    bottom: 0.5em;
-    margin-left: -2em;
+    bottom: 3.2em;
+    margin-left: -2.5em;
 
     &:hover,
     &:focus {
@@ -335,14 +374,29 @@ body.person-page {
     }
 
     &:active {
-        margin-bottom: -0.3em;
+        margin-bottom: -0.2em;
     }
 }
 
-.controls__skip {
-    bottom: 5.5em;
-    line-height: 1.2em;
-    padding: 0.8em 0;
+.controls__other {
+    font-size: 0.7em;
+
+    width: 5em;
+    line-height: 3em;
+    border-radius: 3em;
+    background-color: mix($color_grey, $color_off_white, 80%);
+
+    bottom: 0;
+    margin-left: -2.5em;
+
+    &:hover,
+    &:focus {
+        background-color: darken(mix($color_grey, $color_off_white, 80%), 5%);
+    }
+
+    &:active {
+        margin-bottom: -0.3em;
+    }
 }
 
 .controls__google {
