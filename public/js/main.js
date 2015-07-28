@@ -109,9 +109,9 @@ $(function(){
       onChoiceMade: function(choice, $card, $stack){
         response = $card.data();
         response.choice = choice;
-        saveResponse(response);
 
         $card.remove();
+        saveResponse(response);
 
         $('.js-extra-cards').children().eq(0).appendTo($stack);
 
