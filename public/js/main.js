@@ -13,7 +13,7 @@ var hideMessages = function hideMessages(){
 }
 
 var updateGoogleLink = function updateGoogleLink($stack){
-  var link = $stack.eq(0).attr('data-google-link');
+  var link = $stack.find('li:first').data('google-link');
   $('.js-google-link').attr('href', link);
 }
 
@@ -127,6 +127,9 @@ $(function(){
       },
       onSwipe: function(direction){
         ga('send', 'event', 'cardSwipe', 'swipe', direction);
+      },
+      onInit: function($stack){
+        updateGoogleLink($stack);
       }
     });
 
