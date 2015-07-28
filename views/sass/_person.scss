@@ -159,23 +159,27 @@ body.person-page {
 
 .person__picture {
     border-radius: 100%;
-    max-height: 3em;
-    width: auto;
+    height: 3em;
+    width: 3em;
 
     @media (min-height: 460px) {
-        max-height: 3.5em;
+        height: 3.5em;
+        width: 3.5em;
     }
 
     @media (min-height: 500px) {
-        max-height: 4em;
+        height: 4em;
+        width: 4em;
     }
 
     @media (min-height: 540px) {
-        max-height: 4.5em;
+        height: 4.5em;
+        width: 4.5em;
     }
 
     @media (min-height: 600px) {
-        max-height: 5em;
+        height: 5em;
+        width: 5em;
     }
 
     & + .person__name {
