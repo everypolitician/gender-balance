@@ -210,6 +210,8 @@ body.person-page {
     height: 11em;
     padding: 1em;
 
+    display: none; // Will be shown by javascript when level is complete.
+
     & > * {
         margin: 0;
     }
