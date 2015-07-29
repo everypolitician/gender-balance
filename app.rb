@@ -102,8 +102,9 @@ end
 end
 
 get '/auth/failure' do
-  flash[:notice] = params[:message]
-  redirect '/'
+  logger.info "Auth failure: #{params[:message]}"
+  flash[:notice] = "There was a problem authenticating you. Please try again."
+  redirect '/login'
 end
 
 get '/onboarding' do

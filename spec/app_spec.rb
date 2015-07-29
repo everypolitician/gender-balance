@@ -58,7 +58,7 @@ describe 'App' do
         OmniAuth.config.mock_auth[:twitter] = :invalid_credentials
         get '/auth/twitter'
         3.times { follow_redirect! }
-        assert last_response.body.include?('invalid_credentials')
+        assert last_response.body.include?('There was a problem authenticating you. Please try again.')
       end
     end
 
