@@ -130,9 +130,19 @@ body.person-page {
     }
 }
 
+.person-card--green,
+.person-card--orange,
+.person-card--grey,
+.person-card--blue {
+    color: #fff;
+
+    .person-card--advice__hint {
+        color: rgba(255,255,255,0.8);
+    }
+}
+
 .person-card--green {
     background-color: $color_green;
-    color: #fff;
 
     .person-card + & {
         background-color: darken($color_green, 3%);
@@ -141,7 +151,6 @@ body.person-page {
 
 .person-card--orange {
     background-color: $color_light_orange;
-    color: #fff;
 
     .person-card + & {
         background-color: darken($color_light_orange, 3%);
@@ -150,7 +159,6 @@ body.person-page {
 
 .person-card--grey {
     background-color: $color_mid_grey;
-    color: #fff;
 
     .person-card + & {
         background-color: darken($color_mid_grey, 3%);
@@ -159,7 +167,6 @@ body.person-page {
 
 .person-card--blue {
     background-color: $color_blue;
-    color: #fff;
 
     .person-card + & {
         background-color: darken($color_blue, 3%);
@@ -261,7 +268,8 @@ body.person-page {
 
 .person-card--advice__hint {
     font-size: 0.9em;
-    color: rgba(255,255,255,0.8);
+    color: mix($color_mid_grey, #fff, 50%);
+    margin-top: 0.5em;
 }
 
 .level-complete {
