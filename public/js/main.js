@@ -54,6 +54,7 @@ var filterElements = function filterElements(){
 function saveResponse(response) {
   if(window.onboarding) {
     if ($('.js-extra-cards li, .js-cardswipe li').length === 0){
+      $('.level-complete').fadeIn(100);
       return $.ajax({
         url: '/onboarding-complete',
         method: 'POST'
