@@ -18,8 +18,22 @@ var updateGoogleLink = function updateGoogleLink($stack){
 }
 
 var levelComplete = function onLevelComplete(){
-  $('.js-controls').fadeOut(100);
-  $('.level-complete').fadeIn(100);
+  $('.controls').fadeOut(200);
+  $('.level-complete').fadeIn(200);
+  setTimeout(trophyFlash, 200);
+}
+
+var trophyFlash = function trophyFlash(){
+  $('.trophy__flash').show().animate({
+    transform: 'scale(6)',
+    opacity: 0
+  }, 200, function(){
+    $(this).css({
+      display: '',
+      transform: '',
+      opacity: ''
+    })
+  });
 }
 
 var updateProgressBar = function updateProgressBar(){
@@ -60,26 +74,23 @@ var filterElements = function filterElements(){
   });
 }
 
-function saveResponse(response) {
-  if(window.onboarding) {
-    if ($('.js-extra-cards li, .js-cardswipe li').length === 0){
-      $('.level-complete').fadeIn(100);
-      return $.ajax({
-        url: '/onboarding-complete',
-        method: 'POST'
-      });
-    }
-  } else {
-    delete response.googleLink;
+var saveResponse = function saveResponse(response) {
+  delete response.googleLink;
 
-    return $.ajax({
-      url: '/responses',
-      method: 'POST',
-      data: {
-        response: response
-      }
-    });
-  }
+  return $.ajax({
+    url: '/responses',
+    method: 'POST',
+    data: {
+      response: response
+    }
+  });
+}
+
+var saveOnboardingCompletion = function saveOnboardingCompletion(){
+  return $.ajax({
+    url: '/onboarding-complete',
+    method: 'POST'
+  });
 }
 
 var displayClickAnimation = function displayClickAnimation($button){
@@ -134,10 +145,16 @@ $(function(){
         // Give the user feedback that a choice has been made
         displayClickAnimation($button);
 
-        // Save the user's choice
-        response = $card.data();
-        response.choice = choice;
-        saveResponse(response);
+        if(window.onboarding == false) {
+          // Save the user's choice
+          response = $card.data();
+          response.choice = choice;
+          saveResponse(response);
+
+        } else if (window.onboarding && $stack.children().length == 1){
+          // They've finished the onboarding
+          saveOnboardingCompletion();
+        }
 
         // While response is being saved, animate and then remove the top card...
         animateCurrentCard(function(){
@@ -153,6 +170,7 @@ $(function(){
         // ...And update the various bits of UI relating to the current card
         updateGoogleLink($stack);
         updateProgressBar();
+
       },
       onKeyboardShortcut: function(direction){
         ga('send', 'event', 'cardSwipe', 'keyboardShortcut', direction);

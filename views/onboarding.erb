@@ -4,6 +4,8 @@
     <a class="app-header__back" href="/"><i class="fa fa-chevron-left"></i></a>
 <% end %>
 
+<div class="progress-bar progress-bar--healthy" data-total="12"><div style="width: 0%"></div></div>
+
 <div class="person-cards">
     <ul class="js-cardswipe">
         <li class="person-card person-card--advice person-card--green">
@@ -24,6 +26,10 @@
         </li>
     </ul>
     <div class="level-complete">
+        <div class="trophy">
+            <img src="/img/winners-trophy.png" width="180" height="240" alt="">
+            <div class="trophy__flash"></div>
+        </div>
         <h2>Well done!</h2>
         <p>You’re ready to start playing for real, with a country you know&nbsp;well.</p>
         <p><a class="button button--primary" href="<%= url '/countries' %>">Play for real!</a></p>
