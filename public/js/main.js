@@ -17,17 +17,26 @@ var updateGoogleLink = function updateGoogleLink($stack){
   $('.js-google-link').attr('href', link);
 }
 
+var levelComplete = function onLevelComplete(){
+  $('.js-controls').fadeOut(100);
+  $('.level-complete').fadeIn(100);
+}
+
 var updateProgressBar = function updateProgressBar(){
   var total = $('.progress-bar').data('total');
-  var remaining = $('.js-extra-cards li, .js-cardswipe li').length;
+
+  // Cards in the DOM, minus any that are being animated (ie: removed)
+  var remaining = $('.js-extra-cards li, .js-cardswipe li').not('.animating').length;
+
   var done = total - remaining;
   var percent = (done / total) * 100;
+
   $('.progress-bar div').animate({
     width: percent + '%'
   });
+
   if (percent === 100) {
-    $('.js-controls').fadeOut(100);
-    $('.level-complete').fadeIn(100);
+    levelComplete();
   }
 }
 
@@ -73,6 +82,19 @@ function saveResponse(response) {
   }
 }
 
+var displayClickAnimation = function displayClickAnimation($button){
+  $('.js-click-animation', $button).show().animate({
+    transform: 'scale(3)',
+    opacity: 0
+  }, 200, function(){
+    $(this).css({
+      display: '',
+      transform: '',
+      opacity: ''
+    });
+  })
+}
+
 $(function(){
 
   // Animate any messages that have been sent from the server
@@ -108,18 +130,27 @@ $(function(){
           overlaySelector: '.js-overlay-dontknow'
         }
       },
-      onChoiceMade: function(choice, $card, $stack){
+      onChoiceMade: function(choice, $card, $button, $stack, animateCurrentCard){
+        // Give the user feedback that a choice has been made
+        displayClickAnimation($button);
+
+        // Save the user's choice
         response = $card.data();
         response.choice = choice;
-
-        $card.remove();
         saveResponse(response);
 
+        // While response is being saved, animate and then remove the top card...
+        animateCurrentCard(function(){
+          $card.remove();
+        });
+
+        // ...Append a new card to the bottom of the stack...
         var $newCard = $('.js-extra-cards').children().eq(0);
         var $newCardImage = $newCard.find('.js-person__picture');
         $newCardImage.attr('src', $newCardImage.data('src'));
         $newCard.appendTo($stack);
 
+        // ...And update the various bits of UI relating to the current card
         updateGoogleLink($stack);
         updateProgressBar();
       },

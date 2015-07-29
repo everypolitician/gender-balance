@@ -46,7 +46,7 @@ body.person-page {
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 
     position: absolute;
-    z-index: 2;
+    z-index: 3;
     top: 0;
     left: 50%;
     width: 16em;
@@ -84,6 +84,11 @@ body.person-page {
         height: 15em;
     }
 
+    @media (min-width: $screen_small_min) {
+        width: 18em;
+        margin-left: -9em;
+    }
+
     &:first-child {
         cursor: move;
         cursor: -webkit-grab;
@@ -104,10 +109,7 @@ body.person-page {
         }
     }
 
-    & > * {
-        margin: 0;
-    }
-
+    // Cards after the first one should look smaller and greyer...
     & + & {
         z-index: 1;
         font-size: 0.95em;
@@ -115,9 +117,16 @@ body.person-page {
         background-color: mix($color_white, #eee, 50%);
     }
 
-    @media (min-width: $screen_small_min) {
-        width: 18em;
-        margin-left: -9em;
+    // ...Unless the first card is animating
+    &.animating + & {
+        z-index: 2;
+        font-size: 1em;
+        top: 0;
+        background-color: $color_white;
+    }
+
+    & > * {
+        margin: 0;
     }
 }
 
@@ -324,6 +333,19 @@ body.person-page {
     &:focus {
         color: $color_white;
     }
+
+    .js-click-animation {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1; // behind the parent element (the button)
+        border-radius: inherit;
+        background-color: inherit;
+        opacity: 0.3;
+        display: none; // will be shown with javascript
+    }
 }
 
 .controls__male,
@@ -341,10 +363,6 @@ body.person-page {
     &:hover,
     &:focus {
         background-color: darken($color_orange, 5%);
-    }
-
-    &:active {
-        margin-bottom: -0.2em;
     }
 }
 
@@ -373,10 +391,6 @@ body.person-page {
     &:hover,
     &:focus {
         background-color: darken($color_grey, 5%);
-    }
-
-    &:active {
-        margin-bottom: -0.2em;
     }
 }
 
