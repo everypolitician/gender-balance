@@ -14,10 +14,12 @@
   // Set up variables common to all instances of the plugin.
   var pluginName = "cardSwipe";
   var defaults = {
-    onChoiceMade: function(choice, $card, $stack){
+    onChoiceMade: function(choice, $card, $button, $stack, animateCurrentCard){
       // Hopefully the user will replace this function
       // with something more useful!
-      $card.remove();
+      animateCurrentCard(function(){
+        $card.remove();
+      });
     },
     $keyListenerContext: $(document),
     keyCodeForDirection: {
@@ -173,16 +175,24 @@
         var animationSpeed = self.settings.animationSpeed / 2;
       }
 
-      $currentCard.animate(
-        animateToCss,
-        animationSpeed,
-        function(){
-          self.settings.onChoiceMade(
-            choiceName,
-            self.getCurrentCard(),
-            self.$element
-          );
-        }
+      // User-specified onChoiceMade functions should call this to
+      // animate the current card off the stack. They can supply a
+      // callback in onAnimationComplete, to be run after the
+      // animation has finished.
+      var animateCurrentCard = function(onAnimationComplete){
+        $currentCard.addClass('animating').animate(
+          animateToCss,
+          animationSpeed,
+          onAnimationComplete
+        );
+      }
+
+      self.settings.onChoiceMade(
+        choiceName,
+        self.getCurrentCard(),
+        choiceSettings.$button,
+        self.$element,
+        animateCurrentCard
       );
     },
 
