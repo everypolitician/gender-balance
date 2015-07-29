@@ -55,7 +55,6 @@ get '/' do
     .group_and_count(:name)
     .order(Sequel.desc(:count))
     .limit(10)
-  erb :leaderboard
   if current_user
     erb :home_loggedin
   else
