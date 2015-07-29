@@ -8,7 +8,7 @@ body.person-page {
     background-color: darken($color_off_white, 4%);
     box-shadow: inset 0 0 0 1px darken($color_off_white, 8%);
 
-    @media (min-width: $screen_medium_min) {
+    @media (min-width: $screen_small_min) {
         max-width: 18em;
         margin-bottom: 1em;
     }
@@ -141,7 +141,8 @@ body.person-page {
     }
 }
 
-.person-card--green {
+.person-card--green,
+.person-card.animating + .person-card--green {
     background-color: $color_green;
 
     .person-card + & {
@@ -149,7 +150,8 @@ body.person-page {
     }
 }
 
-.person-card--orange {
+.person-card--orange,
+.person-card.animating + .person-card--orange {
     background-color: $color_light_orange;
 
     .person-card + & {
@@ -157,7 +159,8 @@ body.person-page {
     }
 }
 
-.person-card--grey {
+.person-card--grey,
+.person-card.animating + .person-card--grey {
     background-color: $color_mid_grey;
 
     .person-card + & {
@@ -165,7 +168,8 @@ body.person-page {
     }
 }
 
-.person-card--blue {
+.person-card--blue,
+.person-card.animating + .person-card--blue {
     background-color: $color_blue;
 
     .person-card + & {
@@ -450,4 +454,35 @@ body.person-page {
     .fa {
         margin-right: 0.3em;
     }
+}
+
+.trophy {
+    position: relative;
+
+    img {
+        width: auto;
+        height: 120px;
+
+        @media(min-height: 460px) {
+            height: 180px;
+        }
+
+        @media(min-height: 550px) {
+            height: 240px;
+        }
+    }
+}
+
+.trophy__flash {
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    margin-left: -50px;
+    margin-top: -50px;
+    width: 100px;
+    height: 100px;
+    background-color: #fff;
+    border-radius: 100%;
+    display: none; // Will be shown by javascript
 }
