@@ -115,7 +115,10 @@ $(function(){
         $card.remove();
         saveResponse(response);
 
-        $('.js-extra-cards').children().eq(0).appendTo($stack);
+        var $newCard = $('.js-extra-cards').children().eq(0);
+        var $newCardImage = $newCard.find('.js-person__picture');
+        $newCardImage.attr('src', $newCardImage.data('src'));
+        $newCard.appendTo($stack);
 
         updateGoogleLink($stack);
         updateProgressBar();

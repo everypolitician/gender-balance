@@ -11,7 +11,7 @@
 <div class="person-cards">
     <ul class="js-cardswipe">
         <% @people.take(2).each do |person| %>
-            <%= erb :person_partial, locals: { person: person } %>
+            <%= erb :person_partial, locals: { person: person, preload_image: true } %>
         <% end %>
     </ul>
     <div class="level-complete">
@@ -51,7 +51,7 @@
 
 <ul class="js-extra-cards" style="display: none">
     <% @people.drop(2).each do |person| %>
-        <%= erb :person_partial, locals: { person: person } %>
+        <%= erb :person_partial, locals: { person: person, preload_image: false } %>
     <% end %>
 </ul>
 
