@@ -130,6 +130,7 @@ $(function(){
       },
       onInit: function($stack){
         updateGoogleLink($stack);
+        $('.level-complete').hide();
       }
     });
 
