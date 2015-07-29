@@ -20,7 +20,7 @@
       <% if @legislative_period.previous_legislative_period %>
         <% previous_count = @legislative_period.previous_legislative_periods.count %>
         <p>
-            You have completed <b><%= @legislative_period.legislature[:name] %> <%= @legislative_period.name %></b>.
+            You have completed <b><%= @legislative_period.name %></b>.
             There <%= previous_count == 1 ? 'is' : 'are' %>
             <%= previous_count %> more level<%= previous_count == 1 ? '' : 's' %> to play.
         </p>
