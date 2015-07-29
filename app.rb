@@ -51,6 +51,11 @@ get '/*.css' do |filename|
 end
 
 get '/' do
+  @leaders = Response.join(:users, id: :user_id)
+    .group_and_count(:name)
+    .order(Sequel.desc(:count))
+    .limit(10)
+  erb :leaderboard
   if current_user
     erb :home_loggedin
   else
@@ -147,14 +152,6 @@ get '/countries/:country/legislatures/:legislature' do
   return erb :congratulations unless @legislative_period
   @people = current_user.people_for(@legislative_period)
   erb :term
-end
-
-get '/leaderboard' do
-  @leaders = Response.join(:users, id: :user_id)
-    .group_and_count(:name)
-    .order(Sequel.desc(:count))
-    .limit(10)
-  erb :leaderboard
 end
 
 post '/responses' do
