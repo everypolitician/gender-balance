@@ -165,6 +165,10 @@
         padding-left: 340px;
     }
 
+    .home-primary__leaderboard ul {
+        min-height: 7em; // avoids weird overlap if there are fewer than 5 leaders
+    }
+
     .home-primary__screenshot {
         position: absolute;
         bottom: 0;
@@ -201,10 +205,25 @@
     }
 }
 
+.login-page {
+    p {
+        font-size: 0.9em;
+        line-height: 1.5em;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 30em;
+    }
+}
+
 .login-buttons {
     @extend .unstyled-list;
     max-width: 20em;
-    margin: 2em auto 0 auto;
+    margin: 1.5em auto 2em;
+
+    @media (min-height: 700px) {
+        margin-top: 2.5em;
+        margin-bottom: 3em;
+    }
 
     .button {
         display: block;
