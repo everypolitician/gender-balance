@@ -141,7 +141,8 @@ body.person-page {
     }
 }
 
-.person-card--green {
+.person-card--green,
+.person-card.animating + .person-card--green {
     background-color: $color_green;
 
     .person-card + & {
@@ -149,7 +150,8 @@ body.person-page {
     }
 }
 
-.person-card--orange {
+.person-card--orange,
+.person-card.animating + .person-card--orange {
     background-color: $color_light_orange;
 
     .person-card + & {
@@ -157,7 +159,8 @@ body.person-page {
     }
 }
 
-.person-card--grey {
+.person-card--grey,
+.person-card.animating + .person-card--grey {
     background-color: $color_mid_grey;
 
     .person-card + & {
@@ -165,7 +168,8 @@ body.person-page {
     }
 }
 
-.person-card--blue {
+.person-card--blue,
+.person-card.animating + .person-card--blue {
     background-color: $color_blue;
 
     .person-card + & {
