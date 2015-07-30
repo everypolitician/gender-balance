@@ -159,6 +159,10 @@ $(function(){
         // While response is being saved, animate and then remove the top card...
         animateCurrentCard(function(){
           $card.remove();
+
+          // ...And update the various bits of UI relating to the current card
+          updateGoogleLink($stack);
+          updateProgressBar();
         });
 
         // ...Append a new card to the bottom of the stack...
@@ -166,10 +170,6 @@ $(function(){
         var $newCardImage = $newCard.find('.js-person__picture');
         $newCardImage.attr('src', $newCardImage.data('src'));
         $newCard.appendTo($stack);
-
-        // ...And update the various bits of UI relating to the current card
-        updateGoogleLink($stack);
-        updateProgressBar();
 
       },
       onKeyboardShortcut: function(direction){
