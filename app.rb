@@ -80,7 +80,7 @@ end
 end
 
 get '/logout' do
-  session.clear
+  session[:user_id] = nil
   flash[:notice] = 'You have been logged out'
   redirect to('/')
 end
@@ -93,7 +93,6 @@ end
     if session[:completed_onboarding]
       user.completed_onboarding = true
       user.save
-      session.delete(:completed_onboarding)
     end
     session[:user_id] = user.id
     flash[:notice] = 'Signed in!'
@@ -112,14 +111,13 @@ get '/onboarding' do
   erb :onboarding
 end
 
-post '/onboarding-complete' do
+get '/onboarding-complete' do
+  session[:completed_onboarding] = true
   if current_user
     current_user.completed_onboarding = true
     current_user.save
-  else
-    session[:completed_onboarding] = true
   end
-  'ok'
+  redirect to('/countries')
 end
 
 before '/countries*' do
