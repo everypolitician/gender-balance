@@ -4,7 +4,7 @@
     data-google-link="https://google.com/search?q=<%= person[:name] %> <%= @legislative_period.country[:name] %> <%= @legislative_period.legislature[:name] %>"
 >
   <% if person[:image] %>
-    <img <%= 'data-' unless preload_image %>src="https://everypolitician-image-proxy.herokuapp.com/<%= URI.encode_www_form_component(person[:image]) %>/140/140.jpg" class="person__picture js-person__picture">
+    <img <%= 'data-' unless preload_image %>src="https://mysociety.github.io/politician-image-proxy/<%= @country[:slug] %>/<%= @legislature[:slug] %>/<%= URI.encode_www_form_component(person[:id]) %>/140x140.jpeg" class="person__picture js-person__picture">
   <% else %>
     <img src="/img/person.png" class="person__picture">
   <% end %>
