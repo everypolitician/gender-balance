@@ -86,13 +86,6 @@ var saveResponse = function saveResponse(response) {
   });
 }
 
-var saveOnboardingCompletion = function saveOnboardingCompletion(){
-  return $.ajax({
-    url: '/onboarding-complete',
-    method: 'POST'
-  });
-}
-
 var displayClickAnimation = function displayClickAnimation($button){
   $('.js-click-animation', $button).show().animate({
     transform: 'scale(3)',
@@ -150,10 +143,6 @@ $(function(){
           response = $card.data();
           response.choice = choice;
           saveResponse(response);
-
-        } else if (window.onboarding && $stack.children().length == 1){
-          // They've finished the onboarding
-          saveOnboardingCompletion();
         }
 
         // While response is being saved, animate and then remove the top card...

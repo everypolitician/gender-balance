@@ -112,14 +112,14 @@ get '/onboarding' do
   erb :onboarding
 end
 
-post '/onboarding-complete' do
+get '/onboarding-complete' do
   if current_user
     current_user.completed_onboarding = true
     current_user.save
   else
     session[:completed_onboarding] = true
   end
-  'ok'
+  redirect to('/countries')
 end
 
 before '/countries*' do
