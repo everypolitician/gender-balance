@@ -28,6 +28,7 @@ class Response < Sequel::Model
     def recent_country_codes(limit = 5)
       Response.from(countries)
         .order(Sequel.desc(:created_at))
+        .exclude(country_code: complete_countries.map(:country_code))
         .limit(limit)
         .map(:country_code)
     end
@@ -36,6 +37,17 @@ class Response < Sequel::Model
       recent_country_codes(limit).map do |code|
         Country.find_by_code(code)
       end
+    end
+
+    def complete_countries
+      join(:legislative_periods, id: :legislative_period_id)
+        .group_and_count(:country_code)
+        .having(
+          'count(*) >= ?',
+          CountryCount
+            .select{person_count - gender_count}
+            .where(country_code: Sequel.qualify(:legislative_periods, :country_code))
+        )
     end
   end
 end
