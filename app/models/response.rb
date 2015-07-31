@@ -45,7 +45,7 @@ class Response < Sequel::Model
         .having(
           'count(*) >= ?',
           CountryCount
-            .select{person_count - gender_count}
+            .select(:person_count)
             .where(country_code: Sequel.qualify(:legislative_periods, :country_code))
         )
     end

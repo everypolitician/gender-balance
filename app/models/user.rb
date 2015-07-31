@@ -22,7 +22,6 @@ class User < Sequel::Model
       )
       .map(:politician_id)
     people = people.reject { |person| already_done.include?(person[:id]) }
-    people = people.reject { |person| person[:gender] }
     people.uniq { |p| p[:id] }.shuffle
   end
 

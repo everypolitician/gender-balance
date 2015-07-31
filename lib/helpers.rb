@@ -30,7 +30,6 @@ module Helpers
           .where(country_code: country[:code])
           .distinct
           .count
-        complete_people = complete_people + country_count.gender_count
         (complete_people.to_f / total_people.to_f) * 100
       end
   end
@@ -41,11 +40,10 @@ module Helpers
       .join(:legislative_periods, id: :legislative_period_id)
       .where(
         politician_id: legislative_period.unique_people.map { |row| row[:id] },
-        legislature_slug: legislative_period.legislature[:slug]
+        legislature_slug: legislative_period.legislature[:slug],
+        country_code: legislative_period.country_code
       ).count
-    gender_count = legislative_period.unique_people.count { |p| p[:gender] }
-    complete_people = (response_count + gender_count)
-    (complete_people.to_f / total_people.to_f) * 100
+    (response_count.to_f / total_people.to_f) * 100
   end
 
   def progress_word(percent)

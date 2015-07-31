@@ -146,7 +146,6 @@ end
 get '/countries/:country/legislatures/:legislature' do
   @country = Country.find_by_slug(params[:country])
   country_count = country_counts[@country[:code]]
-  return erb :no_data_needed if country_count.already_has_gender_data?
   @legislature = @country.legislature(params[:legislature])
   @legislative_period = current_user.legislative_period_for(@country, @legislature)
   return erb :congratulations unless @legislative_period
