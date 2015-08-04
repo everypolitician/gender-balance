@@ -154,6 +154,11 @@ get '/countries/:country/legislatures/:legislature' do
   erb :term
 end
 
+get '/_stats' do
+  @players = Response.join(:users, id: :user_id).group_and_count(:users__id)
+  erb :stats
+end
+
 post '/responses' do
   begin
     current_user.add_response(params[:response])

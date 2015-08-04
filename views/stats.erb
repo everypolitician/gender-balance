@@ -1,0 +1,7 @@
+<% content_for :body_class do %>stats<% end %>
+
+<div class="container">
+  <h3>Stats</h3>
+  <p>Players: <%= @players.count %></p>
+  <p>Selections: <%= @players.map { |p| p[:count] }.inject(:+) %></p>
+</div>
