@@ -51,7 +51,7 @@ body.person-page {
     left: 50%;
     width: 16em;
     margin-left: -8em;
-    height: 10em;
+    height: 9em;
     line-height: 1.2em;
 
     // Vertically centre the card contents (in modern browsers)
@@ -69,7 +69,7 @@ body.person-page {
     user-select: none;
 
     @media (min-height: 460px) {
-        height: 11em;
+        height: 10em;
     }
 
     @media (min-height: 500px) {
@@ -276,34 +276,6 @@ body.person-page {
     margin-top: 0.5em;
 }
 
-.level-complete {
-    position: absolute;
-    z-index: 0;
-    top: 0;
-    left: 50%;
-    width: 16em;
-    margin-left: -8em;
-    padding: 1em;
-    line-height: 1.2em;
-
-    & > * {
-        margin: 0;
-    }
-
-    .button {
-        margin-top: 0.5em;
-    }
-
-    @media (min-width: $screen_small_min) {
-        width: 16em;
-        margin-left: -8em;
-    }
-}
-
-.level-complete--hidden {
-    display: none;
-}
-
 .controls {
     position: absolute;
     bottom: 0.5em;
@@ -461,18 +433,58 @@ body.person-page {
     }
 }
 
+.level-complete {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 50%;
+    width: 16em;
+    margin-left: -8em;
+    padding: 0 1em;
+    line-height: 1.2em;
+
+    @media (min-width: $screen_small_min) {
+        width: 16em;
+        margin-left: -8em;
+    }
+
+    @media (min-height: 460px) {
+        padding-top: 0.5em;
+    }
+
+    @media (min-height: 500px) {
+        padding-top: 1em;
+    }
+
+    & > * {
+        margin: 0;
+    }
+
+    .button {
+        margin-top: 0.5em;
+    }
+}
+
+.level-complete--hidden {
+    display: none;
+}
+
 .trophy {
     position: relative;
 
     img {
         width: auto;
-        height: 120px;
+        height: 100px;
 
         @media(min-height: 460px) {
+            height: 120px;
+        }
+
+        @media(min-height: 540px) {
             height: 180px;
         }
 
-        @media(min-height: 550px) {
+        @media(min-height: 600px) {
             height: 240px;
         }
     }
@@ -490,4 +502,21 @@ body.person-page {
     background-color: #fff;
     border-radius: 100%;
     display: none; // Will be shown by javascript
+}
+
+.tweet-your-success {
+    display: inline-block; // so that padding works
+    padding: 0.5em;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+        text-decoration: underline;
+    }
+
+    &:before {
+        @extend .fa;
+        content: $fa-var-twitter;
+        margin-right: 0.3em;
+    }
 }

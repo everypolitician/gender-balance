@@ -30,7 +30,7 @@
         </p>
         <p>
             <a class="button button--secondary" href="<%= url "/countries/#{@legislative_period.country[:slug]}/legislatures/#{@legislative_period.legislature[:slug]}" %>">
-                Play the next level!
+                Play the next level
             </a>
         </p>
 
@@ -50,6 +50,9 @@
             </a>
         </p>
       <% end %>
+      <p>
+        <a class="tweet-your-success" href="https://twitter.com/intent/tweet?text=<%= URI.escape('I just completed ' + @legislative_period.country[:name] + ' ' + @legislative_period.legislature[:name] + ' on http://gender-balance.org by @mysociety. It’s great fun!') %>&amp;related=mysociety,theyworkforyou">Tweet your success</a>
+      </p>
     </div>
 </div>
 
