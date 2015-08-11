@@ -25,8 +25,10 @@ module Helpers
         return 0 if country_count.nil?
         total_people = country_count.person_count
         complete_people = current_user.responses_dataset
+          .select(:politician_id)
           .join(:legislative_periods, id: :legislative_period_id)
           .where(country_code: country[:code])
+          .distinct
           .count
         complete_people = complete_people + country_count.gender_count
         (complete_people.to_f / total_people.to_f) * 100
