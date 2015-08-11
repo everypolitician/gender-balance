@@ -41,14 +41,15 @@ class User < Sequel::Model
   def legislative_period_for(country, legislature)
     legislative_periods = legislative_periods_for(country, legislature)
     last_response = last_response_for(country, legislature)
-    return legislative_periods.first unless last_response
-    last_legislative_period = LegislativePeriod[last_response.legislative_period_id]
+    if last_response
+      last_legislative_period = LegislativePeriod[last_response.legislative_period_id]
+    else
+      last_legislative_period = legislative_periods.first
+    end
     if incomplete?(last_legislative_period)
       last_legislative_period
     else
-      lps = legislative_periods_for(country, legislature)
-        .where{start_date < last_legislative_period.start_date}
-      lps.find { |lp| incomplete?(lp) }
+      legislative_periods.find { |lp| incomplete?(lp) }
     end
   end
 
