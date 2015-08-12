@@ -37,7 +37,9 @@ module Helpers
   def percent_complete_term(legislative_period)
     total_people = legislative_period.unique_people.size
     response_count = current_user.responses_dataset
+      .select(:politician_id)
       .join(:legislative_periods, id: :legislative_period_id)
+      .distinct
       .where(
         politician_id: legislative_period.unique_people.map { |row| row[:id] },
         legislature_slug: legislative_period.legislature[:slug],
