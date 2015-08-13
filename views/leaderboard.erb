@@ -1,0 +1,13 @@
+<div class="home-primary__leaderboard">
+    <h3>Top players this week</h3>
+    <ul class="home-primary__leaderboard__top-5">
+    <% @leaders.take(5).each do |leader| %>
+      <li><%= leader[:name].split(/[[:space:]]+/).first %> <span class="leaderboard-score"><%= leader[:count] %></span></li>
+    <% end %>
+    </ul>
+    <ul class="home-primary__leaderboard__next-5">
+    <% @leaders.drop(5).take(5).each do |leader| %>
+      <li><%= leader[:name].split(/[[:space:]]+/).first %> <span class="leaderboard-score"><%= leader[:count] %></span></li>
+    <% end %>
+    </ul>
+</div>
