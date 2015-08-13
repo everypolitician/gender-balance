@@ -5,6 +5,10 @@ class LegislativePeriod < Sequel::Model
     def for_country_code(country_code)
       where(country_code: country_code).order(Sequel.desc(:start_date))
     end
+
+    def enabled
+      where(disabled: false)
+    end
   end
 
   def name
@@ -55,6 +59,7 @@ class LegislativePeriod < Sequel::Model
 
   def previous_legislative_periods
     LegislativePeriod
+      .enabled
       .where(country_code: country[:code], legislature_slug: legislature[:slug])
       .order(Sequel.desc(:start_date))
       .where('start_date < ?', start_date)

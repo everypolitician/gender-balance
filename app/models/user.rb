@@ -26,7 +26,7 @@ class User < Sequel::Model
   end
 
   def legislative_periods_for(country, legislature)
-    LegislativePeriod.where(country_code: country[:code], legislature_slug: legislature[:slug]).order(Sequel.desc(:start_date))
+    LegislativePeriod.enabled.where(country_code: country[:code], legislature_slug: legislature[:slug]).order(Sequel.desc(:start_date))
   end
 
   def last_response_for(country, legislature)
