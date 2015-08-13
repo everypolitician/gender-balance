@@ -1,7 +1,7 @@
 {
   "name":"gender-balance",
   "scripts":{
-    "postdeploy":"bundle exec rake db:migrate cache"
+    "postdeploy":"bin/bootstrap"
   },
   "env":{
     "FACEBOOK_APP_ID":{
