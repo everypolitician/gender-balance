@@ -4,7 +4,7 @@ class Country
       countries_json = 'https://github.com/everypolitician/' \
       'everypolitician-data/raw/master/countries.json'
       countries = Yajl.load(open(countries_json).read, symbolize_keys: true)
-      countries.map { |country| Country.new(country) }
+      countries.sort_by { |c| c[:name] }.map { |country| Country.new(country) }
     end
   end
 
