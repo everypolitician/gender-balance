@@ -56,6 +56,7 @@ get '/' do
     .group_and_count(:name)
     .order(Sequel.desc(:count))
     .limit(10)
+    .where{Sequel.qualify(:responses, :created_at) > 1.week.ago}
   if current_user
     erb :home_loggedin
   else
