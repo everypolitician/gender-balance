@@ -20,10 +20,8 @@ class UpdateCacheJob
   end
 
   def cache_legislative_periods
-    countries_json = 'https://github.com/everypolitician/' \
-      'everypolitician-data/raw/master/countries.json'
-    countries = Yajl.load(open(countries_json).read, symbolize_keys: true)
-    countries.each do |country|
+    LegislativePeriod.enabled.each { |lp| lp.disable! if lp.missing? }
+    Country.all.each do |country|
       country[:legislatures].each do |legislature|
         legislature[:legislative_periods].each do |legislative_period|
           puts "Processing #{country[:name]} #{legislature[:name]} #{legislative_period[:name]}"
