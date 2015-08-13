@@ -11,6 +11,15 @@ class LegislativePeriod < Sequel::Model
     end
   end
 
+  def missing?
+    legislative_period.nil?
+  end
+
+  def disable!
+    self.disabled = true
+    save
+  end
+
   def name
     legislative_period[:name]
   end
