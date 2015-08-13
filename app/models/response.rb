@@ -49,5 +49,13 @@ class Response < Sequel::Model
             .where(country_code: Sequel.qualify(:legislative_periods, :country_code))
         )
     end
+
+    def leaders(limit = 10)
+      join(:users, id: :user_id)
+        .group_and_count(:name)
+        .order(Sequel.desc(:count))
+        .limit(limit)
+        .where { Sequel.qualify(:responses, :created_at) > 1.week.ago }
+    end
   end
 end
