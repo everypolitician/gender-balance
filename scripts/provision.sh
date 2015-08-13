@@ -25,9 +25,7 @@ cd /vagrant
 
 # Install application gems
 sudo gem install bundler foreman pry --no-rdoc --no-ri
-bundle install
-bundle exec rake db:migrate
-bundle exec rake cache
+bin/bootstrap
 
 # Set shell login message
 echo "-------------------------------------------------------
