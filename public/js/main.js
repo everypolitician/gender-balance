@@ -17,6 +17,41 @@ var updateGoogleLink = function updateGoogleLink($stack){
   $('.js-google-link').attr('href', link);
 }
 
+var undo = function undo(cardSwipe, $stack){
+  var $latestCard = $('.js-done-stack').children().eq(0);
+  if ($latestCard.length === 0) return;
+  // move newly added card(s) back onto extra cards pile
+  $extraCards = $('.js-extra-cards');
+  while ($stack.children().length > 1) {
+    $stack.children().eq(-1).remove().prependTo($extraCards);
+  }
+  // move latest swiped card back onto stack
+  $latestCard.remove().prependTo($stack).animate({
+    transform: "translate(0px,0px) rotate(0deg)"
+  },
+  cardSwipe.animationRevertSpeed);
+  $('span', $latestCard).animate({
+    opacity: 0
+  },
+  cardSwipe.animationRevertSpeed,
+  function() {
+    updateGoogleLink($stack);
+    updateProgressBar();
+  });
+}
+
+var undoInit = function undoInit(cardSwipe, $stack){
+  $(document).on('keydown', function(e) {
+    if (e.metaKey && e.keyCode == 90) {
+      undo(cardSwipe, $stack);
+    }
+  });
+
+  $('.js-undo').on('click', function(ev){
+    undo(cardSwipe, $stack);
+  });
+}
+
 var levelComplete = function onLevelComplete(){
   $('.controls').fadeOut(200);
   $('.level-complete').fadeIn(200);
@@ -145,9 +180,11 @@ $(function(){
           saveResponse(response);
         }
 
-        // While response is being saved, animate and then remove the top card...
+        // While response is being saved, animate and then move the top card
+        // to the top of the done stack...
         animateCurrentCard(function(){
-          $card.remove();
+          var $doneStack = $('.js-done-stack');
+          $card.removeClass('animating').remove().prependTo($doneStack);
 
           // ...And update the various bits of UI relating to the current card
           updateGoogleLink($stack);
@@ -172,6 +209,7 @@ $(function(){
       },
       onInit: function($stack){
         updateGoogleLink($stack);
+        undoInit(this, $stack);
       }
     });
 
