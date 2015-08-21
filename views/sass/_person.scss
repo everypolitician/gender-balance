@@ -327,10 +327,6 @@ body.person-page {
         position: relative;
         height: 12em;
         bottom: 0;
-
-        .onboarding-page & {
-            height: 10em; // Onboarding has no Google link, so can be shorter
-        }
     }
 }
 
