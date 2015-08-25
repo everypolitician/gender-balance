@@ -4,6 +4,12 @@
     <a class="app-header__back" href="<%= url "/countries" %>"><i class="fa fa-chevron-left"></i></a>
 <% end %>
 
+<% content_for :undo_button do %>
+    <div class="app-header__undo button button--undo js-undo">
+        Undo
+    </div>
+<% end %>
+
 <% if @people.any? %>
 
 <div class="progress-bar progress-bar--healthy" data-total="<%= @legislative_period.unique_people.size %>"><div style="width: <%= percent_complete_term(@legislative_period) %>%"></div></div>
@@ -58,6 +64,8 @@
         <%= erb :person_partial, locals: { person: person, preload_image: false } %>
     <% end %>
 </ul>
+
+<ul class="js-done-stack" style="display: none"></ul>
 
 <div class="controls js-controls">
     <div class="controls__skip js-choose-dontknow">

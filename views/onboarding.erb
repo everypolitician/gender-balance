@@ -4,6 +4,12 @@
     <a class="app-header__back" href="/"><i class="fa fa-chevron-left"></i></a>
 <% end %>
 
+<% content_for :undo_button do %>
+    <div class="app-header__undo button button--undo js-undo">
+        Undo
+    </div>
+<% end %>
+
 <div class="progress-bar progress-bar--healthy" data-total="12"><div style="width: 0%"></div></div>
 
 <div class="person-cards">
@@ -144,6 +150,8 @@
         <span class="person__decision person__decision--dontknow js-overlay-dontknow"></span>
     </li>
 </ul>
+
+<ul class="js-done-stack" style="display: none"></ul>
 
 <div class="controls js-controls">
     <div class="controls__skip js-choose-dontknow">
