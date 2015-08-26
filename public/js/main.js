@@ -20,6 +20,12 @@ var updateGoogleLink = function updateGoogleLink($stack){
 var undo = function undo(cardSwipe, $stack){
   var $latestCard = $('.js-done-stack').children().eq(0);
   if ($latestCard.length === 0) return;
+
+  if ($('.level-complete').is(':visible')) {
+    $('.controls').fadeIn(200);
+    $('.level-complete').fadeOut(200);
+  }
+
   // move newly added card(s) back onto extra cards pile
   $extraCards = $('.js-extra-cards');
   while ($stack.children().length > 1) {
