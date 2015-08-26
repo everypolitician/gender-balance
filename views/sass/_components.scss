@@ -67,6 +67,20 @@
     @include make_button($color_grey, $color_white);
 }
 
+.button--disabled {
+    color: lighten($color_grey, 5%);
+    background-color: $color_grey;
+
+    cursor: default !important;
+
+    &:hover,
+    &:active,
+    &:focus {
+        color: lighten($color_grey, 5%);
+        background-color: $color_grey;
+    }
+}
+
 .button__social-icon {
     font-size: 1.2em;
     margin: -0.2em 0.7em -0.2em 0;
