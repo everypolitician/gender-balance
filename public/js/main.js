@@ -37,6 +37,9 @@ var undo = function undo(cardSwipe, $stack){
   function() {
     updateGoogleLink($stack);
     updateProgressBar();
+    if ($('.js-done-stack').children().length == 0) {
+      $('.js-undo').addClass('button--disabled');
+    }
   });
 }
 
@@ -185,6 +188,9 @@ $(function(){
         animateCurrentCard(function(){
           var $doneStack = $('.js-done-stack');
           $card.removeClass('animating').remove().prependTo($doneStack);
+
+          // Enable the undo button now there are cards on the doneStack
+          $('.js-undo').removeClass('button--disabled');
 
           // ...And update the various bits of UI relating to the current card
           updateGoogleLink($stack);
