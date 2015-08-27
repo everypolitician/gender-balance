@@ -68,12 +68,10 @@ get '/about' do
   erb :about
 end
 
-%w(get post).each do |method|
-  send(method, '/event_handler') do
-    settings.cache_client.delete('countries.json')
-    UpdateCacheJob.perform_async
-    'ok'
-  end
+post '/event_handler' do
+  settings.cache_client.delete('countries.json')
+  UpdateCacheJob.perform_async
+  'ok'
 end
 
 get '/logout' do
