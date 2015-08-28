@@ -30,7 +30,8 @@ module Helpers
           .where(country_code: country[:code])
           .distinct
           .count
-        (complete_people.to_f / total_people.to_f) * 100
+        total = (complete_people.to_f / total_people.to_f) * 100
+        total < 100 ? total : 100
       end
   end
 
@@ -45,7 +46,8 @@ module Helpers
         legislature_slug: legislative_period.legislature[:slug],
         country_code: legislative_period.country_code
       ).count
-    (response_count.to_f / total_people.to_f) * 100
+    total = (response_count.to_f / total_people.to_f) * 100
+    total < 100 ? total : 100
   end
 
   def progress_word(percent)
