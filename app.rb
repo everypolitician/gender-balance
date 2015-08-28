@@ -140,7 +140,6 @@ end
 
 get '/countries/:country/legislatures/:legislature' do
   @country = Country.find_by_slug(params[:country])
-  country_count = country_counts[@country[:code]]
   @legislature = @country.legislature(params[:legislature])
   @legislative_period = current_user.legislative_period_for(@country, @legislature)
   return erb :congratulations unless @legislative_period
