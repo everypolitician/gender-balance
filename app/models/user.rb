@@ -26,34 +26,18 @@ class User < Sequel::Model
   end
 
   def legislative_periods_for(country, legislature)
-    LegislativePeriod.enabled.where(country_code: country[:code], legislature_slug: legislature[:slug]).order(Sequel.desc(:start_date))
-  end
-
-  def last_response_for(country, legislature)
-    responses_dataset.join(:legislative_periods, id: :legislative_period_id)
-      .select(Sequel.qualify(:responses, :legislative_period_id))
-      .where(country_code: country[:code], legislature_slug: legislature[:slug])
-      .order(:start_date)
-      .first
+    LegislativePeriod.enabled.where(
+      country_code: country[:code],
+      legislature_slug: legislature[:slug]
+    ).order(Sequel.desc(:start_date))
   end
 
   def legislative_period_for(country, legislature)
-    legislative_periods = legislative_periods_for(country, legislature)
-    last_response = last_response_for(country, legislature)
-    if last_response
-      last_legislative_period = LegislativePeriod[last_response.legislative_period_id]
-    else
-      last_legislative_period = legislative_periods.first
-    end
-    if incomplete?(last_legislative_period)
-      last_legislative_period
-    else
-      legislative_periods.find { |lp| incomplete?(lp) }
-    end
+    legislative_periods_for(country, legislature).find { |lp| incomplete?(lp) }
   end
 
   def incomplete?(legislative_period)
-    people_for(legislative_period).any?
+    !legislative_period.missing? && people_for(legislative_period).any?
   end
 
   def has_completed_onboarding?
