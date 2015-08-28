@@ -22,7 +22,7 @@ class User < Sequel::Model
       )
       .map(:politician_id)
     people = people.reject { |person| already_done.include?(person[:id]) }
-    people.uniq { |p| p[:id] }.shuffle
+    people.shuffle
   end
 
   def legislative_periods_for(country, legislature)
