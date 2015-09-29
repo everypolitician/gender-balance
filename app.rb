@@ -125,6 +125,10 @@ end
 get '/countries' do
   @countries = Country.all
   @recent_countries = current_user.responses_dataset.recent_countries
+  current_featured_country = FeaturedCountry.current
+  if current_featured_country
+    @featured_country = Country.find_by_code(current_featured_country.country_code)
+  end
   erb :countries
 end
 

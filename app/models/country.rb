@@ -10,12 +10,12 @@ class Country
 
   def self.find_by_slug(slug)
     country = all.find { |c| c[:slug] == slug }
-    new(country)
+    new(country) if country
   end
 
   def self.find_by_code(code)
     country = all.find { |c| c[:code] == code }
-    new(country)
+    new(country) if country
   end
 
   def initialize(country_data)
