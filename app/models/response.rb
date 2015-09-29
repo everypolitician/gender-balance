@@ -51,11 +51,21 @@ class Response < Sequel::Model
     end
 
     def leaders(limit = 10)
-      join(:users, id: :user_id)
-        .group_and_count(:name, :users__id)
+      # Users get double points for responses created while a featured country
+      # is active.
+      double_points = {
+        :responses__created_at => :featured_countries__start_date..:featured_countries__end_date
+      }
+      score = Sequel.case({double_points => 2}, 1)
+      select(:users__id, :users__name)
+        .select_append{sum(score).as(:count)}
+        .join(:legislative_periods, id: :legislative_period_id)
+        .join(:users, id: :responses__user_id)
+        .left_outer_join(:featured_countries, country_code: :legislative_periods__country_code)
+        .group(:users__id, :users__name)
         .order(Sequel.desc(:count))
         .limit(limit)
-        .where { Sequel.qualify(:responses, :created_at) > 1.week.ago }
+        .where{responses__created_at > 1.week.ago}
     end
   end
 end
