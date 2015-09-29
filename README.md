@@ -33,3 +33,19 @@ To run the tests use the following:
 
     vagrant ssh
     bundle exec rake test
+
+## Setting the featured country
+
+First start a pry session, if you're in a vagrant VM then run
+
+    pry -r ./app
+
+Or if you want to run pry on Heroku
+
+    heroku run 'pry -r ./app'
+
+Then you can set the featured country using the country code, which can be found in [`countries.json`](https://github.com/everypolitician/everypolitician-data/blob/master/countries.json). For example to set it to Turkey:
+
+    FeaturedCountry.current = 'TR'
+
+This will end any previous featured country and create a new row for the given country code.
