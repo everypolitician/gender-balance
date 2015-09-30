@@ -54,6 +54,18 @@ class LegislativePeriod < Sequel::Model
     end
   end
 
+  def available_images
+    unless @available_images
+      index_txt_url = 'https://mysociety.github.io/politician-image-proxy/' \
+        "#{country[:slug]}/#{legislature_slug}/index.txt"
+      @available_images = open(index_txt_url).to_a.map(&:chomp)
+    end
+    @available_images
+  rescue OpenURI::HTTPError => e
+    warn "Couldn't retrieve list of available images: #{e.message}"
+    []
+  end
+
   def unique_people
     csv.map(&:to_h).to_a.uniq { |person| person[:id] }
   end
