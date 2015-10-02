@@ -7,8 +7,18 @@
   <% if @featured_country %>
     <h3 class="list-heading">Featured country</h3>
     <p>
-    Aww…<%= @featured_country[:name] %> hasn’t been played much yet.
-    Give it a whirl? We’ll make it worth your while with <b>double points</b>.
+    <% if percent_complete(@featured_country) >= 100 %>
+      <% if current_user.played_when_featured(@featured_country) %>
+        Nice work - you've played the featured country. Check back soon to
+        see if there's another chance to win double points.
+      <% else %>
+        You've already played the featured country. There are plenty
+        more countries below, though!
+      <% end %>
+    <% else %>
+      Aww…<%= @featured_country[:name] %> hasn’t been played much yet.
+      Give it a whirl? We’ll make it worth your while with <b>double points</b>.
+    <% end %>
     </p>
     <div class="list list--countries list--recent">
       <a class="list__item" href="<%= url "/countries/#{@featured_country[:slug]}" %>">
