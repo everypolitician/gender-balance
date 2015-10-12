@@ -158,7 +158,7 @@ end
 
 post '/responses' do
   begin
-    current_user.add_response(params[:response])
+    current_user.record_response(params[:response])
     'ok'
   rescue Sequel::UniqueConstraintViolation
     halt 403, 'Decision already recorded for this politician'
