@@ -89,6 +89,9 @@ var updateProgressBar = function updateProgressBar(){
   var done = total - remaining;
   var percent = (done / total) * 100;
 
+  // :TODO: There are now three divs that need to be updated:
+  // .progress-bar__males / .progress-bar__females / .progress-bar__others-dont-knows
+  // And you will also need to unhide them when their width is > 0%.
   $('.progress-bar div').animate({
     width: percent + '%'
   });

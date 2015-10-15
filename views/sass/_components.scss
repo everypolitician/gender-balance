@@ -205,8 +205,18 @@
     & > * {
         background-color: $color_green;
         height: 0.5em;
-        border-radius: 0.5em;
         min-width: 0.5em;
+        float: left;
+    }
+
+    & > :first-child {
+        border-top-left-radius: 0.5em;
+        border-bottom-left-radius: 0.5em;
+    }
+
+    & > :last-child {
+        border-top-right-radius: 0.5em;
+        border-bottom-right-radius: 0.5em;
     }
 }
 
@@ -216,6 +226,28 @@
 
 .progress-bar--dangerous > * {
     background-color: $color_red;
+}
+
+.progress-bar--gendered {
+    & > * {
+        display: none; // empty bars hidden by default, to avoid border showing
+    }
+
+    & > * + * {
+        border-left: 1px solid $color_off_white;
+    }
+
+    .progress-bar__males {
+        background-color: $color_orange;
+    }
+
+    .progress-bar__females {
+        background-color: $color_green;
+    }
+
+    .progress-bar__others-dont-knows {
+        background-color: $color_grey;
+    }
 }
 
 .fa--space-after {
