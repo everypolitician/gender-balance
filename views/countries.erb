@@ -4,7 +4,12 @@
 
 <h2 class="page-title">Pick a country</h2>
 
-  <% if @featured_country %>
+  <% if not current_user.responses.any? %>
+    <div style="text-align: center">
+      <p>Which country’s politicians would you like to try&nbsp;first?</p>
+      <p style="font-style: italic">(Maybe search for your home&nbsp;country…)</p>
+    </div>
+  <% elsif @featured_country %>
     <h3 class="list-heading">Featured country</h3>
     <p>
     <% if percent_complete(@featured_country) >= 100 %>
@@ -42,7 +47,7 @@
   <% end %>
 
   <div class="filter-countries">
-      <label for="filter">Filter countries</label>
+      <label for="filter">Find a country</label>
       <input type="text" id="filter" data-filter-elements=".list--all .list__item">
   </div>
 
