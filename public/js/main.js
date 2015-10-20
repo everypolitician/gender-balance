@@ -29,24 +29,24 @@ var undo = function undo(cardSwipe, $stack){
   // move newly added card(s) back onto extra cards pile
   $extraCards = $('.js-extra-cards');
   while ($stack.children().length > 1) {
-    $stack.children().eq(-1).remove().prependTo($extraCards);
+    $stack.children().eq(-1).prependTo($extraCards);
   }
+  // Hide the colored overlay
+  $('span', $latestCard).animate({opacity: 0}, cardSwipe.animationRevertSpeed);
+
   // move latest swiped card back onto stack
-  $latestCard.remove().prependTo($stack).animate({
-    transform: "translate(0px,0px) rotate(0deg)"
-  },
-  cardSwipe.animationRevertSpeed);
-  $('span', $latestCard).animate({
-    opacity: 0
-  },
-  cardSwipe.animationRevertSpeed,
-  function() {
-    updateGoogleLink($stack);
-    updateProgressBar();
-    if ($('.js-done-stack').children().length == 0) {
-      $('.js-undo').addClass('button--disabled');
+  $latestCard.prependTo($stack);
+  $latestCard.animate(
+    {transform: "translate(0px,0px) rotate(0deg)"},
+    cardSwipe.animationRevertSpeed,
+    function() {
+      updateGoogleLink($stack);
+      updateProgressBar($latestCard.data('choice'), 'undo');
+      if ($('.js-done-stack').children().length == 0) {
+        $('.js-undo').addClass('button--disabled');
+      }
     }
-  });
+  );
 }
 
 var undoInit = function undoInit(cardSwipe, $stack){
@@ -80,23 +80,44 @@ var trophyFlash = function trophyFlash(){
   });
 }
 
-var updateProgressBar = function updateProgressBar(){
+var updateProgressBar = function updateProgressBar(choice, type){
+  type = type || 'done';
+  if (choice === 'skip') {
+    choice = 'other';
+  }
   var total = $('.progress-bar').data('total');
 
-  // Cards in the DOM, minus any that are being animated (ie: removed)
-  var remaining = $('.js-extra-cards li, .js-cardswipe li').not('.animating').length;
+  if (type === 'done') {
+    window.totals[choice]++;
+  } else if (type === 'undo') {
+    window.totals[choice]--;
+  } else {
+    throw new Error("Unknown type " + type + " (should be either 'done' or 'undo'");
+  }
 
-  var done = total - remaining;
-  var percent = (done / total) * 100;
+  var percent = (window.totals[choice] / total) * 100;
 
-  // :TODO: There are now three divs that need to be updated:
-  // .progress-bar__males / .progress-bar__females / .progress-bar__others-dont-knows
-  // And you will also need to unhide them when their width is > 0%.
-  $('.progress-bar div').animate({
+  var selectors = {
+    male: '.js-progress-bar__males',
+    female: '.js-progress-bar__females',
+    other: '.js-progress-bar__others-dont-knows'
+  };
+  if (!selectors[choice]) {
+    throw new Error("Unknown choice " + choice);
+  }
+  var $el = $(selectors[choice]);
+  $el.show();
+
+  $el.animate({
     width: percent + '%'
   });
 
-  if (percent === 100) {
+  var grandTotal = 0;
+  $.each(window.totals, function(_choice, count) {
+    grandTotal = grandTotal + count;
+  });
+
+  if (grandTotal === total) {
     levelComplete();
   }
 }
@@ -192,18 +213,21 @@ $(function(){
           saveResponse(response);
         }
 
+        $card.data('choice', choice);
+
         // While response is being saved, animate and then move the top card
         // to the top of the done stack...
         animateCurrentCard(function(){
           var $doneStack = $('.js-done-stack');
-          $card.removeClass('animating').remove().prependTo($doneStack);
+          $card.removeClass('animating').prependTo($doneStack);
+          console.log($card.data());
 
           // Enable the undo button now there are cards on the doneStack
           $('.js-undo').removeClass('button--disabled');
 
           // ...And update the various bits of UI relating to the current card
           updateGoogleLink($stack);
-          updateProgressBar();
+          updateProgressBar(choice);
         });
 
         // ...Append a new card to the bottom of the stack...

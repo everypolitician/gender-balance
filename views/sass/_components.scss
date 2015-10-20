@@ -230,7 +230,7 @@
 
 .progress-bar--gendered {
     & > * {
-        display: none; // empty bars hidden by default, to avoid border showing
+        // display: none; // empty bars hidden by default, to avoid border showing
     }
 
     & > * + * {
