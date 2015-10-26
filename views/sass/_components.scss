@@ -205,7 +205,7 @@
     & > * {
         background-color: $color_green;
         height: 0.5em;
-        min-width: 0.5em;
+        min-width: 0.25em;
         float: left;
     }
 
@@ -218,6 +218,10 @@
         border-top-right-radius: 0.5em;
         border-bottom-right-radius: 0.5em;
     }
+
+    & > :first-child:last-child {
+        min-width: 0.5em;
+    }
 }
 
 .progress-bar--unhealthy > * {
@@ -229,10 +233,6 @@
 }
 
 .progress-bar--gendered {
-    & > * {
-        display: none; // empty bars hidden by default, to avoid border showing
-    }
-
     & > * + * {
         border-left: 1px solid $color_off_white;
     }

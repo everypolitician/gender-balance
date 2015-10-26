@@ -80,13 +80,33 @@ var trophyFlash = function trophyFlash(){
   });
 }
 
+var setUpProgressBar = function setUpProgressBar(){
+  // Sets progress bar segment widths instantaneously,
+  // based on the totals in `window.totals`.
+  var total = $('.progress-bar').data('total');
+
+  $.each(['male', 'female', 'other'], function(_i, choice){
+    if(window.totals[choice] > 0){
+      var width = (window.totals[choice] / total) * 100;
+      getProgressBarSegment(choice).css({
+        width: width + '%'
+      });
+    }
+  });
+}
+
 var updateProgressBar = function updateProgressBar(choice, type){
+  // `choice` should be one of: female, male, other, skip
+  // `type` is optionally one of: done, undo (defaults to "done")
+
+  // Clean up the arguments
   type = type || 'done';
   if (choice === 'skip') {
     choice = 'other';
   }
-  var total = $('.progress-bar').data('total');
 
+  // Increase the stored count for that choice
+  var total = $('.progress-bar').data('total');
   if (type === 'done') {
     window.totals[choice]++;
   } else if (type === 'undo') {
@@ -94,32 +114,60 @@ var updateProgressBar = function updateProgressBar(choice, type){
   } else {
     throw new Error("Unknown type " + type + " (should be either 'done' or 'undo'");
   }
-
   var percent = (window.totals[choice] / total) * 100;
 
-  var selectors = {
-    male: '.js-progress-bar__males',
-    female: '.js-progress-bar__females',
-    other: '.js-progress-bar__others-dont-knows'
-  };
-  if (!selectors[choice]) {
-    throw new Error("Unknown choice " + choice);
-  }
-  var $el = $(selectors[choice]);
-  $el.show();
-
-  $el.animate({
+  // Update the progress bar UI
+  getProgressBarSegment(choice).animate({
     width: percent + '%'
+  }, function(){
+    if (percent == 0) {
+      $(this).remove();
+    }
   });
 
+  // Trigger level completion if grandtotal has been reached
   var grandTotal = 0;
   $.each(window.totals, function(_choice, count) {
     grandTotal = grandTotal + count;
   });
-
   if (grandTotal === total) {
     levelComplete();
   }
+}
+
+var getProgressBarSegment = function getProgressBarSegment(choice){
+  // `choice` should be one of: female, male, other, skip
+  // Returns the segment element, for chainability.
+  // Creates the element if it doesn't already exist.
+
+  var segmentClass = {
+    male: 'progress-bar__males',
+    other: 'progress-bar__others-dont-knows',
+    female: 'progress-bar__females'
+  };
+
+  // Maybe the progress bar segment already exists?
+  var $el = $('.' + segmentClass[choice]);
+  if($el.length){
+    return $el;
+  }
+
+  var $el = $('<div>').addClass(segmentClass[choice]);
+
+  if(choice === 'male'){
+    $el.prependTo('.progress-bar');
+  } else if(choice === 'female'){
+    $el.appendTo('.progress-bar');
+  } else if(choice === 'other' || choice === 'skip'){
+    var $elMale = $('.' + segmentClass['male']);
+    if($elMale.length){
+      $el.insertAfter($elMale);
+    } else {
+      $el.prependTo('.progress-bar');
+    }
+  }
+
+  return $el;
 }
 
 var filterElements = function filterElements(){
@@ -178,6 +226,8 @@ $(function(){
 
   if($('.js-cardswipe').length){
     window.onboarding = ( $('.onboarding-page').length > 0 );
+
+    setUpProgressBar();
 
     $(".js-cardswipe").cardSwipe({
       choices: {
