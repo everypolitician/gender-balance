@@ -17,6 +17,15 @@ var updateGoogleLink = function updateGoogleLink($stack){
   $('.js-google-link').attr('href', link);
 }
 
+var updateUndoButton = function updateUndoButton(){
+  var $el = $('.js-undo');
+  if ($('.js-done-stack').children().length == 0) {
+    $el.addClass('button--disabled');
+  } else {
+    $el.removeClass('button--disabled');
+  }
+}
+
 var undo = function undo(cardSwipe, $stack){
   var $latestCard = $('.js-done-stack').children().eq(0);
   if ($latestCard.length === 0) return;
@@ -43,9 +52,7 @@ var undo = function undo(cardSwipe, $stack){
   function() {
     updateGoogleLink($stack);
     updateProgressBar();
-    if ($('.js-done-stack').children().length == 0) {
-      $('.js-undo').addClass('button--disabled');
-    }
+    updateUndoButton();
   });
 }
 
@@ -195,12 +202,10 @@ $(function(){
           var $doneStack = $('.js-done-stack');
           $card.removeClass('animating').remove().prependTo($doneStack);
 
-          // Enable the undo button now there are cards on the doneStack
-          $('.js-undo').removeClass('button--disabled');
-
           // ...And update the various bits of UI relating to the current card
           updateGoogleLink($stack);
           updateProgressBar();
+          updateUndoButton();
         });
 
         // ...Append a new card to the bottom of the stack...
