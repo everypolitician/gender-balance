@@ -220,7 +220,6 @@ $(function(){
         animateCurrentCard(function(){
           var $doneStack = $('.js-done-stack');
           $card.removeClass('animating').prependTo($doneStack);
-          console.log($card.data());
 
           // Enable the undo button now there are cards on the doneStack
           $('.js-undo').removeClass('button--disabled');
