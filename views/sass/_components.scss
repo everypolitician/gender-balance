@@ -63,13 +63,9 @@
     @include make_button($color_orange, $color_white);
 }
 
-.button--undo {
-    @include make_button($color_grey, $color_white);
-}
-
 .button--disabled {
     color: lighten($color_grey, 5%);
-    background-color: $color_grey;
+    background: transparent;
 
     cursor: default !important;
 
@@ -77,7 +73,7 @@
     &:active,
     &:focus {
         color: lighten($color_grey, 5%);
-        background-color: $color_grey;
+        background: transparent;
     }
 }
 
