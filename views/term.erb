@@ -12,7 +12,15 @@
 
 <% if @people.any? %>
 
-<div class="progress-bar progress-bar--healthy" data-total="<%= @legislative_period.unique_people.size %>"><div style="width: <%= percent_complete_term(@legislative_period) %>%"></div></div>
+<script>
+window.totals = {
+  male: <%= responses_for_term(@legislative_period, 'male').count %>,
+  female: <%= responses_for_term(@legislative_period, 'female').count %>,
+  other: <%= responses_for_term(@legislative_period, ['other', 'skip']).count %>
+};
+</script>
+
+<div class="progress-bar progress-bar--gendered" data-total="<%= @legislative_period.unique_people.size %>"></div>
 
 <div class="person-cards">
     <ul class="js-cardswipe">

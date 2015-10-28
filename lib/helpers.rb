@@ -35,9 +35,8 @@ module Helpers
       end
   end
 
-  def percent_complete_term(legislative_period)
-    total_people = legislative_period.unique_people.size
-    response_count = current_user.responses_dataset
+  def responses_for_term(legislative_period, choice = nil)
+    responses = current_user.responses_dataset
       .select(:politician_id)
       .join(:legislative_periods, id: :legislative_period_id)
       .distinct
@@ -45,8 +44,15 @@ module Helpers
         politician_id: legislative_period.unique_people.map { |row| row[:id] },
         legislature_slug: legislative_period.legislature[:slug],
         country_code: legislative_period.country_code
-      ).count
-    total = (response_count.to_f / total_people.to_f) * 100
+      )
+    responses = responses.where(choice: choice) if choice
+    responses
+  end
+
+  def percent_complete_term(legislative_period, choice = nil)
+    total_people = legislative_period.unique_people.size
+    responses = responses_for_term(legislative_period, choice)
+    total = (responses.count.to_f / total_people.to_f) * 100
     total < 100 ? total : 100
   end
 

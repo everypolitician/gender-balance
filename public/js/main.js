@@ -38,22 +38,22 @@ var undo = function undo(cardSwipe, $stack){
   // move newly added card(s) back onto extra cards pile
   $extraCards = $('.js-extra-cards');
   while ($stack.children().length > 1) {
-    $stack.children().eq(-1).remove().prependTo($extraCards);
+    $stack.children().eq(-1).prependTo($extraCards);
   }
+  // Hide the colored overlay
+  $('span', $latestCard).animate({opacity: 0}, cardSwipe.animationRevertSpeed);
+
   // move latest swiped card back onto stack
-  $latestCard.remove().prependTo($stack).animate({
-    transform: "translate(0px,0px) rotate(0deg)"
-  },
-  cardSwipe.animationRevertSpeed);
-  $('span', $latestCard).animate({
-    opacity: 0
-  },
-  cardSwipe.animationRevertSpeed,
-  function() {
-    updateGoogleLink($stack);
-    updateProgressBar();
-    updateUndoButton();
-  });
+  $latestCard.prependTo($stack);
+  $latestCard.animate(
+    {transform: "translate(0px,0px) rotate(0deg)"},
+    cardSwipe.animationRevertSpeed,
+    function() {
+      updateGoogleLink($stack);
+      updateProgressBar($latestCard.data('choice'), 'undo');
+      updateUndoButton();
+    }
+  );
 }
 
 var undoInit = function undoInit(cardSwipe, $stack){
@@ -87,22 +87,94 @@ var trophyFlash = function trophyFlash(){
   });
 }
 
-var updateProgressBar = function updateProgressBar(){
+var setUpProgressBar = function setUpProgressBar(){
+  // Sets progress bar segment widths instantaneously,
+  // based on the totals in `window.totals`.
   var total = $('.progress-bar').data('total');
 
-  // Cards in the DOM, minus any that are being animated (ie: removed)
-  var remaining = $('.js-extra-cards li, .js-cardswipe li').not('.animating').length;
+  $.each(['male', 'female', 'other'], function(_i, choice){
+    if(window.totals[choice] > 0){
+      var width = (window.totals[choice] / total) * 100;
+      getProgressBarSegment(choice).css({
+        width: width + '%'
+      });
+    }
+  });
+}
 
-  var done = total - remaining;
-  var percent = (done / total) * 100;
+var updateProgressBar = function updateProgressBar(choice, type){
+  // `choice` should be one of: female, male, other, skip
+  // `type` is optionally one of: done, undo (defaults to "done")
 
-  $('.progress-bar div').animate({
+  // Clean up the arguments
+  type = type || 'done';
+  if (choice === 'skip') {
+    choice = 'other';
+  }
+
+  // Increase the stored count for that choice
+  var total = $('.progress-bar').data('total');
+  if (type === 'done') {
+    window.totals[choice]++;
+  } else if (type === 'undo') {
+    window.totals[choice]--;
+  } else {
+    throw new Error("Unknown type " + type + " (should be either 'done' or 'undo'");
+  }
+  var percent = (window.totals[choice] / total) * 100;
+
+  // Update the progress bar UI
+  getProgressBarSegment(choice).animate({
     width: percent + '%'
+  }, function(){
+    if (percent == 0) {
+      $(this).remove();
+    }
   });
 
-  if (percent === 100) {
+  // Trigger level completion if grandtotal has been reached
+  var grandTotal = 0;
+  $.each(window.totals, function(_choice, count) {
+    grandTotal = grandTotal + count;
+  });
+  if (grandTotal === total) {
     levelComplete();
   }
+}
+
+var getProgressBarSegment = function getProgressBarSegment(choice){
+  // `choice` should be one of: female, male, other, skip
+  // Returns the segment element, for chainability.
+  // Creates the element if it doesn't already exist.
+
+  var segmentClass = {
+    male: 'progress-bar__males',
+    other: 'progress-bar__others-dont-knows',
+    female: 'progress-bar__females'
+  };
+
+  // Maybe the progress bar segment already exists?
+  var $el = $('.' + segmentClass[choice]);
+  if($el.length){
+    return $el;
+  }
+
+  var $el = $('<div>').addClass(segmentClass[choice]);
+
+  if(choice === 'male'){
+    $el.prependTo('.progress-bar');
+  } else if(choice === 'female'){
+    $el.appendTo('.progress-bar');
+  } else if(choice === 'other' || choice === 'skip'){
+    var $elMale = $('.' + segmentClass['male']);
+    if($elMale.length){
+      $el.insertAfter($elMale);
+    } else {
+      $el.prependTo('.progress-bar');
+    }
+  }
+
+  return $el;
 }
 
 var filterElements = function filterElements(){
@@ -162,6 +234,8 @@ $(function(){
   if($('.js-cardswipe').length){
     window.onboarding = ( $('.onboarding-page').length > 0 );
 
+    setUpProgressBar();
+
     $(".js-cardswipe").cardSwipe({
       choices: {
         male: {
@@ -196,15 +270,17 @@ $(function(){
           saveResponse(response);
         }
 
+        $card.data('choice', choice);
+
         // While response is being saved, animate and then move the top card
         // to the top of the done stack...
         animateCurrentCard(function(){
           var $doneStack = $('.js-done-stack');
-          $card.removeClass('animating').remove().prependTo($doneStack);
+          $card.removeClass('animating').prependTo($doneStack);
 
           // ...And update the various bits of UI relating to the current card
           updateGoogleLink($stack);
-          updateProgressBar();
+          updateProgressBar(choice);
           updateUndoButton();
         });
 
