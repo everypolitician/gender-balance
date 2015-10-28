@@ -10,7 +10,15 @@
     </div>
 <% end %>
 
-<div class="progress-bar progress-bar--healthy" data-total="12"><div style="width: 0%"></div></div>
+<script>
+window.totals = {
+  male: 0,
+  female: 0,
+  other: 0
+};
+</script>
+
+<div class="progress-bar progress-bar--gendered" data-total="13"></div>
 
 <div class="person-cards">
     <ul class="js-cardswipe">
