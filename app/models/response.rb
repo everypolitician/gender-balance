@@ -65,7 +65,7 @@ class Response < Sequel::Model
         .group(:users__id, :users__name)
         .order(Sequel.desc(:count))
         .limit(limit)
-        .where{responses__created_at > 1.week.ago}
+        .where{responses__created_at > 1.month.ago}
     end
   end
 end
