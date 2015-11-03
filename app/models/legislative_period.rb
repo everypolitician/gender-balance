@@ -1,3 +1,5 @@
+require 'legacy_id_mapper'
+
 class LegislativePeriod < Sequel::Model
   one_to_many :responses
 
@@ -50,8 +52,20 @@ class LegislativePeriod < Sequel::Model
     Sinatra::Application.cache_client.fetch(cache_key, 1.month) do
       csv_url = 'https://cdn.rawgit.com/everypolitician/everypolitician-data/' \
         "#{legislature[:sha]}/#{legislative_period[:csv]}"
-      CSV.parse(open(csv_url).read, headers: true, header_converters: :symbol)
+      csv = CSV.parse(open(csv_url).read, headers: true, header_converters: :symbol)
+      id_map = LegacyIdMapper.new(popolo)
+      csv.each { |row| row[:id] = id_map[row[:id]] }
+      csv
     end
+  end
+
+  def popolo
+    @popolo ||= Yajl.load(open(popolo_url).read, symbolize_keys: true)
+  end
+
+  def popolo_url
+    @popolo_url ||= 'https://cdn.rawgit.com/everypolitician/everypolitician-data/' \
+      "#{legislature[:sha]}/#{legislature[:popolo]}"
   end
 
   def available_images
