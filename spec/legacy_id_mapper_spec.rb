@@ -41,4 +41,20 @@ describe LegacyIdMapper do
     assert_equal 'alice', subject['alice']
     assert_equal 'missing', subject['missing']
   end
+
+  describe 'reverse mapping' do
+    it 'maps back to a UUID' do
+      assert_equal 'af3e71ab-01f9-4190-a988-79944eeed8e7', subject.reverse_map['bob']
+      assert_equal 'another-uuid', subject.reverse_map['john-smith']
+    end
+
+    it "returns the uuid if there's no legact id" do
+      assert_equal 'new-uuid', subject.reverse_map['new-uuid']
+    end
+
+    it 'returns the uuid unchanged if not found in the source data' do
+      assert_equal 'alice', subject.reverse_map['alice']
+      assert_equal 'missing', subject.reverse_map['missing']
+    end
+  end
 end

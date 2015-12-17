@@ -33,6 +33,7 @@ end
 require 'helpers'
 require 'app/models'
 require 'app/jobs'
+require 'csv_export'
 
 helpers Helpers
 
@@ -163,4 +164,15 @@ post '/responses' do
   rescue Sequel::UniqueConstraintViolation
     halt 403, 'Decision already recorded for this politician'
   end
+end
+
+get '/export/:country_slug/:legislature_slug' do |country_slug, legislature_slug|
+  content_type 'text/csv;charset=utf-8'
+  country = Country.find_by_slug(country_slug)
+  legislative_period = LegislativePeriod.first(
+    country_code: country[:code],
+    legislature_slug: legislature_slug
+  )
+  legacy_ids = LegacyIdMapper.new(legislative_period.popolo)
+  CsvExport.new(country[:code], legislature_slug, legacy_ids.reverse_map).to_csv
 end
