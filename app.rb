@@ -181,7 +181,7 @@ get '/export/:country_slug/:legislature_slug' do |country_slug, legislature_slug
     counts[row[:politician_id]] ||= {}
     counts[row[:politician_id]][row[:user_id]] = row[:choice]
   end
-  headers = ['politician_id', 'female', 'male', 'other', 'skip']
+  headers = ['uuid', 'female', 'male', 'other', 'skip']
   rows = counts.map do |politician_id, per_person_votes|
     v = Hash[per_person_votes.values.group_by { |t| t }.map { |t, c| [t, c.size] }]
     [politician_id, v['female'], v['male'], v['other'], v['skip']]
