@@ -101,11 +101,11 @@ describe 'App' do
 
       it 'returns the correct CSV' do
         response = CSV.parse(last_response.body, headers: true)
-        assert_equal ["politician_id", "female", "male", "other", "skip"], response.headers
+        assert_equal ["uuid", "female", "male", "other", "skip", "total"], response.headers
         expected = [
-          {"politician_id"=>"pol0", "female"=>nil, "male"=>"1", "other"=>nil, "skip"=>nil},
-          {"politician_id"=>"pol1", "female"=>nil, "male"=>"1", "other"=>nil, "skip"=>nil},
-          {"politician_id"=>"pol2", "female"=>"1", "male"=>nil, "other"=>nil, "skip"=>nil}
+          {"uuid"=>"pol0", "female"=>nil, "male"=>"1", "other"=>nil, "skip"=>nil, "total" => "1"},
+          {"uuid"=>"pol1", "female"=>nil, "male"=>"1", "other"=>nil, "skip"=>nil, "total" => "1"},
+          {"uuid"=>"pol2", "female"=>"1", "male"=>nil, "other"=>nil, "skip"=>nil, "total" => "1"}
         ]
         assert_equal expected, response.map(&:to_hash)
       end
@@ -124,9 +124,9 @@ describe 'App' do
         it "doesn't count votes twice" do
           response = CSV.parse(last_response.body, headers: true)
           expected = [
-            {"politician_id"=>"pol0", "female"=>nil, "male"=>"1", "other"=>nil, "skip"=>nil},
-            {"politician_id"=>"pol1", "female"=>nil, "male"=>nil, "other"=>nil, "skip"=>"1"},
-            {"politician_id"=>"pol2", "female"=>"1", "male"=>nil, "other"=>nil, "skip"=>nil}
+            {"uuid"=>"pol0", "female"=>nil, "male"=>"1", "other"=>nil, "skip"=>nil, "total"=>"1"},
+            {"uuid"=>"pol1", "female"=>nil, "male"=>nil, "other"=>nil, "skip"=>"1", "total"=>"1"},
+            {"uuid"=>"pol2", "female"=>"1", "male"=>nil, "other"=>nil, "skip"=>nil, "total"=>"1"}
           ]
           assert_equal expected, response.map(&:to_hash)
         end
