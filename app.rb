@@ -33,6 +33,7 @@ end
 require 'helpers'
 require 'app/models'
 require 'app/jobs'
+require 'csv_export'
 
 helpers Helpers
 
@@ -168,26 +169,10 @@ end
 get '/export/:country_slug/:legislature_slug' do |country_slug, legislature_slug|
   content_type 'text/csv;charset=utf-8'
   country = Country.find_by_slug(country_slug)
-  votes = Response
-    .select(:politician_id, :user_id, :choice)
-    .join(:legislative_periods, legislative_periods__id: :responses__legislative_period_id)
-    .where(country_code: country[:code], legislature_slug: legislature_slug)
-    .order(:responses__created_at)
-  counts = {}
-
-  # This is purposely overwriting earlier votes by a user with later ones so
-  # that we only count one vote for a politician per user.
-  votes.each do |row|
-    counts[row[:politician_id]] ||= {}
-    counts[row[:politician_id]][row[:user_id]] = row[:choice]
-  end
-  headers = ['uuid', 'female', 'male', 'other', 'skip', 'total']
-  rows = counts.map do |politician_id, per_person_votes|
-    v = Hash[per_person_votes.values.group_by { |t| t }.map { |t, c| [t, c.size] }]
-    [politician_id, v['female'], v['male'], v['other'], v['skip'], v.values.compact.reduce(&:+)]
-  end
-  CSV.generate do |csv|
-    csv << headers
-    rows.each { |row| csv << row }
-  end
+  legislative_period = LegislativePeriod.first(
+    country_code: country[:code],
+    legislature_slug: legislature_slug
+  )
+  legacy_ids = LegacyIdMapper.new(legislative_period.popolo)
+  CsvExport.new(country[:code], legislature_slug, legacy_ids.reverse_map).to_csv
 end
