@@ -70,4 +70,67 @@ describe 'App' do
       end
     end
   end
+
+  describe 'CSV API' do
+    let(:user) { User.create(name: 'Bob Test', uid: '42', provider: 'twitter') }
+    let(:legislative_period) { LegislativePeriod.create(country_code: 'AU', legislature_slug: 'Senate', legislative_period_id: 2, start_date: Date.new(2010)) }
+
+    before do
+      %w(male male female).each_with_index do |choice, i|
+        Response.create(
+          user_id: user.id,
+          politician_id: "pol#{i}",
+          legislative_period_id: legislative_period.id,
+          choice: choice
+        )
+      end
+    end
+
+    describe 'simple download' do
+      before do
+        get '/export/Australia/Senate'
+      end
+
+      it 'returns a success status code' do
+        assert_equal 200, last_response.status
+      end
+
+      it 'has the correct content type' do
+        assert_equal 'text/csv;charset=utf-8', last_response.header['content-type']
+      end
+
+      it 'returns the correct CSV' do
+        response = CSV.parse(last_response.body, headers: true)
+        assert_equal ["politician_id", "female", "male", "other", "skip"], response.headers
+        expected = [
+          {"politician_id"=>"pol0", "female"=>nil, "male"=>"1", "other"=>nil, "skip"=>nil},
+          {"politician_id"=>"pol1", "female"=>nil, "male"=>"1", "other"=>nil, "skip"=>nil},
+          {"politician_id"=>"pol2", "female"=>"1", "male"=>nil, "other"=>nil, "skip"=>nil}
+        ]
+        assert_equal expected, response.map(&:to_hash)
+      end
+
+      describe 'with duplicate responses' do
+        before do
+          Response.create(
+            user_id: user.id,
+            politician_id: "pol1",
+            legislative_period_id: legislative_period.id,
+            choice: 'skip'
+          )
+          get '/export/Australia/Senate'
+        end
+
+        it "doesn't count votes twice" do
+          response = CSV.parse(last_response.body, headers: true)
+          expected = [
+            {"politician_id"=>"pol0", "female"=>nil, "male"=>"1", "other"=>nil, "skip"=>nil},
+            {"politician_id"=>"pol1", "female"=>nil, "male"=>nil, "other"=>nil, "skip"=>"1"},
+            {"politician_id"=>"pol2", "female"=>"1", "male"=>nil, "other"=>nil, "skip"=>nil}
+          ]
+          assert_equal expected, response.map(&:to_hash)
+        end
+      end
+    end
+  end
 end
