@@ -34,6 +34,7 @@ require 'helpers'
 require 'app/models'
 require 'app/jobs'
 require 'csv_export'
+require 'vote_counts'
 
 helpers Helpers
 
@@ -175,5 +176,7 @@ get '/export/:country_slug/:legislature_slug' do |country_slug, legislature_slug
   )
   halt 500, "Couldn't find legislative period for #{country_slug} - #{legislature_slug}" if legislative_period.nil?
   legacy_ids = LegacyIdMapper.new(legislative_period.popolo)
-  CsvExport.new(country[:code], legislature_slug, legacy_ids.reverse_map).to_csv
+
+  vote_counts = VoteCounts.new(country[:code], legislature_slug, legacy_ids.reverse_map)
+  CsvExport.new(vote_counts).to_csv
 end
