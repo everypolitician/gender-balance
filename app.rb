@@ -35,6 +35,7 @@ require 'app/models'
 require 'app/jobs'
 require 'csv_export'
 require 'vote_counts'
+require 'vote_consensus'
 
 helpers Helpers
 
