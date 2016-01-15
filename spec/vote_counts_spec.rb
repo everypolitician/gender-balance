@@ -31,20 +31,4 @@ describe VoteCounts do
     expected = { 'pol1' => { 'male' => 1 }, 'pol2' => { 'male' => 1 }, 'pol3' => { 'female' => 1 } }
     assert_equal expected, subject.to_hash
   end
-
-  describe 'with duplicate responses' do
-    before do
-      Response.create(
-        user_id: user.id,
-        politician_id: 'politician2',
-        legislative_period_id: legislative_period.id,
-        choice: 'skip'
-      )
-    end
-
-    it "doesn't count votes twice" do
-      expected = { 'pol1' => { 'male' => 1 }, 'pol2' => { 'skip' => 1 }, 'pol3' => { 'female' => 1 } }
-      assert_equal expected, subject.to_hash
-    end
-  end
 end
