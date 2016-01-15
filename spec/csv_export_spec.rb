@@ -36,25 +36,4 @@ describe CsvExport do
     actual = CSV.parse(subject.to_csv, headers: true)
     assert_equal expected, actual.map(&:to_hash)
   end
-
-  describe 'with duplicate responses' do
-    before do
-      Response.create(
-        user_id: user.id,
-        politician_id: "politician2",
-        legislative_period_id: legislative_period.id,
-        choice: 'skip'
-      )
-    end
-
-    it "doesn't count votes twice" do
-      expected = [
-        {"uuid"=>"pol1", "female"=>nil, "male"=>"1", "other"=>nil, "skip"=>nil, "total"=>"1"},
-        {"uuid"=>"pol2", "female"=>nil, "male"=>nil, "other"=>nil, "skip"=>"1", "total"=>"1"},
-        {"uuid"=>"pol3", "female"=>"1", "male"=>nil, "other"=>nil, "skip"=>nil, "total"=>"1"}
-      ]
-      actual = CSV.parse(subject.to_csv, headers: true)
-      assert_equal expected, actual.map(&:to_hash)
-    end
-  end
 end
