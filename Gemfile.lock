@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/everypolitician/everypolitician-ruby.git
-  revision: 8f1641d86418ea66d81fb74c596f278cc6c21f49
+  revision: c203c0117c4df45812a64490a1dffed28a60769d
   branch: enhancements
   specs:
     everypolitician (0.4.0)

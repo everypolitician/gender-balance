@@ -53,19 +53,10 @@ class LegislativePeriod < Sequel::Model
       csv_url = 'https://cdn.rawgit.com/everypolitician/everypolitician-data/' \
         "#{legislature[:sha]}/#{legislative_period[:csv]}"
       csv = CSV.parse(open(csv_url).read, headers: true, header_converters: :symbol)
-      id_map = LegacyIdMapper.new(popolo)
+      id_map = LegacyIdMapper.new(legislature.popolo)
       csv.each { |row| row[:id] = id_map[row[:id]] }
       csv
     end
-  end
-
-  def popolo
-    @popolo ||= Yajl.load(open(popolo_url).read, symbolize_keys: true)
-  end
-
-  def popolo_url
-    @popolo_url ||= 'https://cdn.rawgit.com/everypolitician/everypolitician-data/' \
-      "#{legislature[:sha]}/#{legislature[:popolo]}"
   end
 
   def available_images

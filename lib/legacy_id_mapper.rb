@@ -13,7 +13,7 @@ class LegacyIdMapper
   attr_reader :reverse_map
 
   def initialize(popolo)
-    id_mapping = popolo[:persons].map do |person|
+    id_mapping = popolo.persons.map do |person|
       next unless person[:identifiers]
       legacy_id = person[:identifiers].find do |i|
         i[:scheme] == 'everypolitician_legacy'
