@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/everypolitician/everypolitician-ruby.git
+  revision: 8f1641d86418ea66d81fb74c596f278cc6c21f49
+  branch: enhancements
+  specs:
+    everypolitician (0.4.0)
+      everypolitician-popolo
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -24,6 +32,7 @@ GEM
     docile (1.1.5)
     dotenv (2.0.2)
     erubis (2.7.0)
+    everypolitician-popolo (0.1.0)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     hashie (3.4.2)
@@ -145,6 +154,7 @@ DEPENDENCIES
   database_cleaner
   dotenv
   erubis
+  everypolitician!
   minitest
   omniauth-facebook
   omniauth-github
@@ -169,4 +179,4 @@ DEPENDENCIES
   yajl-ruby
 
 BUNDLED WITH
-   1.10.6
+   1.11.2
