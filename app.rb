@@ -70,7 +70,7 @@ get '/about' do
 end
 
 post '/event_handler' do
-  settings.cache_client.delete('countries.json')
+  Everypolitician.countries = nil
   UpdateCacheJob.perform_async
   'ok'
 end
