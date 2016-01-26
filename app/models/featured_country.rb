@@ -9,7 +9,7 @@ class FeaturedCountry < Sequel::Model
     def current=(country_code)
       db.transaction do
         current.update(end_date: DateTime.now) if current
-        country = Country.find_by_code(country_code)
+        country = Everypolitician.country(code: country_code)
         raise ArgumentError, "Invalid country code: #{country_code}" if country.nil?
         if FeaturedCountry.where(country_code: country_code).any?
           raise ArgumentError, "This country has already been featured. See http://git.io/vcO2x"

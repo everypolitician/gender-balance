@@ -35,7 +35,7 @@ class Response < Sequel::Model
 
     def recent_countries(limit = 5)
       recent_country_codes(limit).map do |code|
-        Country.find_by_code(code)
+        Everypolitician.country(code: code)
       end
     end
 

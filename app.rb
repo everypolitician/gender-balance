@@ -124,27 +124,27 @@ before '/countries*' do
 end
 
 get '/countries' do
-  @countries = Country.all
+  @countries = Everypolitician.countries
   @recent_countries = current_user.responses_dataset.recent_countries
   current_featured_country = FeaturedCountry.current
   if current_featured_country
-    @featured_country = Country.find_by_code(current_featured_country.country_code)
+    @featured_country = Everypolitician.country(code: current_featured_country.country_code)
   end
   erb :countries
 end
 
 get '/countries/:country' do
-  @country = Country.find_by_slug(params[:country])
-  if @country[:legislatures].length == 1
-    legislature = @country[:legislatures].first
-    redirect to("/countries/#{@country[:slug]}/legislatures/#{legislature[:slug]}")
+  @country = Everypolitician.country(slug: params[:country])
+  if @country.legislatures.length == 1
+    legislature = @country.legislatures.first
+    redirect to("/countries/#{@country.slug}/legislatures/#{legislature.slug}")
   else
     erb :country
   end
 end
 
 get '/countries/:country/legislatures/:legislature' do
-  @country = Country.find_by_slug(params[:country])
+  @country = Everypolitician.country(slug: params[:country])
   @legislature = @country.legislature(params[:legislature])
   @legislative_period = current_user.legislative_period_for(@country, @legislature)
   return erb :congratulations unless @legislative_period
@@ -168,7 +168,7 @@ end
 
 get '/export/:country_slug/:legislature_slug' do |country_slug, legislature_slug|
   content_type 'text/csv;charset=utf-8'
-  country = Country.find_by_slug(country_slug)
+  country = Everypolitician.country(slug: country_slug)
   legislative_period = LegislativePeriod.first(
     country_code: country[:code],
     legislature_slug: legislature_slug

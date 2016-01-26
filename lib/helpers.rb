@@ -19,15 +19,15 @@ module Helpers
 
   def percent_complete(country)
     @percent_complete_countries ||= {}
-    @percent_complete_countries[country[:code]] ||=
+    @percent_complete_countries[country.code] ||=
       begin
-        country_count = country_counts[country[:code]]
+        country_count = country_counts[country.code]
         return 0 if country_count.nil?
         total_people = country_count.person_count
         complete_people = current_user.responses_dataset
           .select(:politician_id)
           .join(:legislative_periods, id: :legislative_period_id)
-          .where(country_code: country[:code])
+          .where(country_code: country.code)
           .distinct
           .count
         total = (complete_people.to_f / total_people.to_f) * 100
@@ -42,7 +42,7 @@ module Helpers
       .distinct
       .where(
         politician_id: legislative_period.unique_people.map { |row| row[:id] },
-        legislature_slug: legislative_period.legislature[:slug],
+        legislature_slug: legislative_period.legislature.slug,
         country_code: legislative_period.country_code
       )
     responses = responses.where(choice: choice) if choice

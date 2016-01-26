@@ -1,3 +1,12 @@
+class GenderCount
+  def self.for_country(country)
+    counts = country.legislatures.map do |legislature|
+      legislature.popolo.persons.count { |p| p[:gender] }
+    end
+    counts.reduce(&:+)
+  end
+end
+
 class UpdateCacheJob
   include Sidekiq::Worker
 
@@ -7,13 +16,13 @@ class UpdateCacheJob
   end
 
   def cache_country_person_counts
-    Country.all.each do |country|
+    Everypolitician.countries.each do |country|
       puts "Caching person count for #{country[:name]}"
       country_count = CountryCount.find_or_create(country_code: country[:code])
       counts = country[:legislatures].map { |l| l[:person_count] }
       country_count.person_count = counts.reduce(:+)
       if country_count.respond_to?(:gender_count=)
-        country_count.gender_count = country.gender_count
+        country_count.gender_count = GenderCount.for_country(country)
       end
       country_count.save
     end
@@ -21,7 +30,7 @@ class UpdateCacheJob
 
   def cache_legislative_periods
     LegislativePeriod.enabled.each { |lp| lp.disable! if lp.missing? }
-    Country.all.each do |country|
+    Everypolitician.countries.each do |country|
       country[:legislatures].each do |legislature|
         legislature[:legislative_periods].each do |legislative_period|
           puts "Processing #{country[:name]} #{legislature[:name]} #{legislative_period[:name]}"
