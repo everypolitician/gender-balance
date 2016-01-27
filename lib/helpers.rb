@@ -24,11 +24,8 @@ module Helpers
         country_count = country_counts[country.code]
         return 0 if country_count.nil?
         total_people = country_count.person_count
-        complete_people = current_user.responses_dataset
-          .select(:politician_id)
-          .join(:legislative_periods, id: :legislative_period_id)
-          .where(country_code: country.code)
-          .distinct
+        complete_people = current_user.votes_dataset
+          .where(person_uuid: CountryUUID.select(:uuid).where(country_slug: country.slug))
           .count
         total = (complete_people.to_f / total_people.to_f) * 100
         total < 100 ? total : 100
