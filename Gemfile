@@ -24,6 +24,7 @@ gem 'yajl-ruby', require: 'yajl'
 gem 'dalli'
 gem 'pry'
 gem 'sidekiq'
+gem 'everypolitician'
 
 group :test do
   gem 'minitest'

@@ -27,24 +27,24 @@ class LegislativePeriod < Sequel::Model
   end
 
   def country
-    @country ||= Country.find_by_code(country_code)
+    @country ||= Everypolitician.country(code: country_code)
   end
 
   def legislature
-    @legislature ||= country[:legislatures].find { |l| l[:slug] == legislature_slug }
+    @legislature ||= country.legislature(slug: legislature_slug)
   end
 
   def legislative_period
-    @legislative_period ||= legislature[:legislative_periods].find do |lp|
+    @legislative_period ||= legislature.legislative_periods.find do |lp|
       lp[:id] == legislative_period_id
     end
   end
 
   def cache_key
     @cache_key ||= [
-      legislature[:sha],
+      legislature.sha,
       legislative_period[:csv],
-      legislature[:lastmod]
+      legislature.lastmod
     ].join(':')
   end
 
@@ -53,25 +53,16 @@ class LegislativePeriod < Sequel::Model
       csv_url = 'https://cdn.rawgit.com/everypolitician/everypolitician-data/' \
         "#{legislature[:sha]}/#{legislative_period[:csv]}"
       csv = CSV.parse(open(csv_url).read, headers: true, header_converters: :symbol)
-      id_map = LegacyIdMapper.new(popolo)
+      id_map = LegacyIdMapper.new(legislature.popolo)
       csv.each { |row| row[:id] = id_map[row[:id]] }
       csv
     end
   end
 
-  def popolo
-    @popolo ||= Yajl.load(open(popolo_url).read, symbolize_keys: true)
-  end
-
-  def popolo_url
-    @popolo_url ||= 'https://cdn.rawgit.com/everypolitician/everypolitician-data/' \
-      "#{legislature[:sha]}/#{legislature[:popolo]}"
-  end
-
   def available_images
     unless @available_images
       index_txt_url = 'https://mysociety.github.io/politician-image-proxy/' \
-        "#{country[:slug]}/#{legislature_slug}/index.txt"
+        "#{country.slug}/#{legislature_slug}/index.txt"
       @available_images = open(index_txt_url).to_a.map(&:chomp)
     end
     @available_images
@@ -95,7 +86,7 @@ class LegislativePeriod < Sequel::Model
   def previous_legislative_periods
     LegislativePeriod
       .enabled
-      .where(country_code: country[:code], legislature_slug: legislature[:slug])
+      .where(country_code: country.code, legislature_slug: legislature.slug)
       .order(Sequel.desc(:start_date))
       .where('start_date < ?', start_date)
   end

@@ -4,12 +4,12 @@
 
 <h2 class="page-title"><%= @country[:country] %></h2>
 
-<% @country[:legislatures].each do |legislature| %>
+<% @country.legislatures.each do |legislature| %>
 
   <% if current_user.legislative_period_for(@country, legislature) %>
     <div class="list list--terms">
-        <a class="list__item" href="<%= url "/countries/#{params[:country]}/legislatures/#{legislature[:slug]}" %>">
-            <h3><%= legislature[:name] %></h3>
+        <a class="list__item" href="<%= url "/countries/#{params[:country]}/legislatures/#{legislature.slug}" %>">
+            <h3><%= legislature.name %></h3>
         </a>
     </div>
   <% end %>

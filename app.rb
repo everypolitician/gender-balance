@@ -70,7 +70,9 @@ get '/about' do
 end
 
 post '/event_handler' do
-  settings.cache_client.delete('countries.json')
+  # This forces the Everypolitician class to refetch countries.json next
+  # time it's accessed.
+  Everypolitician.countries = nil
   UpdateCacheJob.perform_async
   'ok'
 end
@@ -124,28 +126,28 @@ before '/countries*' do
 end
 
 get '/countries' do
-  @countries = Country.all
+  @countries = Everypolitician.countries
   @recent_countries = current_user.responses_dataset.recent_countries
   current_featured_country = FeaturedCountry.current
   if current_featured_country
-    @featured_country = Country.find_by_code(current_featured_country.country_code)
+    @featured_country = Everypolitician.country(code: current_featured_country.country_code)
   end
   erb :countries
 end
 
 get '/countries/:country' do
-  @country = Country.find_by_slug(params[:country])
-  if @country[:legislatures].length == 1
-    legislature = @country[:legislatures].first
-    redirect to("/countries/#{@country[:slug]}/legislatures/#{legislature[:slug]}")
+  @country = Everypolitician.country(slug: params[:country])
+  if @country.legislatures.length == 1
+    legislature = @country.legislatures.first
+    redirect to("/countries/#{@country.slug}/legislatures/#{legislature.slug}")
   else
     erb :country
   end
 end
 
 get '/countries/:country/legislatures/:legislature' do
-  @country = Country.find_by_slug(params[:country])
-  @legislature = @country.legislature(params[:legislature])
+  @country = Everypolitician.country(slug: params[:country])
+  @legislature = @country.legislature(slug: params[:legislature])
   @legislative_period = current_user.legislative_period_for(@country, @legislature)
   return erb :congratulations unless @legislative_period
   @people = current_user.people_for(@legislative_period)
@@ -168,12 +170,13 @@ end
 
 get '/export/:country_slug/:legislature_slug' do |country_slug, legislature_slug|
   content_type 'text/csv;charset=utf-8'
-  country = Country.find_by_slug(country_slug)
+  country = Everypolitician.country(slug: country_slug)
+  legislature = country.legislature(slug: legislature_slug)
   legislative_period = LegislativePeriod.first(
     country_code: country[:code],
     legislature_slug: legislature_slug
   )
   halt 500, "Couldn't find legislative period for #{country_slug} - #{legislature_slug}" if legislative_period.nil?
-  legacy_ids = LegacyIdMapper.new(legislative_period.popolo)
+  legacy_ids = LegacyIdMapper.new(legislature.popolo)
   CsvExport.new(country[:code], legislature_slug, legacy_ids.reverse_map).to_csv
 end

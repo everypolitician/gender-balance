@@ -27,8 +27,8 @@ class User < Sequel::Model
 
   def legislative_periods_for(country, legislature)
     LegislativePeriod.enabled.where(
-      country_code: country[:code],
-      legislature_slug: legislature[:slug]
+      country_code: country.code,
+      legislature_slug: legislature.slug
     ).order(Sequel.desc(:start_date))
   end
 
