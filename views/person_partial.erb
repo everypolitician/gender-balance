@@ -1,6 +1,5 @@
 <li class="person-card person-card--person"
-    data-politician_id="<%== person[:id] %>"
-    data-legislative_period_id="<%= @legislative_period.id %>"
+    data-person_uuid="<%== person[:id] %>"
     data-google-link="https://google.com/search?q=<%== person[:name] %> <%= @legislative_period.country.name %> <%= @legislative_period.legislature.name %>"
 >
   <% if person[:image] && @legislative_period.available_images.include?(person[:id]) %>
