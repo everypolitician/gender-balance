@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe LegacyIdMapper do
   let(:popolo) do
-    {
+    Everypolitician::Popolo::JSON.new(
       persons: [
         {
           id: 'af3e71ab-01f9-4190-a988-79944eeed8e7',
@@ -23,7 +23,7 @@ describe LegacyIdMapper do
           id: 'person/alice'
         }
       ]
-    }
+    )
   end
 
   subject { LegacyIdMapper.new(popolo) }
