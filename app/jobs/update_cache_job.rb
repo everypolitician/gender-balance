@@ -16,6 +16,11 @@ class UpdateCacheJob
         country_count.gender_count = total_people_with_known_gender(country)
       end
       country_count.save
+      country.legislatures.each do |legislature|
+        legislature.popolo.persons.each do |person|
+          CountryUUID.find_or_create(country_slug: country.slug, uuid: person[:id])
+        end
+      end
     end
   end
 
