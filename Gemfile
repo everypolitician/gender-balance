@@ -24,7 +24,7 @@ gem 'yajl-ruby', require: 'yajl'
 gem 'dalli'
 gem 'pry'
 gem 'sidekiq'
-gem 'everypolitician', github: 'everypolitician/everypolitician-ruby', branch: 'enhancements'
+gem 'everypolitician'
 
 group :test do
   gem 'minitest'
