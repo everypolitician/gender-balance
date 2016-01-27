@@ -159,6 +159,15 @@ get '/_stats' do
   erb :stats
 end
 
+post '/votes' do
+  begin
+    current_user.add_vote(params[:vote])
+    'ok'
+  rescue Sequel::UniqueConstraintViolation
+    halt 403, 'Decision already recorded for this politician'
+  end
+end
+
 post '/responses' do
   begin
     current_user.record_response(params[:response])
