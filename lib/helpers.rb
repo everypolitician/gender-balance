@@ -49,6 +49,10 @@ module Helpers
     responses
   end
 
+  def votes_for_people(people, choice)
+    current_user.votes_dataset.where(person_uuid: people.map { |p| p[:id] }, choice: choice)
+  end
+
   def percent_complete_term(legislative_period, choice = nil)
     total_people = legislative_period.unique_people.size
     responses = responses_for_term(legislative_period, choice)
