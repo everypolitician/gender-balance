@@ -70,6 +70,8 @@ get '/about' do
 end
 
 post '/event_handler' do
+  # This forces the Everypolitician class to refetch countries.json next
+  # time it's accessed.
   Everypolitician.countries = nil
   UpdateCacheJob.perform_async
   'ok'
