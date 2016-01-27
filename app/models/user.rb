@@ -15,15 +15,8 @@ class User < Sequel::Model
 
   def people_for(legislative_period)
     people = legislative_period.unique_people
-    already_done = responses_dataset
-      .join(:legislative_periods, id: :legislative_period_id)
-      .where(
-        country_code: legislative_period.country_code,
-        legislature_slug: legislative_period.legislature_slug
-      )
-      .map(:politician_id)
-    people = people.reject { |person| already_done.include?(person[:id]) }
-    people.shuffle
+    already_done = votes_dataset.map(:person_uuid)
+    people.reject { |person| already_done.include?(person[:id]) }.shuffle
   end
 
   def legislative_periods_for(country, legislature)
