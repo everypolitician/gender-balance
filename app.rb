@@ -182,11 +182,6 @@ get '/export/:country_slug/:legislature_slug' do |country_slug, legislature_slug
   content_type 'text/csv;charset=utf-8'
   country = Everypolitician.country(slug: country_slug)
   legislature = country.legislature(slug: legislature_slug)
-  legislative_period = LegislativePeriod.first(
-    country_code: country[:code],
-    legislature_slug: legislature_slug
-  )
-  halt 500, "Couldn't find legislative period for #{country_slug} - #{legislature_slug}" if legislative_period.nil?
   legacy_ids = LegacyIdMapper.new(legislature.popolo)
   CsvExport.new(country[:code], legislature_slug, legacy_ids.reverse_map).to_csv
 end
