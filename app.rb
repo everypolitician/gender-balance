@@ -150,6 +150,7 @@ get '/countries/:country/legislatures/:legislature' do
   @legislature = @country.legislature(slug: params[:legislature])
   @legislative_period = current_user.legislative_period_for(@country, @legislature)
   return erb :congratulations unless @legislative_period
+  @all_people = @legislative_period.unique_people
   @people = current_user.people_for(@legislative_period)
   erb :term
 end
