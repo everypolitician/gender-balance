@@ -1,12 +1,3 @@
-class GenderCount
-  def self.for_country(country)
-    counts = country.legislatures.map do |legislature|
-      legislature.popolo.persons.count { |p| p[:gender] }
-    end
-    counts.reduce(&:+)
-  end
-end
-
 class UpdateCacheJob
   include Sidekiq::Worker
 
@@ -22,7 +13,7 @@ class UpdateCacheJob
       counts = country[:legislatures].map { |l| l[:person_count] }
       country_count.person_count = counts.reduce(:+)
       if country_count.respond_to?(:gender_count=)
-        country_count.gender_count = GenderCount.for_country(country)
+        country_count.gender_count = total_people_with_known_gender(country)
       end
       country_count.save
     end
@@ -49,5 +40,12 @@ class UpdateCacheJob
         end
       end
     end
+  end
+
+  def total_people_with_known_gender(country)
+    counts = country.legislatures.map do |legislature|
+      legislature.popolo.persons.count { |p| p[:gender] }
+    end
+    counts.reduce(&:+)
   end
 end
