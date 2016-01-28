@@ -13,6 +13,12 @@ class User < Sequel::Model
     end
   end
 
+  def recent_countries
+    CountryUUID.recent_countries_for(self).map do |c|
+      Everypolitician.country(slug: c.country_slug)
+    end
+  end
+
   def people_for(legislative_period)
     people = legislative_period.unique_people
     already_done = votes_dataset.map(:person_uuid)

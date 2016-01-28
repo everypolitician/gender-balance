@@ -127,7 +127,7 @@ end
 
 get '/countries' do
   @countries = Everypolitician.countries
-  @recent_countries = current_user.responses_dataset.recent_countries
+  @recent_countries = current_user.recent_countries
   current_featured_country = FeaturedCountry.current
   if current_featured_country
     @featured_country = Everypolitician.country(code: current_featured_country.country_code)
