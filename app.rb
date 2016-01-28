@@ -53,7 +53,7 @@ get '/*.css' do |filename|
 end
 
 get '/' do
-  @leaders = Response.leaders
+  @leaders = Vote.leaders
   if current_user
     erb :home_loggedin
   else
