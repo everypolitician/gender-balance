@@ -46,11 +46,11 @@ class User < Sequel::Model
 
   def played_when_featured(country)
     featured_country = FeaturedCountry.first(country_code: country[:code])
-    responses_dataset
-      .join(:legislative_periods, id: :legislative_period_id)
-      .where(country_code: country[:code])
-      .where{responses__created_at > featured_country.start_date}
-      .where{responses__created_at < featured_country.end_date}
+    votes_dataset
+      .join(:country_uuids, uuid: :person_uuid)
+      .where(country_slug: country[:slug])
+      .where{votes__created_at > featured_country.start_date}
+      .where{votes__created_at < featured_country.end_date}
       .any?
   end
 end
