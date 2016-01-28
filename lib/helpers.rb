@@ -8,10 +8,6 @@ module Helpers
     @country_counts ||= CountryCount.to_hash(:country_code)
   end
 
-  def started_countries
-    @started_countries ||= current_user.responses_dataset.country_codes
-  end
-
   def completed_onboarding?
     current_user && current_user.has_completed_onboarding? ||
       session[:completed_onboarding]
@@ -32,29 +28,8 @@ module Helpers
       end
   end
 
-  def responses_for_term(legislative_period, choice = nil)
-    responses = current_user.responses_dataset
-      .select(:politician_id)
-      .join(:legislative_periods, id: :legislative_period_id)
-      .distinct
-      .where(
-        politician_id: legislative_period.unique_people.map { |row| row[:id] },
-        legislature_slug: legislative_period.legislature.slug,
-        country_code: legislative_period.country_code
-      )
-    responses = responses.where(choice: choice) if choice
-    responses
-  end
-
   def votes_for_people(people, choice)
     current_user.votes_dataset.where(person_uuid: people.map { |p| p[:id] }, choice: choice)
-  end
-
-  def percent_complete_term(legislative_period, choice = nil)
-    total_people = legislative_period.unique_people.size
-    responses = responses_for_term(legislative_period, choice)
-    total = (responses.count.to_f / total_people.to_f) * 100
-    total < 100 ? total : 100
   end
 
   def progress_word(percent)
