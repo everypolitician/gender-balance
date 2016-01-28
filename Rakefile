@@ -42,3 +42,10 @@ namespace :cache do
     UpdateCacheJob.new.cache_legislative_periods
   end
 end
+
+task add_country_slug_to_featured_countries: :app do
+  FeaturedCountry.each do |fc|
+    country = Everypolitician.country(code: fc.country_code)
+    fc.update(country_slug: country.slug)
+  end
+end
