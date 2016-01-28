@@ -53,14 +53,4 @@ class User < Sequel::Model
       .where{responses__created_at < featured_country.end_date}
       .any?
   end
-
-  def record_response(response)
-    db.transaction do
-      responses_dataset.where(
-        legislative_period_id: response[:legislative_period_id],
-        politician_id: response[:politician_id]
-      ).delete
-      add_response(response)
-    end
-  end
 end

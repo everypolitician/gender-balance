@@ -169,15 +169,6 @@ post '/votes' do
   end
 end
 
-post '/responses' do
-  begin
-    current_user.record_response(params[:response])
-    'ok'
-  rescue Sequel::UniqueConstraintViolation
-    halt 403, 'Decision already recorded for this politician'
-  end
-end
-
 get '/export/:country_slug/:legislature_slug' do |country_slug, legislature_slug|
   content_type 'text/csv;charset=utf-8'
   country = Everypolitician.country(slug: country_slug)
