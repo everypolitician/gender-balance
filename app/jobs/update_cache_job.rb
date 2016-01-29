@@ -18,7 +18,11 @@ class UpdateCacheJob
       country_count.save
       country.legislatures.each do |legislature|
         legislature.popolo.persons.each do |person|
-          CountryUUID.find_or_create(country_slug: country.slug, uuid: person[:id])
+          CountryUUID.find_or_create(
+            country_slug: country.slug,
+            legislature_slug: legislature.slug,
+            uuid: person[:id]
+          )
         end
       end
     end
