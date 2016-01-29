@@ -1,12 +1,10 @@
 class CsvExport
-  attr_reader :country_code
-  attr_reader :legislature_slug
-  attr_reader :id_map
+  attr_reader :country
+  attr_reader :legislature
 
-  def initialize(country_code, legislature_slug, id_map)
-    @country_code = country_code
-    @legislature_slug = legislature_slug
-    @id_map = id_map
+  def initialize(country, legislature)
+    @country = country
+    @legislature = legislature
   end
 
   def to_csv
@@ -14,7 +12,7 @@ class CsvExport
     # This is purposely overwriting earlier votes by a user with later ones so
     # that we only count one vote for a politician per user.
     votes.each do |row|
-      politician_id = id_map[row[:politician_id]]
+      politician_id = row[:person_uuid]
       counts[politician_id] ||= {}
       counts[politician_id][row[:user_id]] = row[:choice]
     end
@@ -30,10 +28,10 @@ class CsvExport
   end
 
   def votes
-    @votes ||= Response
-      .select(:politician_id, :user_id, :choice)
-      .join(:legislative_periods, legislative_periods__id: :responses__legislative_period_id)
-      .where(country_code: country_code, legislature_slug: legislature_slug)
-      .order(:responses__created_at)
+    @votes ||= Vote
+      .select(:person_uuid, :user_id, :choice)
+      .join(:country_uuids, uuid: :person_uuid)
+      .where(country_slug: country.slug)
+      .order(:votes__created_at)
   end
 end
