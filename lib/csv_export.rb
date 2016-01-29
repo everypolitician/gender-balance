@@ -9,7 +9,7 @@ class CsvExport
 
   def to_csv
     CSV.generate do |csv|
-      csv << vote_totals.first.keys
+      csv << vote_totals.columns
       vote_totals.each { |vote| csv << vote.to_hash.values }
     end
   end
