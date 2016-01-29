@@ -174,5 +174,5 @@ get '/export/:country_slug/:legislature_slug' do |country_slug, legislature_slug
   country = Everypolitician.country(slug: country_slug)
   legislature = country.legislature(slug: legislature_slug)
   legacy_ids = LegacyIdMapper.new(legislature.popolo)
-  CsvExport.new(country[:code], legislature_slug, legacy_ids.reverse_map).to_csv
+  CsvExport.new(country, legislature).to_csv
 end
