@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe CsvExport do
-  let(:australia) { Everypolitician.country(slug: 'Australia') }
-  let(:senate) { australia.legislature(slug: 'Senate') }
-  subject { CsvExport.new(australia, senate) }
+  subject { CsvExport.new('Australia', 'Senate') }
   let(:user) { User.create(name: 'Bob Test', uid: '42', provider: 'twitter') }
 
   before do
@@ -15,7 +13,13 @@ describe CsvExport do
       'politician3' => 'female'
     }.each do |politician_id, choice|
       CountryUUID.create(
-        country_slug: australia.slug,
+        country_slug: 'Australia',
+        legislature_slug: 'Senate',
+        uuid: politician_id
+      )
+      CountryUUID.create(
+        country_slug: 'Australia',
+        legislature_slug: 'Assembly',
         uuid: politician_id
       )
       Vote.create(

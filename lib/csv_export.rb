@@ -1,10 +1,10 @@
 class CsvExport
-  attr_reader :country
-  attr_reader :legislature
+  attr_reader :country_slug
+  attr_reader :legislature_slug
 
-  def initialize(country, legislature)
-    @country = country
-    @legislature = legislature
+  def initialize(country_slug, legislature_slug)
+    @country_slug = country_slug
+    @legislature_slug = legislature_slug
   end
 
   def to_csv
@@ -16,14 +16,16 @@ class CsvExport
 
   def vote_totals
     @vote_totals ||= Vote
-      .select(:person_uuid___uuid)
-      .select_append(votes_for(:female))
-      .select_append(votes_for(:male))
-      .select_append(votes_for(:other))
-      .select_append(votes_for(:skip))
-      .select_append(Sequel.function(:count).*.as(:total))
+      .select(
+        :person_uuid___uuid,
+        votes_for(:female),
+        votes_for(:male),
+        votes_for(:other),
+        votes_for(:skip),
+        Sequel.function(:count).*.as(:total)
+      )
       .join(:country_uuids, uuid: :person_uuid)
-      .where(country_slug: country.slug)
+      .where(country_slug: country_slug, legislature_slug: legislature_slug)
       .group(:person_uuid)
       .order(:person_uuid)
   end
