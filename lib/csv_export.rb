@@ -8,30 +8,29 @@ class CsvExport
   end
 
   def to_csv
-    counts = {}
-    # This is purposely overwriting earlier votes by a user with later ones so
-    # that we only count one vote for a politician per user.
-    votes.each do |row|
-      politician_id = row[:person_uuid]
-      counts[politician_id] ||= {}
-      counts[politician_id][row[:user_id]] = row[:choice]
-    end
-    headers = ['uuid', 'female', 'male', 'other', 'skip', 'total']
-    rows = counts.map do |politician_id, per_person_votes|
-      v = Hash[per_person_votes.values.group_by { |t| t }.map { |t, c| [t, c.size] }]
-      [politician_id, v['female'], v['male'], v['other'], v['skip'], v.values.compact.reduce(&:+)]
-    end
     CSV.generate do |csv|
-      csv << headers
-      rows.each { |row| csv << row }
+      csv << vote_totals.first.keys
+      vote_totals.each { |vote| csv << vote.to_hash.values }
     end
   end
 
-  def votes
-    @votes ||= Vote
-      .select(:person_uuid, :user_id, :choice)
+  def vote_totals
+    @vote_totals ||= Vote
+      .select(:person_uuid___uuid)
+      .select_append(votes_for(:female))
+      .select_append(votes_for(:male))
+      .select_append(votes_for(:other))
+      .select_append(votes_for(:skip))
+      .select_append(Sequel.function(:count).*.as(:total))
       .join(:country_uuids, uuid: :person_uuid)
       .where(country_slug: country.slug)
-      .order(:votes__created_at)
+      .group(:person_uuid)
+      .order(:person_uuid)
+  end
+
+  def votes_for(choice)
+    Vote.from(:votes___iv)
+      .select(Sequel.function(:count).*)
+      .where(choice: choice.to_s, iv__person_uuid: :votes__person_uuid).as(choice.to_sym)
   end
 end
