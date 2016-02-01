@@ -46,4 +46,29 @@ module Helpers
   def motivational_quote
     settings.motivational_quotes.sample
   end
+
+  def available_images(legislature)
+    @available_images ||= begin
+      index_txt_url = 'https://mysociety.github.io/politician-image-proxy/' \
+        "#{legislature.country.slug}/#{legislature.slug}/index.txt"
+      @available_images = open(index_txt_url).to_a.map(&:chomp)
+    end
+  rescue OpenURI::HTTPError => e
+    warn "Couldn't retrieve list of available images: #{e.message}"
+    []
+  end
+
+  def image_for?(legislature, person)
+    available_images(legislature).include?(person[:id])
+  end
+
+  def image_for(legislature, person)
+    [
+      'https://mysociety.github.io/politician-image-proxy',
+      legislature.country.slug,
+      legislature.slug,
+      URI.encode_www_form_component(person[:id]),
+      '140x140.jpeg'
+    ].join('/')
+  end
 end
