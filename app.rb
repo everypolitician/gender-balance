@@ -157,7 +157,7 @@ get '/countries/:country/legislatures/:legislature' do
 end
 
 get '/_stats' do
-  @players = Response.join(:users, id: :user_id).group_and_count(:users__id)
+  @players = Vote.join(:users, id: :user_id).group_and_count(:users__id)
   erb :stats
 end
 
