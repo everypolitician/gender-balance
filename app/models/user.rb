@@ -53,4 +53,13 @@ class User < Sequel::Model
       .where{votes__created_at < featured_country.end_date}
       .any?
   end
+
+  def record_vote(vote_data)
+    vote = votes_dataset.first(person_uuid: vote_data[:person_uuid])
+    if vote
+      vote.update(choice: vote_data[:choice])
+    else
+      add_vote(vote_data)
+    end
+  end
 end
