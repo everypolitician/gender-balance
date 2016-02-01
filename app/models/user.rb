@@ -70,4 +70,8 @@ class User < Sequel::Model
       add_vote(vote_data)
     end
   end
+
+  def votes_for_people(people, choice)
+    votes_dataset.where(person_uuid: people.map { |p| p[:id] }, choice: choice)
+  end
 end

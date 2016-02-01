@@ -14,9 +14,9 @@
 
 <script>
 window.totals = {
-  male: <%= votes_for_people(@all_people, 'male').count %>,
-  female: <%= votes_for_people(@all_people, 'female').count %>,
-  other: <%= votes_for_people(@all_people, ['other', 'skip']).count %>
+  male: <%= @male_total %>,
+  female: <%= @female_total %>,
+  other: <%= @other_total %>
 };
 </script>
 
