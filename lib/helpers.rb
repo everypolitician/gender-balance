@@ -71,4 +71,14 @@ module Helpers
       '140x140.jpeg'
     ].join('/')
   end
+
+  def previous_legislative_periods(legislative_period)
+    legislature = legislative_period.legislature
+    index = legislature.legislative_periods.index(legislative_period)
+    legislature.legislative_periods[(index + 1)..-1]
+  end
+
+  def previous_legislative_period(legislative_period)
+    previous_legislative_periods(legislative_period).first
+  end
 end
