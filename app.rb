@@ -162,7 +162,7 @@ end
 
 post '/votes' do
   begin
-    current_user.add_vote(params[:vote])
+    current_user.record_vote(params[:vote])
     'ok'
   rescue Sequel::UniqueConstraintViolation
     halt 403, 'Decision already recorded for this politician'
