@@ -28,10 +28,6 @@ module Helpers
       end
   end
 
-  def votes_for_people(people, choice)
-    current_user.votes_dataset.where(person_uuid: people.map { |p| p[:id] }, choice: choice)
-  end
-
   def progress_word(percent)
     case
     when percent > 70

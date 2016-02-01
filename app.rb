@@ -150,9 +150,12 @@ get '/countries/:country/legislatures/:legislature' do
   @legislature = @country.legislature(slug: params[:legislature])
   @legislative_period = current_user.next_unfinished_term_for(@legislature)
   return erb :congratulations unless @legislative_period
-  @all_people = @legislative_period.csv.map(&:to_hash).uniq { |p| p[:id] }
+  all_people = @legislative_period.csv.map(&:to_hash).uniq { |p| p[:id] }
+  @male_total = current_user.votes_for_people(all_people, 'male').count
+  @female_total = current_user.votes_for_people(all_people, 'female').count
+  @other_total = current_user.votes_for_people(all_people, %w[other skip]).count
   already_done = current_user.votes_dataset.map(:person_uuid)
-  @people = @all_people.reject { |person| already_done.include?(person[:id]) }.shuffle
+  @people = all_people.reject { |person| already_done.include?(person[:id]) }.shuffle
   erb :term
 end
 
