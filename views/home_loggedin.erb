@@ -9,7 +9,7 @@
 <div class="home-primary">
     <div class="container">
         <div class="home-primary__text">
-          <% if current_user.responses.any? %>
+          <% if current_user.votes_dataset.count > 0 %>
             <h2>Hi there, <%= current_user.name.split(/[[:space:]]+/).first %>!</h2>
           <% end %>
             <div class="home-primary__login">
