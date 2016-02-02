@@ -42,3 +42,66 @@ namespace :cache do
     UpdateCacheJob.new.cache_legislative_periods
   end
 end
+
+task add_country_slug_to_featured_countries: :app do
+  FeaturedCountry.each do |fc|
+    country = Everypolitician.country(code: fc.country_code)
+    fc.update(country_slug: country.slug)
+  end
+end
+
+task create_country_uuids: :app do
+  db = Sinatra::Application.database
+  Everypolitician.countries.each do |country|
+    country.legislatures.each do |legislature|
+      puts "Creating country_uuids rows for #{country.name} - #{legislature.name}"
+      legislature.popolo.persons.each do |person|
+        db[:country_uuids].insert(
+          country_slug: country.slug,
+          legislature_slug: legislature.slug,
+          uuid: person[:id],
+          created_at: DateTime.now
+        )
+      end
+    end
+  end
+end
+
+def id_mapper(country_code, legislature_slug)
+  @mappers ||= {}
+  @mappers[country_code] ||= {}
+  @mappers[country_code][legislature_slug] ||= begin
+    legislature = Everypolitician.country(code: country_code).legislature(slug: legislature_slug)
+    LegacyIdMapper.new(legislature.popolo)
+  end
+end
+
+task migrate_responses_to_votes: :app do
+  db = Sinatra::Application.database
+  responses = db[:responses]
+    .select(:user_id, :politician_id, :choice, :country_code, :legislature_slug, :responses__created_at, :responses__updated_at)
+    .join(:legislative_periods, id: :legislative_period_id)
+    .order(Sequel.desc(:responses__created_at))
+  warn "Found #{responses.count} responses to migrate to votes"
+  responses.each do |response|
+    legacy_id_mapper = id_mapper(response[:country_code], response[:legislature_slug])
+    begin
+      db[:votes].insert(
+        user_id: response[:user_id],
+        person_uuid: legacy_id_mapper.reverse_map[response[:politician_id]],
+        choice: response[:choice],
+        created_at: response[:created_at],
+        updated_at: response[:updated_at]
+      )
+    rescue Sequel::UniqueConstraintViolation => e
+      warn e
+    end
+  end
+end
+
+desc 'Perform steps necessary for switching from responses to votes'
+task :votes do
+  Rake::Task['create_country_uuids'].invoke
+  Rake::Task['add_country_slug_to_featured_countries'].invoke
+  Rake::Task['migrate_responses_to_votes'].invoke
+end
