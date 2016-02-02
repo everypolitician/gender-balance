@@ -50,6 +50,23 @@ task add_country_slug_to_featured_countries: :app do
   end
 end
 
+task create_country_uuids: :app do
+  db = Sinatra::Application.database
+  Everypolitician.countries.each do |country|
+    country.legislatures.each do |legislature|
+      puts "Creating country_uuids rows for #{country.name} - #{legislature.name}"
+      legislature.popolo.persons.each do |person|
+        db[:country_uuids].insert(
+          country_slug: country.slug,
+          legislature_slug: legislature.slug,
+          uuid: person[:id],
+          created_at: DateTime.now
+        )
+      end
+    end
+  end
+end
+
 def id_mapper(country_code, legislature_slug)
   @mappers ||= {}
   @mappers[country_code] ||= {}
