@@ -13,15 +13,17 @@ module Helpers
       session[:completed_onboarding]
   end
 
+  def user_counts
+    @user_counts ||= current_user.votes_dataset.join(:country_uuids, uuid: :person_uuid).group_and_count(:country_slug).to_hash(:country_slug, :count)
+  end
+
   def percent_complete(country)
     @percent_complete_countries ||= {}
     @percent_complete_countries[country.code] ||=
       begin
         country_count = country_counts[country.slug]
         return 0 if country_count.nil?
-        complete_people = current_user.votes_dataset
-          .where(person_uuid: CountryUUID.select(:uuid).where(country_slug: country.slug))
-          .count
+        complete_people = user_counts[country.slug]
         total = (complete_people.to_f / country_count.to_f) * 100
         total < 100 ? total : 100
       end
