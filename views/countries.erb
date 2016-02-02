@@ -37,7 +37,7 @@
     <h3 class="list-heading">Your recent countries</h3>
     <div class="list list--countries list--recent">
       <% @recent_countries.each do |country| %>
-        <% next unless country_counts[country.code] %>
+        <% next unless country_counts[country.slug] %>
         <a class="list__item" href="<%= url "/countries/#{country.slug}" %>">
           <h3><%= country.name %></h3>
           <div class="progress-bar progress-bar--<%= progress_word(percent_complete(country)) %>"><div style="width: <%= percent_complete(country) %>%"></div></div>
@@ -55,7 +55,7 @@
     <h3 class="list-heading">All countries</h3>
     <div class="list list--countries list--all">
       <% @countries.each do |country| %>
-        <% next unless country_counts[country.code] %>
+        <% next unless country_counts[country.slug] %>
         <a class="list__item" href="<%= url "/countries/#{country.slug}" %>">
           <h3><%= country.name %></h3>
           <div class="progress-bar progress-bar--<%= progress_word(percent_complete(country)) %>"><div style="width: <%= percent_complete(country) %>%"></div></div>
