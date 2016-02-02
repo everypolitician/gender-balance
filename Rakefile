@@ -98,3 +98,10 @@ task migrate_responses_to_votes: :app do
     end
   end
 end
+
+desc 'Perform steps necessary for switching from responses to votes'
+task :votes do
+  Rake::Task['create_country_uuids'].invoke
+  Rake::Task['add_country_slug_to_featured_countries'].invoke
+  Rake::Task['migrate_responses_to_votes'].invoke
+end
