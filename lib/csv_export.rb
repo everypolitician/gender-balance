@@ -31,8 +31,6 @@ class CsvExport
   end
 
   def votes_for(choice)
-    Vote.from(:votes___iv)
-      .select(Sequel.function(:count).*)
-      .where(choice: choice.to_s, iv__person_uuid: :votes__person_uuid).as(choice.to_sym)
+    Sequel.function(:count, Sequel.case({ choice.to_s => 1 }, nil, :choice)).as(choice)
   end
 end
