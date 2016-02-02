@@ -201,7 +201,6 @@
     & > * {
         background-color: $color_green;
         height: 0.5em;
-        min-width: 0.25em;
         float: left;
     }
 
@@ -229,10 +228,6 @@
 }
 
 .progress-bar--gendered {
-    & > * + * {
-        border-left: 1px solid $color_off_white;
-    }
-
     .progress-bar__males {
         background-color: $color_orange;
     }
