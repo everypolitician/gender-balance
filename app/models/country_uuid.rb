@@ -10,7 +10,7 @@ class CountryUUID < Sequel::Model
         .join(:votes, person_uuid: :uuid)
         .where(user_id: user.id)
         .having('count(*) < ?', total_people)
-        .order(:country_slug)
+        .order(Sequel.desc(:last_vote))
         .limit(5)
     end
   end
