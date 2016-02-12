@@ -172,12 +172,14 @@
     color: $color_grey;
     box-shadow: none;
     border: 1px solid darken($color_off_white, 4%);
+    cursor: default;
 
     &:hover,
     &:focus,
     &:active {
         box-shadow: none;
         position: static;
+        color: $color_grey;
     }
 
     p {
@@ -202,6 +204,7 @@
         background-color: $color_green;
         height: 0.5em;
         float: left;
+        position: relative;
     }
 
     & > :first-child {
@@ -239,6 +242,33 @@
     .progress-bar__others-dont-knows {
         background-color: $color_grey;
     }
+}
+
+.progress-bar--labelled {
+  margin-bottom: 1.5em;
+}
+
+.progress-bar__label {
+  position: absolute;
+  top: 1em;
+  left: 0;
+
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-size: (16em/18); // 16px
+  font-weight: bold;
+  color: $color_grey;
+
+  .progress-bar__males & {
+    color: $color_orange;
+  }
+
+  .progress-bar__females & {
+    color: $color_green;
+  }
 }
 
 .fa--space-after {
