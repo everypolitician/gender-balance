@@ -6,11 +6,11 @@
 
 <div class="person-cards">
     <div class="level-complete">
-        <% if @country[:legislatures].size == 1 %>
-            <p>Thanks - but we're all sorted for <%= @country[:name] %>.</p>
+        <% if @country.legislatures.size == 1 %>
+            <p>Thanks - but we're all sorted for <%= @country.name %>.</p>
             <p>There's plenty more to do, though.</p>
         <% else %>
-            <p>Thanks - but we're all sorted for <%= @country[:name] %> <%= @legislature[:name] %>.</p>
+            <p>Thanks - but we're all sorted for <%= @country.name %> - <%= @legislature.name %>.</p>
             <p>There's plenty more to do, though.</p>
         <% end %>
         <p>
