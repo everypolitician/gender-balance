@@ -5,7 +5,7 @@ module Helpers
   end
 
   def country_counts
-    @country_counts ||= CountryUUID.group_and_count(:country_slug).to_hash(:country_slug, :count)
+    @country_counts ||= CountryUUID.totals.to_hash(:country_slug)
   end
 
   def completed_onboarding?
@@ -13,31 +13,42 @@ module Helpers
       session[:completed_onboarding]
   end
 
+  def any_gender_data_for?(country)
+    country_counts[country.slug][:known] != 0
+  end
+
+  def country_gender_percentage(country, gender)
+    (country_counts[country.slug][gender.to_sym].to_f / country_counts[country.slug][:total]) * 100
+  end
+
+  # Nothing left to play
+  def complete?(country)
+    country_count = country_counts[country.slug]
+    country_count[:total] == country_count[:known]
+  end
+
+  def played_by_user?(country)
+    !user_counts[country.slug].nil?
+  end
+
   def user_counts
     @user_counts ||= current_user.votes_dataset.join(:country_uuids, uuid: :person_uuid).group_and_count(:country_slug).to_hash(:country_slug, :count)
+  end
+
+  def remaining_people(country)
+    country_counts[country.slug][:total] - (user_counts[country.slug] || 0)
   end
 
   def percent_complete(country)
     @percent_complete_countries ||= {}
     @percent_complete_countries[country.code] ||=
       begin
-        country_count = country_counts[country.slug]
+        country_count = country_counts[country.slug][:total]
         return 0 if country_count.nil?
         complete_people = user_counts[country.slug]
         total = (complete_people.to_f / country_count.to_f) * 100
         total < 100 ? total : 100
       end
-  end
-
-  def progress_word(percent)
-    case
-    when percent > 70
-      'healthy'
-    when percent > 10
-      'unhealthy'
-    else
-      'dangerous'
-    end
   end
 
   def motivational_quote
