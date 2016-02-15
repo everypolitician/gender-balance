@@ -21,6 +21,7 @@ class CountryUUID < Sequel::Model
         votes_for(:male),
         votes_for(:other),
         votes_for(:skip),
+        Sequel.function(:count, :gender).as(:known),
         Sequel.function(:count).*.as(:total)
       )
       .group(:country_slug)
