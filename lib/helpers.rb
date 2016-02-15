@@ -24,7 +24,7 @@ module Helpers
   # Nothing left to play
   def complete?(country)
     country_count = country_counts[country.slug]
-    country_count[:total] == country_count[:known]
+    country_count[:total] == country_count[:known] || remaining_people(country) == 0
   end
 
   def played_by_user?(country)
