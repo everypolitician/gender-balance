@@ -4,63 +4,6 @@
 
 <h2 class="page-title">Pick a country</h2>
 
-    <!-- @chrismytton: this is the new markup for the country list items -->
-    <div class="list list--countries">
-        <a class="list__item country country--completed-by-user" href="#">
-            <h3 class="country__name">Naboo</h3>
-            <em class="country__status">Completed!</em>
-            <div class="country__progress">
-                <p class="country__progress__intro">Known gender balance for Naboo:</p>
-                <div class="progress-bar progress-bar--gendered progress-bar--labelled">
-                    <div class="progress-bar__males" style="width: 60%">
-                        <span class="progress-bar__label">120 men</span>
-                    </div>
-                    <div class="progress-bar__females" style="width: 35%">
-                        <span class="progress-bar__label">71 women</span>
-                    </div>
-                </div>
-            </div>
-        </a>
-        <a class="list__item country" href="#">
-            <h3 class="country__name">Dathomir</h3>
-            <em class="country__status">161 politicians left to play</em>
-            <div class="country__progress">
-                <p class="country__progress__intro">We don’t know any gender data for Dathomir yet!</p>
-                <div class="progress-bar progress-bar--gendered"></div>
-            </div>
-        </a>
-        <a class="list__item country country--completed" href="#">
-            <h3 class="country__name">Tatooine</h3>
-            <em class="country__status">No politicians left to play</em>
-            <div class="country__progress">
-                <p class="country__progress__intro">Known gender balance for Tatooine:</p>
-                <div class="progress-bar progress-bar--gendered progress-bar--labelled">
-                    <div class="progress-bar__males" style="width: 72%">
-                        <span class="progress-bar__label">144 men</span>
-                    </div>
-                    <div class="progress-bar__females" style="width: 20%">
-                        <span class="progress-bar__label">40 women</span>
-                    </div>
-                </div>
-            </div>
-        </a>
-        <a class="list__item country" href="#">
-            <h3 class="country__name">Mandalore</h3>
-            <em class="country__status">18 politicians to play</em>
-            <div class="country__progress">
-                <p class="country__progress__intro">Known gender balance for Mandalore:</p>
-                <div class="progress-bar progress-bar--gendered progress-bar--labelled">
-                    <div class="progress-bar__males" style="width: 10%">
-                        <span class="progress-bar__label">5 men</span>
-                    </div>
-                    <div class="progress-bar__females" style="width: 22%">
-                        <span class="progress-bar__label">11 women</span>
-                    </div>
-                </div>
-            </div>
-      </a>
-    </div>
-
   <% if current_user.votes_dataset.count == 0 %>
     <div style="text-align: center">
       <p>Which country’s politicians would you like to try&nbsp;first?</p>
@@ -83,10 +26,7 @@
     <% end %>
     </p>
     <div class="list list--countries list--recent">
-      <a class="list__item" href="<%= url "/countries/#{@featured_country[:slug]}" %>">
-        <h3><%= @featured_country[:country] %></h3>
-        <div class="progress-bar progress-bar--<%= progress_word(percent_complete(@featured_country)) %>"><div style="width: <%= percent_complete(@featured_country) %>%"></div></div>
-      </a>
+        <%= erb :country_partial, locals: { country: @featured_country } %>
     </div>
   <% end %>
 
@@ -94,11 +34,7 @@
     <h3 class="list-heading">Your recent countries</h3>
     <div class="list list--countries list--recent">
       <% @recent_countries.each do |country| %>
-        <% next unless country_counts[country.slug] %>
-        <a class="list__item" href="<%= url "/countries/#{country.slug}" %>">
-          <h3><%= country.name %></h3>
-          <div class="progress-bar progress-bar--<%= progress_word(percent_complete(country)) %>"><div style="width: <%= percent_complete(country) %>%"></div></div>
-        </a>
+          <%= erb :country_partial, locals: { country: country } %>
       <% end %>
     </div>
   <% end %>
@@ -108,17 +44,13 @@
       <input type="text" id="filter" data-filter-elements=".list--all .list__item">
   </div>
 
-  <% unless @countries.empty? %>
-    <h3 class="list-heading">All countries</h3>
-    <div class="list list--countries list--all">
-      <% @countries.each do |country| %>
-        <% next unless country_counts[country.slug] %>
-        <a class="list__item" href="<%= url "/countries/#{country.slug}" %>">
-          <h3><%= country.name %></h3>
-          <div class="progress-bar progress-bar--<%= progress_word(percent_complete(country)) %>"><div style="width: <%= percent_complete(country) %>%"></div></div>
-        </a>
-      <% end %>
+    <div class="list list--countries">
+
+        <% @countries.each do |country| %>
+            <%= erb :country_partial, locals: { country: country } %>
+        <% end %>
+
     </div>
-  <% end %>
+
 
   <p class="help-missing">Your country missing? <a href="/about#missing">Find out why.</a></p>
