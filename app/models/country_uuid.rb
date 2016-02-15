@@ -13,5 +13,24 @@ class CountryUUID < Sequel::Model
         .order(Sequel.desc(:last_vote))
         .limit(5)
     end
+
+    def totals
+      select(
+        :country_slug,
+        votes_for(:female),
+        votes_for(:male),
+        votes_for(:other),
+        votes_for(:skip),
+        Sequel.function(:count).*.as(:total)
+      )
+      .group(:country_slug)
+      .order(:country_slug)
+    end
+
+    private
+
+    def votes_for(gender)
+      Sequel.function(:count, Sequel.case({ gender.to_s => 1 }, nil, :gender)).as(gender)
+    end
   end
 end
