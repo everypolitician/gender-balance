@@ -154,16 +154,16 @@ get '/countries/:country/legislatures/:legislature' do
   @country = Everypolitician.country(slug: params[:country])
   @legislature = @country.legislature(slug: params[:legislature])
   country_count = CountryUUID.totals.first(country_slug: params[:country])
-  return erb :no_data_needed if country_count[:total] == country_count[:known]
+  halt erb(:no_data_needed) if country_count[:total] == country_count[:known]
   @legislative_period = current_user.next_unfinished_term_for(@legislature)
-  return erb :congratulations unless @legislative_period
+  halt erb(:congratulations) unless @legislative_period
   @all_people = @legislative_period.csv.map(&:to_hash).uniq { |p| p[:id] }.reject { |p| p[:gender] }
   @male_total = current_user.votes_for_people(@all_people, 'male').count
   @female_total = current_user.votes_for_people(@all_people, 'female').count
   @other_total = current_user.votes_for_people(@all_people, %w[other skip]).count
   already_done = current_user.votes_dataset.map(:person_uuid)
   @people = @all_people.reject { |person| already_done.include?(person[:id]) }.shuffle
-  return erb :congratulations if @people.empty?
+  halt erb(:congratulations) if @people.empty?
   erb :term
 end
 
