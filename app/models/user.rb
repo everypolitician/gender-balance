@@ -25,6 +25,7 @@ class User < Sequel::Model
 
   def played_when_featured(country)
     featured_country = FeaturedCountry.first(country_slug: country.slug)
+    return false if featured_country.nil?
     votes_dataset
       .join(:country_uuids, uuid: :person_uuid)
       .where(country_slug: country.slug)

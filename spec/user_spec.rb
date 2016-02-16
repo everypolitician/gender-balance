@@ -1,8 +1,25 @@
 require 'spec_helper'
 
 describe User do
+  let(:auth) { { provider: 'twitter', uid: '123', info: { name: 'Alice' } } }
+  let(:user) { User.create_with_omniauth(auth) }
+
+  before do
+    1.upto(3) do |n|
+      CountryUUID.create(
+        country_slug: 'Australia',
+        legislature_slug: 'Senate',
+        uuid: "au-#{n}"
+      )
+      CountryUUID.create(
+        country_slug: 'Germany',
+        legislature_slug: 'Bundestag',
+        uuid: "de-#{n}"
+      )
+    end
+  end
+
   describe '#create_with_omniauth' do
-    let(:auth) { { provider: 'twitter', uid: '123', info: { name: 'Alice' } } }
 
     it 'creates a user with the provided info' do
       user = User.create_with_omniauth(auth)
@@ -23,23 +40,6 @@ describe User do
   end
 
   describe '#recent_countries' do
-    let(:auth) { { provider: 'twitter', uid: '123', info: { name: 'Alice' } } }
-    let(:user) { User.create_with_omniauth(auth) }
-
-    before do
-      1.upto(3) do |n|
-        CountryUUID.create(
-          country_slug: 'Australia',
-          legislature_slug: 'Senate',
-          uuid: "au-#{n}"
-        )
-        CountryUUID.create(
-          country_slug: 'Germany',
-          legislature_slug: 'Bundestag',
-          uuid: "de-#{n}"
-        )
-      end
-    end
 
     it 'includes countries a user has voted for' do
       user.add_vote(person_uuid: 'au-1', choice: 'female')
@@ -58,10 +58,30 @@ describe User do
 
   describe '#has_completed_onboarding?' do
     it 'is an alias for #completed_onboarding' do
-      user = User.new
       assert !user.has_completed_onboarding?
       user.completed_onboarding = true
       assert user.has_completed_onboarding?
+    end
+  end
+
+  describe '#played_when_featured' do
+    let(:australia) { Everypolitician.country(slug: 'Australia') }
+
+    before do
+      FeaturedCountry.current = australia.code
+    end
+
+    it "is false if user didn't play when featured" do
+      assert !user.played_when_featured(australia)
+    end
+
+    it 'is true if the played played it while featured' do
+      user.add_vote(person_uuid: 'au-1', choice: 'female')
+      assert user.played_when_featured(australia)
+    end
+
+    it "is false if the country has never been featured" do
+      assert !user.played_when_featured(Everypolitician.country(slug: 'Germany'))
     end
   end
 end
