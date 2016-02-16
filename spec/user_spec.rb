@@ -3,6 +3,7 @@ require 'spec_helper'
 describe User do
   let(:auth) { { provider: 'twitter', uid: '123', info: { name: 'Alice' } } }
   let(:user) { User.create_with_omniauth(auth) }
+  let(:australia) { Everypolitician.country(slug: 'Australia') }
 
   before do
     1.upto(3) do |n|
@@ -65,7 +66,6 @@ describe User do
   end
 
   describe '#played_when_featured' do
-    let(:australia) { Everypolitician.country(slug: 'Australia') }
 
     before do
       FeaturedCountry.current = australia.code
@@ -82,6 +82,47 @@ describe User do
 
     it "is false if the country has never been featured" do
       assert !user.played_when_featured(Everypolitician.country(slug: 'Germany'))
+    end
+  end
+
+  describe '#next_unfinished_term_for' do
+    let(:representatives) { australia.legislature(slug: 'Representatives') }
+    let(:term_44) { representatives.legislative_periods[0] }
+    let(:term_43) { representatives.legislative_periods[1] }
+
+    before do
+      body44 = "id\nau-1\nau-2\n"
+      stub_request(:get, term_44.csv_url).to_return(body: body44)
+      body43 = "id\nau-3\nau-4\n"
+      stub_request(:get, term_43.csv_url).to_return(body: body43)
+    end
+
+    describe 'with no user votes' do
+      it 'returns the most recent term for the given legislature' do
+        assert_equal term_44, user.next_unfinished_term_for(representatives)
+      end
+    end
+
+    describe 'with user votes' do
+      before do
+        user.add_vote(person_uuid: 'au-1', choice: 'female')
+        user.add_vote(person_uuid: 'au-2', choice: 'female')
+      end
+
+      it 'returns the most recent unfinished term' do
+        assert_equal term_43, user.next_unfinished_term_for(representatives)
+      end
+    end
+
+    describe 'with existing gender information' do
+      before do
+        CountryUUID.where(uuid: 'au-1').update(gender: 'female')
+        CountryUUID.where(uuid: 'au-2').update(gender: 'female')
+      end
+
+      it 'returns the most recent unfinished term' do
+        assert_equal term_43, user.next_unfinished_term_for(representatives)
+      end
     end
   end
 end
