@@ -57,8 +57,7 @@ class User < Sequel::Model
   def next_unfinished_term_for(legislature)
     legislature.legislative_periods.find do |lp|
       person_uuids = lp.csv.map { |p| p[:id] }.uniq
-      already_done_count = votes_dataset.where(person_uuid: person_uuids).count
-      already_done_count < person_uuids.size
+      remaining_counts.where(uuid: person_uuids).count > 0
     end
   end
 
