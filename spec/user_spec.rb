@@ -125,4 +125,24 @@ describe User do
       end
     end
   end
+
+  describe '#record_vote' do
+    it 'stores a vote for the user' do
+      assert_difference 'user.votes_dataset.count' do
+        user.record_vote(person_uuid: 'au-1', choice: 'female')
+      end
+    end
+
+    it 'only records each vote once' do
+      assert_difference 'user.votes_dataset.count' do
+        3.times { user.record_vote(person_uuid: 'au-1', choice: 'female') }
+      end
+    end
+
+    it 'updates the choice on subsequent votes' do
+      user.record_vote(person_uuid: 'au-1', choice: 'male')
+      user.record_vote(person_uuid: 'au-1', choice: 'female')
+      assert_equal 'female', user.votes_dataset.first(person_uuid: 'au-1').choice
+    end
+  end
 end
