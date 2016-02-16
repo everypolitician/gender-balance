@@ -34,6 +34,7 @@ require 'helpers'
 require 'app/models'
 require 'app/jobs'
 require 'csv_export'
+require 'country_proxy'
 
 helpers Helpers
 
@@ -126,11 +127,21 @@ before '/countries*' do
 end
 
 get '/countries' do
-  @countries = Everypolitician.countries
-  @recent_countries = current_user.recent_countries
+  country_counts = CountryUUID.totals.to_hash(:country_slug)
+  user_counts = current_user.votes_dataset.country_counts.to_hash(:country_slug, :count)
+  @countries = Everypolitician.countries.map do |country|
+    CountryProxy.new(country, country_counts[country.slug], user_counts[country.slug])
+  end
+  @recent_countries = current_user.recent_countries.map do |country|
+    CountryProxy.new(country, country_counts[country.slug], user_counts[country.slug])
+  end
   current_featured_country = FeaturedCountry.current
   if current_featured_country
-    @featured_country = Everypolitician.country(code: current_featured_country.country_code)
+    @featured_country = CountryProxy.new(
+      Everypolitician.country(code: current_featured_country.country_code),
+      country_counts[current_featured_country.country_slug],
+      user_counts[current_featured_country.country_slug]
+    )
   end
   erb :countries
 end
@@ -148,6 +159,8 @@ end
 get '/countries/:country/legislatures/:legislature' do
   @country = Everypolitician.country(slug: params[:country])
   @legislature = @country.legislature(slug: params[:legislature])
+  country_count = CountryUUID.totals.first(country_slug: params[:country])
+  return erb :no_data_needed if country_count[:total] == country_count[:known]
   @legislative_period = current_user.next_unfinished_term_for(@legislature)
   return erb :congratulations unless @legislative_period
   all_people = @legislative_period.csv.map(&:to_hash).uniq { |p| p[:id] }

@@ -19,5 +19,9 @@ class Vote < Sequel::Model
         .limit(limit)
         .where{votes__created_at > 1.month.ago}
     end
+
+    def country_counts
+      join(:country_uuids, uuid: :person_uuid).group_and_count(:country_slug)
+    end
   end
 end
