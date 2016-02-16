@@ -28,7 +28,7 @@ class CountryProxy
   end
 
   def complete?
-    totals[:total] == totals[:known] || remaining_people == 0
+    remaining_people == 0
   end
 
   def played_by_user?
