@@ -6,10 +6,10 @@ class CountryUUID < Sequel::Model
         .select_group(:country_slug)
         .select_append{max(votes__created_at).as(:last_vote)}
         .select_append(Sequel.function(:count).*.as(:votes))
-        .select_append(total_people.as(:total_people))
         .join(:votes, person_uuid: :uuid)
         .where(user_id: user.id)
         .having('count(*) < ?', total_people)
+        .having('count(*) != count(gender)')
         .order(Sequel.desc(:last_vote))
         .limit(5)
     end
