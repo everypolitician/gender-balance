@@ -145,4 +145,17 @@ describe User do
       assert_equal 'female', user.votes_dataset.first(person_uuid: 'au-1').choice
     end
   end
+
+  describe '#votes_for_people' do
+    before do
+      user.add_vote(person_uuid: 'au-1', choice: 'female')
+      user.add_vote(person_uuid: 'au-2', choice: 'female')
+    end
+
+    it 'returns a count of votes for the given gender' do
+      assert_equal 0, user.votes_for_people([{ id: 'au-1' }, { id: 'au-2' }], 'male').count
+      assert_equal 2, user.votes_for_people([{ id: 'au-1' }, { id: 'au-2' }], 'female').count
+      assert_equal 0, user.votes_for_people([{ id: 'au-1' }, { id: 'au-2' }], ['foo', 'bar']).count
+    end
+  end
 end
