@@ -8,10 +8,15 @@ class CountryProxy
   # Delegate 'name' and 'slug' method calls to the 'country' object.
   def_delegators :country, :name, :slug, :code
 
-  def initialize(country, totals, user_vote_count)
+  def initialize(country, totals, user_vote_count, remaining_people)
     @country = country
     @totals = totals
     @user_vote_count = user_vote_count
+    @remaining_people = remaining_people
+  end
+
+  def remaining_people
+    @remaining_people || 0
   end
 
   def has_gender_data?
@@ -24,10 +29,6 @@ class CountryProxy
 
   def complete?
     totals[:total] == totals[:known] || remaining_people == 0
-  end
-
-  def remaining_people
-    totals[:total] - (user_vote_count || 0)
   end
 
   def played_by_user?

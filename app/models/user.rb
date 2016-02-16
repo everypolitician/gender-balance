@@ -74,4 +74,10 @@ class User < Sequel::Model
   def votes_for_people(people, choice)
     votes_dataset.where(person_uuid: people.map { |p| p[:id] }, choice: choice)
   end
+
+  def remaining_counts
+    CountryUUID.where(gender: nil).exclude(
+      votes_dataset.select(1).where(person_uuid: :country_uuids__uuid).exists
+    ).group_and_count(:country_slug)
+  end
 end
