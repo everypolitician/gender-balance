@@ -19,27 +19,6 @@ class User < Sequel::Model
     end
   end
 
-  def people_for(legislative_period)
-    people = legislative_period.unique_people
-    already_done = votes_dataset.map(:person_uuid)
-    people.reject { |person| already_done.include?(person[:id]) }.shuffle
-  end
-
-  def legislative_periods_for(country, legislature)
-    LegislativePeriod.enabled.where(
-      country_code: country.code,
-      legislature_slug: legislature.slug
-    ).order(Sequel.desc(:start_date))
-  end
-
-  def legislative_period_for(country, legislature)
-    legislative_periods_for(country, legislature).find { |lp| incomplete?(lp) }
-  end
-
-  def incomplete?(legislative_period)
-    !legislative_period.missing? && people_for(legislative_period).any?
-  end
-
   def has_completed_onboarding?
     completed_onboarding
   end
