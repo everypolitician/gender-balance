@@ -159,7 +159,8 @@ end
 get '/countries/:country/legislatures/:legislature' do
   @country = Everypolitician.country(slug: params[:country])
   @legislature = @country.legislature(slug: params[:legislature])
-  return erb :no_data_needed if complete?(@country)
+  country_count = CountryUUID.totals.first(country_slug: params[:country])
+  return erb :no_data_needed if country_count[:total] == country_count[:known]
   @legislative_period = current_user.next_unfinished_term_for(@legislature)
   return erb :congratulations unless @legislative_period
   all_people = @legislative_period.csv.map(&:to_hash).uniq { |p| p[:id] }
