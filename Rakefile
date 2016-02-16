@@ -31,16 +31,8 @@ RuboCop::RakeTask.new
 
 task default: :test
 
-task cache: ['cache:country_person_counts', 'cache:legislative_periods']
-
-namespace :cache do
-  task country_person_counts: :app do
-    UpdateCacheJob.new.cache_country_person_counts
-  end
-
-  task legislative_periods: :app do
-    UpdateCacheJob.new.cache_legislative_periods
-  end
+task cache: :app do
+  UpdateCacheJob.new.perform
 end
 
 task add_country_slug_to_featured_countries: :app do
