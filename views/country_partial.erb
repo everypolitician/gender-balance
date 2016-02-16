@@ -13,7 +13,7 @@
             <em class="country__status">No politicians left to play</em>
         <% end %>
     <% else %>
-        <em class="country__status"><%= country.remaining_people %> politicians <% if country.played_by_user? %>left <% end %>to play</em>
+        <em class="country__status"><%= country.remaining_people %> politician<% if country.remaining_people != 1 %>s<% end %> <% if country.played_by_user? %>left <% end %>to play</em>
     <% end %>
 
     <div class="country__progress">

@@ -20,7 +20,7 @@ window.totals = {
 };
 </script>
 
-<div class="progress-bar progress-bar--gendered" data-total="<%= @legislative_period.csv.map(&:to_hash).uniq { |p| p[:id] }.size %>"></div>
+<div class="progress-bar progress-bar--gendered" data-total="<%= @all_people.size %>"></div>
 
 <div class="person-cards">
     <ul class="js-cardswipe">

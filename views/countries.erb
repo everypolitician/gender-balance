@@ -44,7 +44,7 @@
       <input type="text" id="filter" data-filter-elements=".list--all .list__item">
   </div>
 
-    <div class="list list--countries">
+    <div class="list list--countries list--all">
 
         <% @countries.each do |country| %>
             <%= erb :country_partial, locals: { country: country } %>

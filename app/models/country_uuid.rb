@@ -1,15 +1,12 @@
 class CountryUUID < Sequel::Model
   dataset_module do
     def recent_countries_for(user)
-      total_people = CountryUUID.select{count(:*){}}.where(country_slug: :u__country_slug)
-      from(:country_uuids___u)
-        .select_group(:country_slug)
+      select_group(:country_slug)
         .select_append{max(votes__created_at).as(:last_vote)}
         .select_append(Sequel.function(:count).*.as(:votes))
+        .where(user.votes_dataset.select(1).where(person_uuid: :country_uuids__uuid).exists)
+        .where(country_slug: user.remaining_counts.select(:country_slug))
         .join(:votes, person_uuid: :uuid)
-        .where(user_id: user.id)
-        .having('count(*) < ?', total_people)
-        .having('count(*) != count(gender)')
         .order(Sequel.desc(:last_vote))
         .limit(5)
     end
