@@ -158,4 +158,25 @@ describe User do
       assert_equal 0, user.votes_for_people([{ id: 'au-1' }, { id: 'au-2' }], ['foo', 'bar']).count
     end
   end
+
+  describe '#remaining_counts' do
+    let(:remaining) { user.remaining_counts.to_hash(:country_slug, :count) }
+
+    describe 'with no votes' do
+      it 'returns the total numbers for each country' do
+        assert_equal({ 'Germany' => 3, 'Australia' => 3 }, remaining)
+      end
+    end
+
+    describe 'with votes' do
+      before do
+        1.upto(3) { |n| user.add_vote(person_uuid: "au-#{n}", choice: 'female') }
+        user.add_vote(person_uuid: 'de-1', choice: 'male')
+      end
+
+      it 'returns the remaining numbers for each country' do
+        assert_equal({ 'Germany' => 2 }, remaining)
+      end
+    end
+  end
 end
