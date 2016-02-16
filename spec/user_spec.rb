@@ -55,4 +55,13 @@ describe User do
       assert_equal ['Germany'], user.recent_countries.map(&:name)
     end
   end
+
+  describe '#has_completed_onboarding?' do
+    it 'is an alias for #completed_onboarding' do
+      user = User.new
+      assert !user.has_completed_onboarding?
+      user.completed_onboarding = true
+      assert user.has_completed_onboarding?
+    end
+  end
 end
