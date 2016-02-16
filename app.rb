@@ -34,6 +34,7 @@ require 'helpers'
 require 'app/models'
 require 'app/jobs'
 require 'csv_export'
+require 'country_proxy'
 
 helpers Helpers
 
@@ -126,11 +127,19 @@ before '/countries*' do
 end
 
 get '/countries' do
-  @countries = Everypolitician.countries
-  @recent_countries = current_user.recent_countries
+  country_counts = CountryUUID.totals.to_hash(:country_slug)
+  @countries = Everypolitician.countries.map do |country|
+    CountryProxy.new(country, country_counts[country.slug])
+  end
+  @recent_countries = current_user.recent_countries.map do |country|
+    CountryProxy.new(country, country_counts[country.slug])
+  end
   current_featured_country = FeaturedCountry.current
   if current_featured_country
-    @featured_country = Everypolitician.country(code: current_featured_country.country_code)
+    @featured_country = CountryProxy.new(
+      Everypolitician.country(code: current_featured_country.country_code),
+      country_counts[current_featured_country.country_slug]
+    )
   end
   erb :countries
 end
