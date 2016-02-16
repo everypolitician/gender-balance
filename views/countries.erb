@@ -12,7 +12,7 @@
   <% elsif @featured_country %>
     <h3 class="list-heading">Featured country</h3>
     <p>
-    <% if percent_complete(@featured_country) >= 100 %>
+    <% if @featured_country.complete? %>
       <% if current_user.played_when_featured(@featured_country) %>
         Nice work - you've played the featured country. Check back soon to
         see if there's another chance to win double points.

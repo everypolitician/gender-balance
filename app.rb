@@ -128,17 +128,19 @@ end
 
 get '/countries' do
   country_counts = CountryUUID.totals.to_hash(:country_slug)
+  user_counts = current_user.votes_dataset.country_counts.to_hash(:country_slug, :count)
   @countries = Everypolitician.countries.map do |country|
-    CountryProxy.new(country, country_counts[country.slug])
+    CountryProxy.new(country, country_counts[country.slug], user_counts[country.slug])
   end
   @recent_countries = current_user.recent_countries.map do |country|
-    CountryProxy.new(country, country_counts[country.slug])
+    CountryProxy.new(country, country_counts[country.slug], user_counts[country.slug])
   end
   current_featured_country = FeaturedCountry.current
   if current_featured_country
     @featured_country = CountryProxy.new(
       Everypolitician.country(code: current_featured_country.country_code),
-      country_counts[current_featured_country.country_slug]
+      country_counts[current_featured_country.country_slug],
+      user_counts[current_featured_country.country_slug]
     )
   end
   erb :countries
