@@ -18,14 +18,6 @@ configure do
     ENV['DATABASE_URL'] ||
       "postgres:///gender_crowdsourcing_#{environment}"
   }
-  set :cache_client, Dalli::Client.new(
-    (ENV['MEMCACHIER_SERVERS'] || 'localhost:11211').split(','),
-    username: ENV['MEMCACHIER_USERNAME'],
-    password: ENV['MEMCACHIER_PASSWORD'],
-    failover: true,
-    socket_timeout: 1.5,
-    socket_failure_delay: 0.2
-  )
   set :static_cache_control, [:public, max_age: 5.minutes] if production?
   set :motivational_quotes, YAML.load_file('config/motivational_quotes.yml')
 end
