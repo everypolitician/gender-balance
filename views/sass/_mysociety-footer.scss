@@ -45,6 +45,7 @@ $grid-breakpoint-sm: 3000px;
 }
 
 .mysoc-footer {
+  text-align: left;
   .container {
     margin-right: auto;
     margin-left: auto;
@@ -177,6 +178,9 @@ $grid-breakpoint-sm: 3000px;
   margin-top: 1em;
 
   @media (min-width: $mysoc-footer-breakpoint-sm){
+    margin-top: 0;
+  }
+  p {
     margin-top: 0;
   }
 }
