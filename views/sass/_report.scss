@@ -48,3 +48,15 @@
     margin-top: 1em;
   }
 }
+
+.report-actions {
+  text-align: center;
+
+  .button {
+    background: #fff;
+  }
+
+  .button + .button {
+    margin-left: 1em;
+  }
+}
