@@ -167,6 +167,11 @@ get '/countries/:country/legislatures/:legislature' do
   erb :term
 end
 
+get '/reports/:country' do
+  @country = Everypolitician.country(slug: params[:country])
+  erb :report
+end
+
 get '/_stats' do
   @players = Vote.join(:users, id: :user_id).group_and_count(:users__id)
   erb :stats
