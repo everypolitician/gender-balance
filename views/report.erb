@@ -1,12 +1,70 @@
+<% content_for :body_class do %>report-page<% end %>
+
 <% content_for :back_button do %>
-    <a class="app-header__back" href="/countries"><i class="fa fa-chevron-left"></i></a>
+    <a class="page-header__back" href="/countries"><i class="fa fa-chevron-left"></i> Countries</a>
 <% end %>
 
-<h2 class="page-title"><%= @country[:country] %></h2>
-<p class="report-actions">
-    <a href="#" class="button button--small">Play this country!</a>
-    <a href="#" class="button button--small">Download data</a>
-</p>
+<div class="page-section page-section--blue">
+    <div class="container">
+        <h1 class="page-title"><%= @country[:country] %></h1>
+        <p class="report-actions">
+            <a href="#" class="button button--small">Play this country!</a>
+            <a href="#" class="button button--small">Download data</a>
+        </p>
+    </div>
+</div>
+
+<div class="page-section page-section--white">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <p>legislature 1 goes here</p>
+            </div>
+            <div class="col-sm-6">
+                <p>legislature 2 goes here</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-section page-section--white">
+    <div class="container">
+
+        <h2 class="page-title">Legislature 1</h2>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <h3>Gender balance by term:</h3>
+                <p>bar charts go here</p>
+            </div>
+            <div class="col-sm-6">
+                <h3>Gender balance by party:</h3>
+                <p>bar charts go here</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-section page-section--white">
+    <div class="container">
+
+        <h2 class="page-title">Legislature 2</h2>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <h3>Gender balance by term:</h3>
+                <p>bar charts go here</p>
+            </div>
+            <div class="col-sm-6">
+                <h3>Gender balance by party:</h3>
+                <p>bar charts go here</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--
 
 <h3 class="report-legislature">Galactic Senate</h3>
 
@@ -146,3 +204,5 @@
         </div>
     </div>
 </div>
+
+-->

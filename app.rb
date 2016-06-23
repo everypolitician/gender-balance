@@ -169,7 +169,7 @@ end
 
 get '/reports/:country' do
   @country = Everypolitician.country(slug: params[:country])
-  erb :report
+  erb :report, :layout => :layout_page
 end
 
 get '/_stats' do

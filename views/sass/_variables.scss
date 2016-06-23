@@ -49,3 +49,5 @@ $screen_large_max: $screen_xlarge_min - $one_pixel_in_root_ems;
 $screen_xlarge_max: $screen_huge_min - $one_pixel_in_root_ems;
 
 $high_dpi_screen: '-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi';
+
+$grid-breakpoint-sm: $screen_medium_min;

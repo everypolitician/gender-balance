@@ -51,6 +51,7 @@ body {
     }
 }
 
+@import 'grid';
 @import 'typography';
 @import 'components';
 @import 'header';
@@ -59,4 +60,5 @@ body {
 @import 'messages';
 @import 'countries';
 @import 'person';
+@import 'page';
 @import 'report';
