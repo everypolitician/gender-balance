@@ -10,6 +10,17 @@
   }
 }
 
+.report-list--child {
+    padding-left: 2em;
+    font-size: 0.9em;
+    margin-bottom: 2em;
+
+    .progress-bar,
+    .progress-bar > * {
+        height: 0.4em;
+    }
+}
+
 .report {
     padding-bottom: 1px; // force .report to wrap around .progress-bar's bottom margin
     margin-bottom: 1em;
@@ -38,6 +49,8 @@
     margin: 0;
     font-size: 0.8em;
     padding-bottom: 0.5em * (1 / 0.8);
+
+    cursor: pointer;
 }
 
 .report-blank-slate {
