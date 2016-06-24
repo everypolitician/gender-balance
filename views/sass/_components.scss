@@ -230,6 +230,10 @@
     background-color: $color_red;
 }
 
+.progress-bar__empty {
+    background-color: transparent;
+}
+
 .progress-bar--gendered {
     .progress-bar__males {
         background-color: $color_orange;

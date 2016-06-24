@@ -9,3 +9,45 @@
     margin-left: 1em;
   }
 }
+
+.report {
+    padding-bottom: 1px; // force .report to wrap around .progress-bar's bottom margin
+    margin-bottom: 1em;
+
+    .progress-bar {
+        clear: both;
+    }
+}
+
+.report__title {
+    float: left;
+    margin: 0;
+    font-size: 0.9em;
+    padding-bottom: 0.5em * (1 / 0.9);
+    font-weight: normal;
+
+    .report--headline & {
+        font-weight: bold;
+        font-size: 1em;
+        padding-bottom: 0.5em;
+    }
+}
+
+.report__action {
+    float: right;
+    margin: 0;
+    font-size: 0.8em;
+    padding-bottom: 0.5em * (1 / 0.8);
+}
+
+.report-blank-slate {
+    padding: 1.5em;
+    font-size: 0.8em;
+    line-height: 1.4em;
+
+    background-color: $color_off_white;
+    color: $color_mid_grey;
+    border-radius: $border_radius;
+
+    @include remove-margin-from-children();
+}

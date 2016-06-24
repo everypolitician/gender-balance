@@ -18,10 +18,28 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
-                <p>legislature 1 goes here</p>
+                <%= erb :report_partial, locals: {
+                    report: {
+                        title: "Galactic Senate",
+                        total: 1015.0,
+                        total_male: 801,
+                        total_female: 1015 - 801,
+                        action: 'show-detail',
+                        headline: true
+                    }
+                } %>
             </div>
             <div class="col-sm-6">
-                <p>legislature 2 goes here</p>
+                <%= erb :report_partial, locals: {
+                    report: {
+                        title: "Jedi High Council",
+                        total: 12.0,
+                        total_male: 8,
+                        total_female: 4,
+                        action: 'show-detail',
+                        headline: true
+                    }
+                } %>
             </div>
         </div>
     </div>
@@ -30,16 +48,68 @@
 <div class="page-section page-section--white">
     <div class="container">
 
-        <h2 class="page-title">Legislature 1</h2>
+        <h2 class="page-title">Galactic Senate</h2>
 
         <div class="row">
             <div class="col-sm-6">
                 <h3>Gender balance by term:</h3>
-                <p>bar charts go here</p>
+                <%= erb :report_partial, locals: {
+                    report: {
+                        title: "41st Sitting",
+                        total: 1015.0,
+                        total_male: 801,
+                        total_female: 1015 - 801,
+                        action: 'display-by-group'
+                    }
+                } %>
+                <%= erb :report_partial, locals: {
+                    report: {
+                        title: "40th Sitting",
+                        total: 1015.0,
+                        total_male: 766,
+                        total_female: 1015 - 766,
+                        action: 'display-by-group'
+                    }
+                } %>
+                <%= erb :report_partial, locals: {
+                    report: {
+                        title: "39th Sitting",
+                        total: 1015.0,
+                        total_male: 332,
+                        total_female: 171,
+                        action: 'display-by-group'
+                    }
+                } %>
             </div>
             <div class="col-sm-6">
-                <h3>Gender balance by party:</h3>
-                <p>bar charts go here</p>
+                <h3>Gender balance by group:</h3>
+                <%= erb :report_partial, locals: {
+                    report: {
+                        title: "Alliance of Free Planets",
+                        total: 812.0,
+                        total_male: 461,
+                        total_female: 812 - 461,
+                        action: 'display-by-term'
+                    }
+                } %>
+                <%= erb :report_partial, locals: {
+                    report: {
+                        title: "Confederacy of Independent Systems",
+                        total: 948.0,
+                        total_male: 672,
+                        total_female: 948 - 672,
+                        action: 'display-by-term'
+                    }
+                } %>
+                <%= erb :report_partial, locals: {
+                    report: {
+                        title: "Trade Federation",
+                        total: 369.0,
+                        total_male: 312,
+                        total_female: 369 - 312,
+                        action: 'display-by-term'
+                    }
+                } %>
             </div>
         </div>
     </div>
@@ -48,161 +118,31 @@
 <div class="page-section page-section--white">
     <div class="container">
 
-        <h2 class="page-title">Legislature 2</h2>
+        <h2 class="page-title">Jedi High Council</h2>
 
         <div class="row">
             <div class="col-sm-6">
                 <h3>Gender balance by term:</h3>
-                <p>bar charts go here</p>
+                <%= erb :report_partial, locals: {
+                    report: {
+                        title: "44–40 BBY",
+                        total: 12.0,
+                        total_male: 8,
+                        total_female: 4
+                    }
+                } %>
+                <div class="report-blank-slate">
+                    <p>We don’t yet have any historical data about this legislature.</p>
+                    <p>Do you know where we can find the data? <a href="#">Contribute it, via EveryPolitician.</a></p>
+                </div>
             </div>
             <div class="col-sm-6">
-                <h3>Gender balance by party:</h3>
-                <p>bar charts go here</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!--
-
-<h3 class="report-legislature">Galactic Senate</h3>
-
-<p>Gender balance by term:</p>
-
-<div class="report-card">
-    <div class="report-card__row">
-        <div class="report-card__label">
-            <h4>41st Sitting</h4>
-        </div>
-        <div class="report-card__value">
-            <div class="progress-bar progress-bar--gendered progress-bar--labelled">
-                <div class="progress-bar__males" style="width: 80%">
-                    <span class="progress-bar__label">801 men</span>
-                </div>
-                <div class="progress-bar__females" style="width: 20%">
-                    <span class="progress-bar__label">205 women</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="report-card__row">
-        <div class="report-card__label">
-            <h4>40th Sitting</h4>
-        </div>
-        <div class="report-card__value">
-            <div class="progress-bar progress-bar--gendered progress-bar--labelled">
-                <div class="progress-bar__males" style="width: 76%">
-                    <span class="progress-bar__label">763 men</span>
-                </div>
-                <div class="progress-bar__females" style="width: 24%">
-                    <span class="progress-bar__label">237 women</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="report-card__row">
-        <div class="report-card__label">
-            <h4>39th Sitting</h4>
-        </div>
-        <div class="report-card__value">
-            <div class="progress-bar progress-bar--gendered progress-bar--labelled">
-                <div class="progress-bar__males" style="width: 55%">
-                    <span class="progress-bar__label">549 men</span>
-                </div>
-                <div class="progress-bar__females" style="width: 15%">
-                    <span class="progress-bar__label">151 women</span>
+                <h3>Gender balance by group:</h3>
+                <div class="report-blank-slate">
+                    <p>We don’t yet have any data about political groups in this legislature.</p>
+                    <p>Do you know where we can find the data? <a href="#">Contribute it, via EveryPolitician.</a></p>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<p>Gender balance by party, in the <strong>41st Sitting</strong></p>
-
-<div class="report-card">
-    <div class="report-card__row">
-        <div class="report-card__label">
-            <h4>Alliance of Free Planets</h4>
-        </div>
-        <div class="report-card__value">
-            <div class="progress-bar progress-bar--gendered progress-bar--labelled">
-                <div class="progress-bar__males" style="width: 55%">
-                    <span class="progress-bar__label">216 men</span>
-                </div>
-                <div class="progress-bar__females" style="width: 45%">
-                    <span class="progress-bar__label">172 women</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="report-card__row">
-        <div class="report-card__label">
-            <h4>Confederacy of<br>Independent Systems</h4>
-        </div>
-        <div class="report-card__value">
-            <div class="progress-bar progress-bar--gendered progress-bar--labelled">
-                <div class="progress-bar__males" style="width: 79%">
-                    <span class="progress-bar__label">180 men</span>
-                </div>
-                <div class="progress-bar__females" style="width: 21%">
-                    <span class="progress-bar__label">55 women</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="report-card__row">
-        <div class="report-card__label">
-            <h4>Trade Federation</h4>
-        </div>
-        <div class="report-card__value">
-            <div class="progress-bar progress-bar--gendered progress-bar--labelled">
-                <div class="progress-bar__males" style="width: 91%">
-                    <span class="progress-bar__label">91 men</span>
-                </div>
-                <div class="progress-bar__females" style="width: 9%">
-                    <span class="progress-bar__label">9 women</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="report-card__row">
-        <div class="report-card__label">
-            <h4>Others</h4>
-        </div>
-        <div class="report-card__value">
-            <div class="progress-bar progress-bar--gendered progress-bar--labelled">
-                <div class="progress-bar__males" style="width: 95%">
-                    <span class="progress-bar__label">314 men</span>
-                </div>
-                <div class="progress-bar__females" style="width: 5%">
-                    <span class="progress-bar__label">10 women</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<h3 class="report-legislature">Jedi High Council</h3>
-
-<p>Gender balance by term:</p>
-
-<div class="report-card">
-    <div class="report-card__row">
-        <div class="report-card__label">
-            <h4>44–40 BBY</h4>
-        </div>
-        <div class="report-card__value">
-            <div class="progress-bar progress-bar--gendered progress-bar--labelled">
-                <div class="progress-bar__males" style="width: 66%">
-                    <span class="progress-bar__label">8 men</span>
-                </div>
-                <div class="progress-bar__females" style="width: 34%">
-                    <span class="progress-bar__label">4 women</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
--->
