@@ -6,8 +6,6 @@
     <a class="report__action" data-display-by-group>Display by group</a>
   <% elsif report[:action] == 'display-by-term' %>
     <a class="report__action" data-display-by-term>Display by term</a>
-  <% elsif report[:scrollToId] %>
-    <a class="report__action" data-scroll-to-id="<%= report[:scrollToId] %>">Show detail</a>
   <% end %>
 
     <div class="progress-bar progress-bar--gendered progress-bar--labelled">

@@ -10,6 +10,12 @@
   }
 }
 
+.report-legislatures {
+    .list__item {
+        margin-top: 1em;
+    }
+}
+
 .report-list--child {
     padding-left: 2em;
     font-size: 0.9em;
@@ -36,12 +42,6 @@
     font-size: 0.9em;
     padding-bottom: 0.5em * (1 / 0.9);
     font-weight: normal;
-
-    .report--headline & {
-        font-weight: bold;
-        font-size: 1em;
-        padding-bottom: 0.5em;
-    }
 }
 
 .report__action {

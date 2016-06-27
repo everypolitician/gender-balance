@@ -7,39 +7,54 @@
 <div class="page-section page-section--blue">
     <div class="container">
         <h1 class="page-title"><%= @country[:country] %></h1>
+
         <p class="report-actions">
             <a href="#" class="button button--small">Play this country!</a>
             <a href="#" class="button button--small">Download data</a>
         </p>
-    </div>
-</div>
 
-<div class="page-section page-section--white">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6">
-                <%= erb :report_partial, locals: {
-                    report: {
-                        title: "Galactic Senate",
-                        total: 1015.0,
-                        total_male: 801,
-                        total_female: 1015 - 801,
-                        scrollToId: 'legislature1',
-                        headline: true
-                    }
-                } %>
-            </div>
-            <div class="col-sm-6">
-                <%= erb :report_partial, locals: {
-                    report: {
-                        title: "Jedi High Council",
-                        total: 12.0,
-                        total_male: 8,
-                        total_female: 4,
-                        scrollToId: 'legislature2',
-                        headline: true
-                    }
-                } %>
+        <div class="report-legislatures">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <%# I would just include country_partial here, but it only works with @country objects %>
+                    <a class="list__item country" href="#legislature1" data-scroll-to-id>
+                        <h3 class="country__name">Galactic Senate</h3>
+                        <em class="country__status">Show details</em>
+                        <div class="country__progress">
+                            <p class="country__progress__intro">Known gender balance for Galactic Senate:</p>
+                            <div class="progress-bar progress-bar--gendered progress-bar--labelled">
+                                <div class="progress-bar__males" style="width: <%= 801 / 1015.0 * 100 %>%">
+                                    <span class="progress-bar__label">801 men</span>
+                                </div>
+                                <div class="progress-bar__females" style="width: <%= (1015 - 801) / 1015.0 * 100 %>%">
+                                    <span class="progress-bar__label"><%= 1015 - 801 %> women</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+                <div class="col-sm-6">
+
+                    <%# I would just include country_partial here, but it only works with @country objects %>
+                    <a class="list__item country" href="#legislature2" data-scroll-to-id>
+                        <h3 class="country__name">Jedi High Council</h3>
+                        <em class="country__status">Show details</em>
+                        <div class="country__progress">
+                            <p class="country__progress__intro">Known gender balance for Jedi High Council:</p>
+                            <div class="progress-bar progress-bar--gendered progress-bar--labelled">
+                                <div class="progress-bar__males" style="width: <%= 8 / 12.0 * 100 %>%">
+                                    <span class="progress-bar__label">8 men</span>
+                                </div>
+                                <div class="progress-bar__females" style="width: <%= 4 / 12.0 * 100 %>%">
+                                    <span class="progress-bar__label">4 women</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
             </div>
         </div>
     </div>

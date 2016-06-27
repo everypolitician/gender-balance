@@ -317,7 +317,13 @@ $(function(){
   });
 
   $('[data-scroll-to-id]').on('click', function(e){
-    var $target = $('#' + $(this).attr('data-scroll-to-id'));
+    e.preventDefault();
+
+    if( this.hasAttribute('href') ){
+      var $target = $($(this).attr('href'));
+    } else {
+      var $target = $('#' + $(this).attr('data-scroll-to-id'));
+    }
 
     $('html, body').animate({
       scrollTop: $target.offset().top
