@@ -1,8 +1,4 @@
-<% if country.complete? %>
-<a class="list__item country country--completed<% if country.played_by_user? %>-by-user<% end %>">
-<% else %>
-<a class="list__item country" href="<%= url "/countries/#{country.slug}" %>">
-<% end %>
+<a class="list__item country" href="<%= url "/reports/#{country.slug}" %>">
 
     <h3 class="country__name"><%= country.name %></h3>
 

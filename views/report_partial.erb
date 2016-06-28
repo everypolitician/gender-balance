@@ -2,22 +2,16 @@
 
     <h3 class="report__title"><%= report[:title] %></h3>
 
-  <% if report[:action] == 'display-by-group' %>
-    <a class="report__action" data-display-by-group>Display by group</a>
-  <% elsif report[:action] == 'display-by-term' %>
-    <a class="report__action" data-display-by-term>Display by term</a>
-  <% end %>
-
     <div class="progress-bar progress-bar--gendered progress-bar--labelled">
         <div class="progress-bar__males" style="width: <%= report[:total_male] / report[:total] * 100 %>%">
-            <span class="progress-bar__label"><%= report[:total_male] %> men</span>
+            <span class="progress-bar__label"><%= report[:total_male].to_i %> <%= report[:total_male].to_i == 1 ? 'man' : 'men' %></span>
         </div>
       <% if (report[:total_male] + report[:total_female] != report[:total]) %>
         <div class="progress-bar__empty" style="width: <%= (report[:total] - report[:total_male] - report[:total_female]) / report[:total] * 100 %>%">
         </div>
       <% end %>
         <div class="progress-bar__females" style="width: <%= report[:total_female] / report[:total] * 100 %>%">
-            <span class="progress-bar__label"><%= report[:total_female] %> women</span>
+            <span class="progress-bar__label"><%= report[:total_female].to_i %> <%= report[:total_female].to_i == 1 ? 'woman' : 'women' %></span>
         </div>
     </div>
 

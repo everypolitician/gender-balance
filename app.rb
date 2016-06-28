@@ -6,6 +6,7 @@ require 'tilt/erubis'
 require 'tilt/sass'
 require 'active_support/core_ext'
 require 'open-uri'
+require 'json'
 require 'csv'
 
 $LOAD_PATH << File.expand_path('../lib', __FILE__)
@@ -169,6 +170,10 @@ end
 
 get '/reports/:country' do
   @country = Everypolitician.country(slug: params[:country])
+  stats_raw = JSON.parse(open('https://raw.githubusercontent.com/everypolitician/gender-balance-country-stats/gh-pages/stats.json').read, symbolize_names: true)
+  stats = Hash[stats_raw.map { |c| [c[:slug], c] }]
+  @country_stats = stats[params[:country]]
+  @legislature_stats = Hash[@country_stats[:legislatures].map {|l| [l[:slug], l]}]
   erb :report, :layout => :layout_page
 end
 
