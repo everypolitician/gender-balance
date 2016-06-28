@@ -66,6 +66,7 @@
                         term_stats = @legislature_stats[legislature.slug][:terms][term_slug.to_sym] %>
                         <%= erb :report_partial, locals: {
                             report: {
+                                id: term.slug,
                                 title: term.name,
                                 total: term_stats[:overall][:total].to_f,
                                 total_male: term_stats[:overall][:male].to_f,
@@ -73,6 +74,18 @@
                                 action: 'display-by-group'
                             }
                         } %>
+                        <div class="report-list report-list--hidden" id="parties-<%= term.slug %>">
+                        <% term_stats[:parties].each do |slug, group| %>
+                        <%= erb :report_partial, locals: {
+                            report: {
+                                title: group[:name],
+                                total: group[:total].to_f,
+                                total_male: group[:male].to_f,
+                                total_female: group[:female].to_f,
+                            }
+                        } %>
+                        <% end %>
+                        </div>
                     <% end %>
                 </div>
             </div>
@@ -80,9 +93,11 @@
                 <h3>Gender balance by group:</h3>
                 <% stats = @legislature_stats[legislature.slug][:totals] %>
                 <div class="report-list report-list--by-group">
-                    <% stats[:parties].each do |slug, data| %>
+                    <% stats[:parties].each do |slug, data|
+                        id_slug = slug.to_s.sub('/', '-') %>
                     <%= erb :report_partial, locals: {
                         report: {
+                            id: id_slug,
                             title: data[:name],
                             total: data[:total].to_f,
                             total_male: data[:male].to_f,
@@ -90,6 +105,23 @@
                             action: 'display-by-term'
                         }
                     } %>
+                    <div class="report-list report-list--hidden" id="terms-<%= id_slug %>">
+                    <% legislature.legislative_periods.each do |term|
+                        term_slug = 'term/' + term.slug
+                        term_stats = @legislature_stats[legislature.slug][:terms][term_slug.to_sym]
+                        group = term_stats[:parties][slug]
+                        if group %>
+                        <%= erb :report_partial, locals: {
+                            report: {
+                                title: term[:name],
+                                total: group[:total].to_f,
+                                total_male: group[:male].to_f,
+                                total_female: group[:female].to_f,
+                            }
+                        } %>
+                    <% end %>
+                    <% end %>
+                    </div>
                     <% end %>
                 </div>
             </div>

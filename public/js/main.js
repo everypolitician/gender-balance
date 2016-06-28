@@ -334,7 +334,8 @@ $(function(){
   $('[data-display-by-term]').on('click', function(){
     var $report = $(this).parents('.report');
     var $reportList = $(this).parents('.report-list');
-    var $terms = $(this).parents('.page-section').find('.report-list--by-term');
+    id = '#terms-' + $report.attr('id');
+    var $terms = $(this).parents('.page-section').find(id);
 
     var wasAlreadyOpen = $report.next('.report-list--child').length;
 
@@ -343,7 +344,7 @@ $(function(){
     });
 
     if( ! wasAlreadyOpen ){
-      var $clone = $terms.clone().addClass('report-list--child').removeClass('report-list--by-term');
+      var $clone = $terms.clone().addClass('report-list--child').removeClass('report-list--hidden');
       $clone.find('.report__action').remove();
       $clone.hide().insertAfter($report).slideDown(100);
     }
@@ -352,7 +353,8 @@ $(function(){
   $('[data-display-by-group]').on('click', function(){
     var $report = $(this).parents('.report');
     var $reportList = $(this).parents('.report-list');
-    var $groups = $(this).parents('.page-section').find('.report-list--by-group');
+    id = '#parties-' + $report.attr('id');
+    var $groups = $(this).parents('.page-section').find(id);
 
     var wasAlreadyOpen = $report.next('.report-list--child').length;
 
@@ -361,7 +363,7 @@ $(function(){
     });
 
     if( ! wasAlreadyOpen ){
-      var $clone = $groups.clone().addClass('report-list--child').removeClass('report-list--by-group');
+      var $clone = $groups.clone().addClass('report-list--child').removeClass('report-list--hidden');
       $clone.find('.report__action').remove();
       $clone.hide().insertAfter($report).slideDown(100);
     }

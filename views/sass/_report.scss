@@ -27,6 +27,10 @@
     }
 }
 
+.report-list--hidden {
+    display: none;
+}
+
 .report {
     padding-bottom: 1px; // force .report to wrap around .progress-bar's bottom margin
     margin-bottom: 1em;
