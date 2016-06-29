@@ -10,6 +10,7 @@
 
         <p class="report-actions">
             <a href="<%= url("/countries/#{params[:country]}") %>" class="button button--small">Play this country!</a>
+            <a href="http://everypolitician.org/<%= params[:country].downcase %>/download.html" class="button button--small">Download data</a>
         </p>
 
         <div class="report-legislatures">
@@ -53,10 +54,6 @@
     <div class="container">
 
         <h2 class="page-title"><%= legislature.name %></h2>
-
-        <p class="report-actions">
-        <a href="<%= url("/export/#{params[:country]}/#{legislature.slug}") %>" class="button button--small">Download data</a>
-        </p>
 
         <div class="row">
             <div class="col-sm-6">
