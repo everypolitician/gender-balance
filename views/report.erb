@@ -13,16 +13,16 @@
         </p>
 
         <div class="report-legislatures">
-            <% @country.legislatures.each_with_index do |legislature, i|
-               stats = @legislature_stats[legislature.slug][:totals]
-               total = stats[:overall][:total].to_f
-               male = stats[:overall][:male].to_f
-               female = stats[:overall][:female].to_f
-               total = male + female
-            %>
-            <% if i % 2 == 0 %>
+            <% @country.legislatures.each_slice(2) do |legislatures| %>
             <div class="row">
-            <% end %>
+                <% legislatures.each do |legislature| %>
+                <%
+                    stats = @legislature_stats[legislature.slug][:totals]
+                    total = stats[:overall][:total].to_f
+                    male = stats[:overall][:male].to_f
+                    female = stats[:overall][:female].to_f
+                    total = male + female
+                %>
                 <div class="col-sm-6">
 
                     <a class="list__item country" href="#<%= legislature.slug %>" data-scroll-to-id>
@@ -42,9 +42,8 @@
                     </a>
 
                 </div>
-            <% if i % 2 != 0 %>
+                <% end %>
             </div>
-            <% end %>
             <% end %>
         </div>
     </div>
