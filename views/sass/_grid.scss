@@ -1,0 +1,42 @@
+$grid-max-width: 960px !default;
+$grid-gutter: 2em !default;
+$grid-breakpoint-sm: 768px !default;
+
+.container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: $grid-gutter / 2;
+    padding-right: $grid-gutter / 2;
+    max-width: $grid-max-width;
+}
+
+.row {
+    @include clearfix();
+    margin-left: $grid-gutter / -2;
+    margin-right: $grid-gutter / -2;
+}
+
+%col {
+    padding-left: $grid-gutter / 2;
+    padding-right: $grid-gutter / 2;
+    min-height: 1px;
+}
+
+@for $i from 1 through 12 {
+    .col-sm-#{$i} {
+        @extend %col;
+    }
+}
+
+@media(min-width: $grid-breakpoint-sm) {
+    %col-float {
+        float: left;
+    }
+
+    @for $i from 1 through 12 {
+        .col-sm-#{$i} {
+            @extend %col-float;
+            width: 100% / 12 * $i;
+        }
+    }
+}

@@ -316,4 +316,57 @@ $(function(){
     ga('send', 'event', 'filterElements', 'focus', label);
   });
 
+  $('[data-scroll-to-id]').on('click', function(e){
+    e.preventDefault();
+
+    if( this.hasAttribute('href') ){
+      var $target = $($(this).attr('href'));
+    } else {
+      var $target = $('#' + $(this).attr('data-scroll-to-id'));
+    }
+
+    $('html, body').animate({
+      scrollTop: $target.offset().top
+    }, 250);
+  });
+
+  // Prototypes that should be replaced eventually with real code.
+  $('[data-display-by-term]').on('click', function(){
+    var $report = $(this).parents('.report');
+    var $reportList = $(this).parents('.report-list');
+    id = '#terms-' + $report.attr('id');
+    var $terms = $(this).parents('.page-section').find(id);
+
+    var wasAlreadyOpen = $report.next('.report-list--child').length;
+
+    $reportList.find('.report-list--child').slideUp(100, function(){
+      $(this).remove();
+    });
+
+    if( ! wasAlreadyOpen ){
+      var $clone = $terms.clone().addClass('report-list--child').removeClass('report-list--hidden');
+      $clone.find('.report__action').remove();
+      $clone.hide().insertAfter($report).slideDown(100);
+    }
+  });
+
+  $('[data-display-by-group]').on('click', function(){
+    var $report = $(this).parents('.report');
+    var $reportList = $(this).parents('.report-list');
+    id = '#parties-' + $report.attr('id');
+    var $groups = $(this).parents('.page-section').find(id);
+
+    var wasAlreadyOpen = $report.next('.report-list--child').length;
+
+    $reportList.find('.report-list--child').slideUp(100, function(){
+      $(this).remove();
+    });
+
+    if( ! wasAlreadyOpen ){
+      var $clone = $groups.clone().addClass('report-list--child').removeClass('report-list--hidden');
+      $clone.find('.report__action').remove();
+      $clone.hide().insertAfter($report).slideDown(100);
+    }
+  });
+
 });
