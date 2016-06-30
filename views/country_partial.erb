@@ -23,13 +23,13 @@
                 <div class="progress-bar__males" style="width: <%= country.gender_percentage(:male) %>%">
                     <span class="progress-bar__label">
                         <%= country.total_male %>
-                        <%= country.total_male == 1 ? 'man' : 'men' %>
+                        <%= 'man'.pluralize(country.total_male) %>
                     </span>
                 </div>
                 <div class="progress-bar__females" style="width: <%= country.gender_percentage(:female) %>%">
                     <span class="progress-bar__label">
                         <%= country.total_female %>
-                        <%= country.total_female == 1 ? 'woman' : 'women' %>
+                        <%= 'woman'.pluralize(country.total_female) %>
                     </span>
                 </div>
             </div>
