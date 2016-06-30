@@ -21,10 +21,16 @@
             <p class="country__progress__intro">Known gender balance for <%= country.name %>:</p>
             <div class="progress-bar progress-bar--gendered progress-bar--labelled">
                 <div class="progress-bar__males" style="width: <%= country.gender_percentage(:male) %>%">
-                    <span class="progress-bar__label"><%= country.total_male %> men</span>
+                    <span class="progress-bar__label">
+                        <%= country.total_male %>
+                        <%= country.total_male == 1 ? 'man' : 'men' %>
+                    </span>
                 </div>
                 <div class="progress-bar__females" style="width: <%= country.gender_percentage(:female) %>%">
-                    <span class="progress-bar__label"><%= country.total_female %> women</span>
+                    <span class="progress-bar__label">
+                        <%= country.total_female %>
+                        <%= country.total_female == 1 ? 'woman' : 'women' %>
+                    </span>
                 </div>
             </div>
         <% else %>
