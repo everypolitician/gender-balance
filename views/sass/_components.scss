@@ -237,10 +237,12 @@
 .progress-bar--gendered {
     .progress-bar__males {
         background-color: $color_orange;
+        float: left;
     }
 
     .progress-bar__females {
         background-color: $color_green;
+        float: right;
     }
 
     .progress-bar__others-dont-knows {
@@ -257,9 +259,6 @@
   top: 1em;
   left: 0;
 
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
 
   font-size: (16em/18); // 16px
@@ -272,6 +271,8 @@
 
   .progress-bar__females & {
     color: $color_green;
+    left: auto;
+    right: 0;
   }
 }
 
