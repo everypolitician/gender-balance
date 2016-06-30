@@ -169,6 +169,7 @@ get '/countries/:country/legislatures/:legislature' do
 end
 
 get '/reports/:country' do
+  redirect to('/login') unless current_user
   @country = Everypolitician.country(slug: params[:country])
   stats_raw = JSON.parse(open('https://everypolitician.github.io/gender-balance-country-stats/stats.json').read, symbolize_names: true)
   stats = Hash[stats_raw.map { |c| [c[:slug], c] }]
