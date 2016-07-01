@@ -47,4 +47,8 @@ module Helpers
   def previous_legislative_period(legislative_period)
     previous_legislative_periods(legislative_period).first
   end
+
+  def country_complete?
+    CountryUUID.where(country_slug: params[:country], gender: nil).empty?
+  end
 end
