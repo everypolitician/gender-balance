@@ -13,15 +13,15 @@
         </div>
         <% end %>
 
-        <h1 class="page-title"><%= @country[:country] %></h1>
+        <h1 class="page-title"><%= @country.name %></h1>
 
         <p>Here's the gender breakdown for this country's politicians.</p>
 
         <p class="report-actions">
             <% unless country_complete? %>
-                <a href="<%= url("/countries/#{params[:country]}") %>" class="button button--small">Play this country!</a>
+                <a href="<%= url("/countries/#{@country.slug}") %>" class="button button--small">Play this country!</a>
             <% end %>
-            <a href="http://everypolitician.org/<%= params[:country].downcase %>/download.html" class="button button--small">Download data</a>
+            <a href="http://everypolitician.org/<%= @country.slug.downcase %>/download.html" class="button button--small">Download data</a>
         </p>
 
         <div class="report-legislatures">
