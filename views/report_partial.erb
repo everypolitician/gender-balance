@@ -9,16 +9,22 @@
   <% end %>
 
     <div class="progress-bar progress-bar--gendered progress-bar--labelled">
+      <% unless report[:total_male].zero? %>
         <div class="progress-bar__males" style="width: <%= report[:total_male] / report[:total] * 100 %>%">
             <span class="progress-bar__label"><%= report[:total_male].to_i %> <%= report[:total_male].to_i == 1 ? 'man' : 'men' %></span>
         </div>
+      <% end %>
+
       <% if (report[:total_male] + report[:total_female] != report[:total]) %>
         <div class="progress-bar__empty" style="width: <%= (report[:total] - report[:total_male] - report[:total_female]) / report[:total] * 100 %>%">
         </div>
       <% end %>
+
+      <% unless report[:total_female].zero? %>
         <div class="progress-bar__females" style="width: <%= report[:total_female] / report[:total] * 100 %>%">
             <span class="progress-bar__label"><%= report[:total_female].to_i %> <%= report[:total_female].to_i == 1 ? 'woman' : 'women' %></span>
         </div>
+      <% end %>
     </div>
 
 </div>

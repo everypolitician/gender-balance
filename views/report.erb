@@ -34,12 +34,16 @@
                         <div class="country__progress">
                             <p class="country__progress__intro">Known gender balance for <%= legislature.name %>:</p>
                             <div class="progress-bar progress-bar--gendered progress-bar--labelled">
+                                <% unless legislature.male.zero? %>
                                 <div class="progress-bar__males" style="width: <%= legislature.male_percentage %>%">
                                     <span class="progress-bar__label"><%= pluralize(legislature.male.to_i, 'man') %></span>
                                 </div>
+                                <% end %>
+                                <% unless legislature.female.zero? %>
                                 <div class="progress-bar__females" style="width: <%= legislature.female_percentage %>%">
                                     <span class="progress-bar__label"><%= pluralize(legislature.female.to_i, 'woman') %></span>
                                 </div>
+                                <% end %>
                             </div>
                         </div>
                     </a>
