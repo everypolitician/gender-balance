@@ -16,7 +16,9 @@
         <h1 class="page-title"><%= @country[:country] %></h1>
 
         <p class="report-actions">
-            <a href="<%= url("/countries/#{params[:country]}") %>" class="button button--small">Play this country!</a>
+            <% unless country_complete? %>
+                <a href="<%= url("/countries/#{params[:country]}") %>" class="button button--small">Play this country!</a>
+            <% end %>
             <a href="http://everypolitician.org/<%= params[:country].downcase %>/download.html" class="button button--small">Download data</a>
         </p>
 

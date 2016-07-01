@@ -59,4 +59,8 @@ class User < Sequel::Model
       votes_dataset.select(1).where(person_uuid: :country_uuids__uuid).exists
     ).group_and_count(:country_slug)
   end
+
+  def has_completed_country?(country_slug)
+    remaining_counts.where(country_slug: country_slug).empty?
+  end
 end
