@@ -29,13 +29,13 @@ $grid-breakpoint-sm: 768px !default;
 }
 
 @media(min-width: $grid-breakpoint-sm) {
-    %col-float {
+    %col-float-left {
         float: left;
     }
 
     @for $i from 1 through 12 {
         .col-sm-#{$i} {
-            @extend %col-float;
+            @extend %col-float-left;
             width: 100% / 12 * $i;
         }
     }
