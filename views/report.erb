@@ -59,30 +59,29 @@
         <h2 class="page-title"><%= legislature.name %></h2>
 
         <div class="row">
+
             <div class="col-sm-6">
                 <h3>Gender balance by term:</h3>
                 <div class="report-list report-list--by-term">
                     <% legislature.legislative_periods.each do |term| %>
-                        <% term_slug = 'term/' + term.slug
-                        term_stats = @legislature_stats[legislature.slug][:terms][term_slug.to_sym] %>
                         <%= erb :report_partial, locals: {
                             report: {
                                 id: term.slug,
                                 title: term.name,
-                                total: term_stats[:overall][:total].to_f,
-                                total_male: term_stats[:overall][:male].to_f,
-                                total_female: term_stats[:overall][:female].to_f,
+                                total: term.total,
+                                total_male: term.male,
+                                total_female: term.female,
                                 action: 'display-by-group'
                             }
                         } %>
                         <div class="report-list report-list--hidden" id="parties-<%= term.slug %>">
-                        <% term_stats[:parties].each do |slug, group| %>
+                        <% term.groups.each do |group| %>
                         <%= erb :report_partial, locals: {
                             report: {
-                                title: group[:name],
-                                total: group[:total].to_f,
-                                total_male: group[:male].to_f,
-                                total_female: group[:female].to_f,
+                                title: group.name,
+                                total: group.total,
+                                total_male: group.male,
+                                total_female: group.female,
                             }
                         } %>
                         <% end %>
@@ -90,6 +89,7 @@
                     <% end %>
                 </div>
             </div>
+
             <div class="col-sm-6">
                 <h3>Gender balance by group:</h3>
                 <% stats = @legislature_stats[legislature.slug][:totals] %>
@@ -114,7 +114,7 @@
                         if group %>
                         <%= erb :report_partial, locals: {
                             report: {
-                                title: term[:name],
+                                title: term.name,
                                 total: group[:total].to_f,
                                 total_male: group[:male].to_f,
                                 total_female: group[:female].to_f,
@@ -126,6 +126,7 @@
                     <% end %>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

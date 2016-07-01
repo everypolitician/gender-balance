@@ -168,42 +168,93 @@ get '/countries/:country/legislatures/:legislature' do
   erb :term
 end
 
-class LegislatureReport
-  extend Forwardable
-
-  # Delegate 'name' and 'slug' method calls to the 'country' object.
-  def_delegators :legislature, :name, :slug, :legislative_periods
-
-  attr_reader :legislature
-  attr_reader :stats
-
-  def initialize(legislature, stats)
-    @legislature = legislature
-    @stats = stats
-  end
-
-  def total
-    @total ||= stats[:overall][:total].to_f
+# Require including class to define a `stats` method which returns a hash with
+# :female, :male and :total keys.
+module GenderStats
+  def female
+    @female ||= stats[:female].to_f
   end
 
   def male
-    @male ||= stats[:overall][:male].to_f
-  end
-
-  def female
-    @female ||= stats[:overall][:female].to_f
+    @male ||= stats[:male].to_f
   end
 
   def total
-    @total ||= male + female
+    @total ||= stats[:total].to_f
+  end
+
+  def female_percentage
+    @female_percentage ||= female / total * 100
   end
 
   def male_percentage
     @male_percentage ||= male / total * 100
   end
+end
 
-  def female_percentage
-    @female_percentage ||= female / total * 100
+class LegislatureReport
+  extend Forwardable
+  include GenderStats
+
+  # Delegate 'name' and 'slug' method calls to the 'legislature' object.
+  def_delegators :legislature, :name, :slug
+
+  attr_reader :legislature
+  attr_reader :raw_stats
+
+  def initialize(legislature, raw_stats)
+    @legislature = legislature
+    @raw_stats = raw_stats
+  end
+
+  def stats
+    @stats ||= raw_stats[:totals][:overall]
+  end
+
+  def legislative_periods
+    @legislative_periods ||= legislature.legislative_periods.map { |lp| LegislativePeriodReport.new(lp, raw_stats) }
+  end
+end
+
+class LegislativePeriodReport
+  extend Forwardable
+  include GenderStats
+
+  # Delegate 'name' and 'slug' method calls to the 'legislative_period' object.
+  def_delegators :legislative_period, :name, :slug
+
+  attr_reader :legislative_period
+  attr_reader :raw_stats
+
+  def initialize(legislative_period, raw_stats)
+    @legislative_period = legislative_period
+    @raw_stats = raw_stats
+  end
+
+  def legislative_period_stats
+    @legislative_period_stats ||= raw_stats[:terms]["term/#{legislative_period.slug}".to_sym]
+  end
+
+  def stats
+    @stats ||= legislative_period_stats[:overall]
+  end
+
+  def groups
+    @groups = legislative_period_stats[:parties].map { |_, group_stats| LegislativePeriodGroupReport.new(group_stats) }
+  end
+end
+
+class LegislativePeriodGroupReport
+  include GenderStats
+
+  attr_reader :stats
+
+  def initialize(stats)
+    @stats = stats
+  end
+
+  def name
+    stats[:name]
   end
 end
 
@@ -214,7 +265,7 @@ get '/reports/:country' do
   stats = Hash[stats_raw.map { |c| [c[:slug], c] }]
   @country_stats = stats[params[:country]]
   @legislature_stats = Hash[@country_stats[:legislatures].map {|l| [l[:slug], l]}]
-  @legislatures = @country.legislatures.map { |l| LegislatureReport.new(l, @legislature_stats[l.slug][:totals]) }
+  @legislatures = @country.legislatures.map { |l| LegislatureReport.new(l, @legislature_stats[l.slug]) }
   erb :report, :layout => :layout_page
 end
 
