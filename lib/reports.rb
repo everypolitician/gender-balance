@@ -43,7 +43,9 @@ module Reports
     end
 
     def groups
-      @groups ||= raw_stats[:totals][:parties].map { |slug, group_stats| GroupReport.new(slug, group_stats, raw_stats, legislative_periods) }
+      @groups ||= raw_stats[:totals][:parties].map { |slug, group_stats| GroupReport.new(slug, group_stats, raw_stats, legislative_periods) }.sort_by do |group|
+        -group.total
+      end
     end
 
     def legislative_periods
@@ -122,7 +124,9 @@ module Reports
     end
 
     def groups
-      @groups = legislative_period_stats[:parties].map { |_, group_stats| LegislativePeriodGroupReport.new(group_stats) }
+      @groups = legislative_period_stats[:parties].map { |_, group_stats| LegislativePeriodGroupReport.new(group_stats) }.sort_by do |group|
+        -group.total
+      end
     end
   end
 
