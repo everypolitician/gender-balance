@@ -25,28 +25,20 @@
         </p>
 
         <div class="report-legislatures">
-            <% @country.legislatures.each_slice(2) do |legislatures| %>
+            <% @legislatures.each_slice(2) do |legislatures| %>
             <div class="row">
                 <% legislatures.each do |legislature| %>
-                <%
-                    stats = @legislature_stats[legislature.slug][:totals]
-                    total = stats[:overall][:total].to_f
-                    male = stats[:overall][:male].to_f
-                    female = stats[:overall][:female].to_f
-                    total = male + female
-                %>
                 <div class="col-sm-6">
-
                     <a class="list__item country" href="#<%= legislature.slug %>" data-scroll-to-id>
                         <h3 class="country__name"><%= legislature.name %></h3>
                         <div class="country__progress">
                             <p class="country__progress__intro">Known gender balance for <%= legislature.name %>:</p>
                             <div class="progress-bar progress-bar--gendered progress-bar--labelled">
-                                <div class="progress-bar__males" style="width: <%= male / total * 100 %>%">
-                                    <span class="progress-bar__label"><%= male.to_i %> <%= male.to_i == 1 ? 'man' : 'men' %></span>
+                                <div class="progress-bar__males" style="width: <%= legislature.male_percentage %>%">
+                                    <span class="progress-bar__label"><%= pluralize(legislature.male.to_i, 'man') %></span>
                                 </div>
-                                <div class="progress-bar__females" style="width: <%= female / total * 100 %>%">
-                                    <span class="progress-bar__label"><%= female.to_i %> <%= female.to_i == 1 ? 'woman' : 'women' %></span>
+                                <div class="progress-bar__females" style="width: <%= legislature.female_percentage %>%">
+                                    <span class="progress-bar__label"><%= pluralize(legislature.female.to_i, 'woman') %></span>
                                 </div>
                             </div>
                         </div>
@@ -60,7 +52,7 @@
     </div>
 </div>
 
-<% @country.legislatures.each do |legislature| %>
+<% @legislatures.each do |legislature| %>
 <div class="page-section page-section--white" id="<%= legislature.slug %>">
     <div class="container">
 

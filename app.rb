@@ -168,6 +168,45 @@ get '/countries/:country/legislatures/:legislature' do
   erb :term
 end
 
+class LegislatureReport
+  extend Forwardable
+
+  # Delegate 'name' and 'slug' method calls to the 'country' object.
+  def_delegators :legislature, :name, :slug, :legislative_periods
+
+  attr_reader :legislature
+  attr_reader :stats
+
+  def initialize(legislature, stats)
+    @legislature = legislature
+    @stats = stats
+  end
+
+  def total
+    @total ||= stats[:overall][:total].to_f
+  end
+
+  def male
+    @male ||= stats[:overall][:male].to_f
+  end
+
+  def female
+    @female ||= stats[:overall][:female].to_f
+  end
+
+  def total
+    @total ||= male + female
+  end
+
+  def male_percentage
+    @male_percentage ||= male / total * 100
+  end
+
+  def female_percentage
+    @female_percentage ||= female / total * 100
+  end
+end
+
 get '/reports/:country' do
   redirect to('/login') unless current_user
   @country = Everypolitician.country(slug: params[:country])
@@ -175,6 +214,7 @@ get '/reports/:country' do
   stats = Hash[stats_raw.map { |c| [c[:slug], c] }]
   @country_stats = stats[params[:country]]
   @legislature_stats = Hash[@country_stats[:legislatures].map {|l| [l[:slug], l]}]
+  @legislatures = @country.legislatures.map { |l| LegislatureReport.new(l, @legislature_stats[l.slug][:totals]) }
   erb :report, :layout => :layout_page
 end
 
