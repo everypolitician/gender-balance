@@ -13,40 +13,32 @@
         </div>
         <% end %>
 
-        <h1 class="page-title"><%= @country[:country] %></h1>
+        <h1 class="page-title"><%= @country.name %></h1>
 
         <p>Here's the gender breakdown for this country's politicians.</p>
 
         <p class="report-actions">
             <% unless country_complete? %>
-                <a href="<%= url("/countries/#{params[:country]}") %>" class="button button--small">Play this country!</a>
+                <a href="<%= url("/countries/#{@country.slug}") %>" class="button button--small">Play this country!</a>
             <% end %>
-            <a href="http://everypolitician.org/<%= params[:country].downcase %>/download.html" class="button button--small">Download data</a>
+            <a href="http://everypolitician.org/<%= @country.slug.downcase %>/download.html" class="button button--small">Download data</a>
         </p>
 
         <div class="report-legislatures">
-            <% @country.legislatures.each_slice(2) do |legislatures| %>
+            <% @legislatures.each_slice(2) do |legislatures| %>
             <div class="row">
                 <% legislatures.each do |legislature| %>
-                <%
-                    stats = @legislature_stats[legislature.slug][:totals]
-                    total = stats[:overall][:total].to_f
-                    male = stats[:overall][:male].to_f
-                    female = stats[:overall][:female].to_f
-                    total = male + female
-                %>
                 <div class="col-sm-6">
-
                     <a class="list__item country" href="#<%= legislature.slug %>" data-scroll-to-id>
                         <h3 class="country__name"><%= legislature.name %></h3>
                         <div class="country__progress">
                             <p class="country__progress__intro">Known gender balance for <%= legislature.name %>:</p>
                             <div class="progress-bar progress-bar--gendered progress-bar--labelled">
-                                <div class="progress-bar__males" style="width: <%= male / total * 100 %>%">
-                                    <span class="progress-bar__label"><%= male.to_i %> <%= male.to_i == 1 ? 'man' : 'men' %></span>
+                                <div class="progress-bar__males" style="width: <%= legislature.male_percentage %>%">
+                                    <span class="progress-bar__label"><%= pluralize(legislature.male.to_i, 'man') %></span>
                                 </div>
-                                <div class="progress-bar__females" style="width: <%= female / total * 100 %>%">
-                                    <span class="progress-bar__label"><%= female.to_i %> <%= female.to_i == 1 ? 'woman' : 'women' %></span>
+                                <div class="progress-bar__females" style="width: <%= legislature.female_percentage %>%">
+                                    <span class="progress-bar__label"><%= pluralize(legislature.female.to_i, 'woman') %></span>
                                 </div>
                             </div>
                         </div>
@@ -60,37 +52,36 @@
     </div>
 </div>
 
-<% @country.legislatures.each do |legislature| %>
+<% @legislatures.each do |legislature| %>
 <div class="page-section page-section--white" id="<%= legislature.slug %>">
     <div class="container">
 
         <h2 class="page-title"><%= legislature.name %></h2>
 
         <div class="row">
+
             <div class="col-sm-6">
                 <h3>Gender balance by term:</h3>
                 <div class="report-list report-list--by-term">
                     <% legislature.legislative_periods.each do |term| %>
-                        <% term_slug = 'term/' + term.slug
-                        term_stats = @legislature_stats[legislature.slug][:terms][term_slug.to_sym] %>
                         <%= erb :report_partial, locals: {
                             report: {
                                 id: term.slug,
                                 title: term.name,
-                                total: term_stats[:overall][:total].to_f,
-                                total_male: term_stats[:overall][:male].to_f,
-                                total_female: term_stats[:overall][:female].to_f,
+                                total: term.total,
+                                total_male: term.male,
+                                total_female: term.female,
                                 action: 'display-by-group'
                             }
                         } %>
                         <div class="report-list report-list--hidden" id="parties-<%= term.slug %>">
-                        <% term_stats[:parties].each do |slug, group| %>
+                        <% term.groups.each do |group| %>
                         <%= erb :report_partial, locals: {
                             report: {
-                                title: group[:name],
-                                total: group[:total].to_f,
-                                total_male: group[:male].to_f,
-                                total_female: group[:female].to_f,
+                                title: group.name,
+                                total: group.total,
+                                total_male: group.male,
+                                total_female: group.female,
                             }
                         } %>
                         <% end %>
@@ -98,42 +89,37 @@
                     <% end %>
                 </div>
             </div>
+
             <div class="col-sm-6">
                 <h3>Gender balance by group:</h3>
-                <% stats = @legislature_stats[legislature.slug][:totals] %>
                 <div class="report-list report-list--by-group">
-                    <% stats[:parties].each do |slug, data|
-                        id_slug = slug.to_s.sub('/', '-') %>
+                    <% legislature.groups.each do |group| %>
                     <%= erb :report_partial, locals: {
                         report: {
-                            id: id_slug,
-                            title: data[:name],
-                            total: data[:total].to_f,
-                            total_male: data[:male].to_f,
-                            total_female: data[:female].to_f,
+                            id: group.id_slug,
+                            title: group.name,
+                            total: group.total,
+                            total_male: group.male,
+                            total_female: group.female,
                             action: 'display-by-term'
                         }
                     } %>
-                    <div class="report-list report-list--hidden" id="terms-<%= id_slug %>">
-                    <% legislature.legislative_periods.each do |term|
-                        term_slug = 'term/' + term.slug
-                        term_stats = @legislature_stats[legislature.slug][:terms][term_slug.to_sym]
-                        group = term_stats[:parties][slug]
-                        if group %>
+                    <div class="report-list report-list--hidden" id="terms-<%= group.id_slug %>">
+                    <% group.legislative_periods.each do |term| %>
                         <%= erb :report_partial, locals: {
                             report: {
-                                title: term[:name],
-                                total: group[:total].to_f,
-                                total_male: group[:male].to_f,
-                                total_female: group[:female].to_f,
+                                title: term.name,
+                                total: term.total,
+                                total_male: term.male,
+                                total_female: term.female,
                             }
                         } %>
-                    <% end %>
                     <% end %>
                     </div>
                     <% end %>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

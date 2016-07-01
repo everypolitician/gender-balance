@@ -28,6 +28,7 @@ require 'app/models'
 require 'app/jobs'
 require 'csv_export'
 require 'country_proxy'
+require 'reports'
 
 helpers Helpers
 
@@ -175,6 +176,7 @@ get '/reports/:country' do
   stats = Hash[stats_raw.map { |c| [c[:slug], c] }]
   @country_stats = stats[params[:country]]
   @legislature_stats = Hash[@country_stats[:legislatures].map {|l| [l[:slug], l]}]
+  @legislatures = @country.legislatures.map { |l| Reports::LegislatureReport.new(l, @legislature_stats[l.slug]) }
   erb :report, :layout => :layout_page
 end
 
