@@ -52,4 +52,8 @@ module Helpers
     return true if CountryUUID.where(country_slug: params[:country], gender: nil).empty?
     current_user && current_user.has_completed_country?(params[:country])
   end
+
+  def pluralize(count, singular)
+    "#{count} #{singular.pluralize(count)}"
+  end
 end
