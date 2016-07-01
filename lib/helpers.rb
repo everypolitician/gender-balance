@@ -49,6 +49,7 @@ module Helpers
   end
 
   def country_complete?
-    CountryUUID.where(country_slug: params[:country], gender: nil).empty?
+    return true if CountryUUID.where(country_slug: params[:country], gender: nil).empty?
+    current_user && current_user.has_completed_country?(params[:country])
   end
 end
