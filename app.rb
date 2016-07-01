@@ -211,8 +211,59 @@ class LegislatureReport
     @stats ||= raw_stats[:totals][:overall]
   end
 
+  def groups
+    @groups ||= raw_stats[:totals][:parties].map { |slug, group_stats| GroupReport.new(slug, group_stats, raw_stats, legislative_periods) }
+  end
+
   def legislative_periods
     @legislative_periods ||= legislature.legislative_periods.map { |lp| LegislativePeriodReport.new(lp, raw_stats) }
+  end
+end
+
+class GroupReport
+  include GenderStats
+
+  attr_reader :slug
+  attr_reader :stats
+  attr_reader :raw_stats
+
+  def initialize(slug, stats, raw_stats, legislative_periods)
+    @slug = slug
+    @stats = stats
+    @raw_stats = raw_stats
+    @legislative_periods = legislative_periods
+  end
+
+  def name
+    stats[:name]
+  end
+
+  def id_slug
+    @id_slug ||= slug.to_s.sub('/', '-')
+  end
+
+  def legislative_periods
+    @legislative_periods.map do |term|
+      term_stats = raw_stats[:terms]["term/#{term.slug}".to_sym]
+      group_stats = term_stats[:parties][slug]
+      GroupLegilativePeriodReport.new(term, group_stats) if group_stats
+    end.compact
+  end
+end
+
+class GroupLegilativePeriodReport
+  include GenderStats
+
+  attr_reader :term
+  attr_reader :stats
+
+  def initialize(term, stats)
+    @term = term
+    @stats = stats
+  end
+
+  def name
+    term.name
   end
 end
 

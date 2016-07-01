@@ -92,35 +92,28 @@
 
             <div class="col-sm-6">
                 <h3>Gender balance by group:</h3>
-                <% stats = @legislature_stats[legislature.slug][:totals] %>
                 <div class="report-list report-list--by-group">
-                    <% stats[:parties].each do |slug, data|
-                        id_slug = slug.to_s.sub('/', '-') %>
+                    <% legislature.groups.each do |group| %>
                     <%= erb :report_partial, locals: {
                         report: {
-                            id: id_slug,
-                            title: data[:name],
-                            total: data[:total].to_f,
-                            total_male: data[:male].to_f,
-                            total_female: data[:female].to_f,
+                            id: group.id_slug,
+                            title: group.name,
+                            total: group.total,
+                            total_male: group.male,
+                            total_female: group.female,
                             action: 'display-by-term'
                         }
                     } %>
-                    <div class="report-list report-list--hidden" id="terms-<%= id_slug %>">
-                    <% legislature.legislative_periods.each do |term|
-                        term_slug = 'term/' + term.slug
-                        term_stats = @legislature_stats[legislature.slug][:terms][term_slug.to_sym]
-                        group = term_stats[:parties][slug]
-                        if group %>
+                    <div class="report-list report-list--hidden" id="terms-<%= group.id_slug %>">
+                    <% group.legislative_periods.each do |term| %>
                         <%= erb :report_partial, locals: {
                             report: {
                                 title: term.name,
-                                total: group[:total].to_f,
-                                total_male: group[:male].to_f,
-                                total_female: group[:female].to_f,
+                                total: term.total,
+                                total_male: term.male,
+                                total_female: term.female,
                             }
                         } %>
-                    <% end %>
                     <% end %>
                     </div>
                     <% end %>
