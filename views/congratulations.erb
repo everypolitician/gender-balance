@@ -7,17 +7,17 @@
 <div class="person-cards">
     <div class="level-complete">
         <h2><%= motivational_quote %></h2>
-        <% if @country[:legislatures].size == 1 %>
-            <p>You have completed <b><%= @country[:name] %></b>!</p>
+        <% if @country.legislatures.size == 1 %>
+            <p>You have completed <b><%= @country.name %></b>!</p>
             <p>
                 <a class="button button--secondary" href="<%= url "/countries" %>">
                     Choose another country
                 </a>
             </p>
         <% else %>
-            <p>You have completed <b><%= @country[:name] %> <%= @legislature[:name] %></b>!</p>
+            <p>You have completed <b><%= @country.name %> <%= @legislature.name %></b>!</p>
             <p>
-                <a class="button button--secondary" href="<%= url "/countries/#{@country[:slug]}" %>">
+                <a class="button button--secondary" href="<%= url "/countries/#{@country.slug}" %>">
                     Choose another legislature
                 </a>
             </p>
