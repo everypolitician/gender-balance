@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+echo "==> Checking submodules..."
+git submodule update --init
+
+echo "==> Installing gems..."
+bundle check --path vendor/bundle >/dev/null 2>&1  || {
+  bundle install --path vendor/bundle
+}

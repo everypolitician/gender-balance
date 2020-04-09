@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+script/bootstrap
+
+echo "==> Preparing to serve pages form the retirement repo."
+echo "==> You'll be able to see the page at http://localhost:4000/gender-balance_page.html"
+echo
+cd retirement
+bundle exec jekyll serve --baseurl ''

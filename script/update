@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+script/bootstrap
+
+echo "==> Updating submodules..."
+git submodule foreach git pull origin master

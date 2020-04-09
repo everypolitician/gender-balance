@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+script/update
+
+echo "==> Building Jekyll pages in retirement..."
+cd retirement
+bundle exec jekyll build --baseurl ''
+cd ..
+
+echo "==> Copying over closed page..."
+cp retirement/_site/gender-balance_page.html public/closed.html
+
+echo "==> Done. Check for any changes that need committing."
